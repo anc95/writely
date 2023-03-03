@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import { useCallback, useEffect } from 'react';
 import { useSWRConfig } from 'swr';
 import { Settings } from '../types';
-import { useSettings } from '../store/settings';
+import { useSettings } from '../../common/store/settings';
 import { OPENAISettings } from './open-api';
 
 export const SettingsForm: React.FC = () => {

@@ -18,6 +18,24 @@ const useOpenAPI = () => {
   return openAIRef;
 };
 
+export const useQueryOpenAIPrompt = () => {
+  const openAI = useOpenAPI();
+  const { settings } = useSettings();
+
+  return async (prompt: string) => {
+    return (
+      // chat and normal completion
+      (
+        await openAI?.current?.createCompletion?.({
+          model: settings.model,
+          prompt: prompt,
+          max_tokens: 2000,
+        })
+      )?.data?.choices?.[0].text
+    );
+  };
+};
+
 export const useModels = () => {
   const api = useOpenAPI();
 

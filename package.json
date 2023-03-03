@@ -1,5 +1,5 @@
 {
-  "name": "copyhtml",
+  "name": "wrily",
   "version": "1.0.0",
   "main": "index.js",
   "author": "chao.an",
@@ -24,6 +24,7 @@
     "dev": "node build.mjs -w"
   },
   "dependencies": {
+    "ahooks": "^3.7.5",
     "antd": "^5.2.3",
     "bootstrap": "^5.2.3",
     "openai": "^3.2.1",

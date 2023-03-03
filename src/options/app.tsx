@@ -1,5 +1,5 @@
 import { SettingsForm } from './setting-form';
-import { SettingsProvider } from './store/settings';
+import { SettingsProvider } from '../common/store/settings';
 
 export const App: React.FC = () => {
   return (
