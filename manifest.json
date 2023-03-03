@@ -1,0 +1,27 @@
+{
+  "name": "C",
+  "version": "1.0.0",
+  "description": "latest covid data of UK",
+  "manifest_version": 3,
+  "author": "Sampurna Chapagain",
+  "action": {
+    "default_title": "Latest Covid Report",
+    "default_popup": "dist/popup/index.html"
+  },
+  "background": {
+    "service_worker": "dist/background.js"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "dist/content/index.js"
+      ],
+      "css": [
+        "dist/content/index.css"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ]
+}
