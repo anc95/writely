@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createContainer } from 'unstated-next';
-import { Settings } from '../types';
+import { Settings } from '../../options/types';
 
 const key = 'writingly-settings';
 

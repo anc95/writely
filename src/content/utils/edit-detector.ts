@@ -36,7 +36,6 @@ class EditDetector {
 
   public keepFocus = () => {
     clearTimeout(this.timerId);
-    console.log('clear', this.timerId);
     setTimeout(() => this.activeElement.focus(), 100);
   };
 }

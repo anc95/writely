@@ -1,5 +1,5 @@
 import { Form, Input, Select } from 'antd';
-import { useModels } from '../api/openai';
+import { useModels } from '../../common/api/openai';
 import { Block } from './block';
 
 export const OPENAISettings: React.FC = () => {
