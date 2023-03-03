@@ -4,4 +4,4 @@
 
 ## Demo
 
-<video src='./demo/demo.mov' />
+![](./assets/demo.gif)
