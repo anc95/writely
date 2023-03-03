@@ -1,4 +1,4 @@
-import { Fab } from '@mui/material';
+import { Avatar } from 'antd';
 import Draggable from 'react-draggable';
 import { editDetecor } from '../utils/edit-detector';
 
@@ -21,9 +21,7 @@ export const Menu: React.FC = () => {
           editDetecor.keepFocus();
         }}
       >
-        <Fab color="success" aria-label="add">
-          <div className="text-2xl">W</div>
-        </Fab>
+        <Avatar>W</Avatar>
       </div>
     </Draggable>
   );
