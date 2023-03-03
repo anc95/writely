@@ -8,6 +8,10 @@
     "default_title": "Latest Covid Report",
     "default_popup": "dist/popup/index.html"
   },
+  "options_ui": {
+    "page": "dist/options/index.html",
+    "open_in_tab": true
+  },
   "background": {
     "service_worker": "dist/background.js"
   },
@@ -23,5 +27,8 @@
         "*://*/*"
       ]
     }
+  ],
+  "permissions": [
+    "storage"
   ]
 }

@@ -25,8 +25,6 @@ class EditDetector {
 
       clearTimeout(this.timerId);
 
-      console.log(e.target);
-
       this.timerId = setTimeout(() => {
         this.activeElement = null;
         setVisible(false);
