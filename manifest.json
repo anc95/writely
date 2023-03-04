@@ -12,16 +12,10 @@
     "page": "dist/options/index.html",
     "open_in_tab": true
   },
-  "background": {
-    "service_worker": "dist/background.js"
-  },
   "content_scripts": [
     {
       "js": [
         "dist/content/index.js"
-      ],
-      "css": [
-        "dist/content/index.css"
       ],
       "matches": [
         "*://*/*"

@@ -1,13 +1,19 @@
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import { createRoot } from 'react-dom/client';
 import { appElement } from './app';
 import './index.css';
+import { tag, conatinerId } from './shadow-dom.js';
 
 const render = () => {
-  const container = document.createElement('div');
-  container.className = 'writly-container';
-  document.body.append(container);
+  window.addEventListener('load', () => {
+    const container = document.createElement(tag);
+    container.className = 'writly-container';
+    document.body.append(container);
 
-  createRoot(container).render(appElement);
+    createRoot(container.shadowRoot.querySelector(`#${conatinerId}`)).render(
+      appElement
+    );
+  });
 };
 
 render();
