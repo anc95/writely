@@ -19,9 +19,18 @@ export const Content = forwardRef<HTMLDivElement, { text: string }>(
       setkeyword(item.label);
       setLoading(true);
       setResultPanelVisible(true);
+      let result = '';
 
       try {
-        setResult(await queryOpenAIPrompt(item.prompt(text)));
+        queryOpenAIPrompt(item.prompt(text), (text, err) => {
+          if (err) {
+            setResult(err.message);
+          } else {
+            result += text;
+
+            setResult(result);
+          }
+        });
       } catch (e) {
         setResult(e.toString());
       } finally {

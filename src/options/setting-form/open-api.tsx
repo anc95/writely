@@ -44,8 +44,18 @@ const ConnectionTest: React.FC = () => {
   const handleOk = useCallback(async () => {
     setLoading(true);
     setResult('');
+    let result = '';
+
     try {
-      setResult(await queryOpenAI(message));
+      queryOpenAI(message, (text, err) => {
+        result += text;
+        setResult(result);
+        setLoading(false);
+
+        if (err) {
+          setResult(err.message);
+        }
+      });
     } catch (e) {
       setResult(e.toString());
     } finally {

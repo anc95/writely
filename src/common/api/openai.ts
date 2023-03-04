@@ -22,16 +22,39 @@ export const useQueryOpenAIPrompt = () => {
   const openAI = useOpenAPI();
   const { settings } = useSettings();
 
-  return async (prompt: string) => {
-    return (
-      // chat and normal completion
-      (
-        await openAI?.current?.createCompletion?.({
-          model: settings.model,
-          prompt: prompt,
-          max_tokens: 2000,
-        })
-      )?.data?.choices?.[0].text
+  return async (
+    prompt: string,
+    onData?: (text: string, error?: Error) => void
+  ) => {
+    openAI?.current?.createCompletion?.(
+      {
+        model: settings.model,
+        prompt: prompt,
+        max_tokens: 2000,
+        stream: true,
+      },
+      {
+        responseType: 'stream',
+        onDownloadProgress: (e) => {
+          try {
+            const lines = e.currentTarget.response
+              .toString()
+              .split('\n')
+              .filter((line) => line.trim() !== '');
+            for (const line of lines) {
+              const message = line.replace(/^data: /, '');
+              if (message === '[DONE]') {
+                return; // Stream finished
+              }
+
+              const parsed = JSON.parse(message);
+              onData?.(parsed.choices[0].text);
+            }
+          } catch (e) {
+            onData?.('', e);
+          }
+        },
+      }
     );
   };
 };
