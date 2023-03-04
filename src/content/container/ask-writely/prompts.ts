@@ -17,14 +17,43 @@ const prompts = [
   {
     label: 'Make Longer',
   },
-].map((item, index) => ({
-  ...item,
-  key: index,
-  prompt: defaultPrompt({ prefix: item.label + ' to bellow text' + ':' }),
-}));
+  {
+    label: 'Translate to',
+    children: [
+      {
+        label: 'English',
+      },
+      {
+        label: 'Chinese',
+      },
+    ],
+  },
+];
 
 class PromptCenter {
-  protected prompts = prompts;
+  protected prompts;
+
+  constructor() {
+    this.prompts = this.constructPrompts(prompts);
+  }
+
+  private constructPrompts = (prompts, prefix: string = '') => {
+    return prompts.map((p) => {
+      if (!prompts.children?.length) {
+        return {
+          ...p,
+          prompt: defaultPrompt({
+            prefix: prefix + ' ' + p.label + ' for bellow content:',
+          }),
+        };
+      }
+
+      return {
+        ...p,
+        children: this.constructPrompts(p.children, prefix + ' ' + p.label),
+      };
+    });
+  };
 
   public useDropDownItems = (keyword = '') => {
     return this.prompts.filter((p) =>
