@@ -1,42 +1,44 @@
 import { useClickAway, useTextSelection } from 'ahooks';
-import { Button, Popover } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import ReactDraggable from 'react-draggable';
 import { Content } from './content';
 
 export const AskWritely: React.FC = () => {
   const ts = useTextSelection(document.body);
-  const [open, setOpen] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const tsRef = useRef<ReturnType<typeof useTextSelection>>();
   const contentRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (!open && !!ts.text) {
+    debugger;
+    if (!visible && !!ts.text) {
       tsRef.current = ts;
-      setOpen(true);
+      setVisible(true);
     }
   }, [ts.text]);
 
   useClickAway(() => {
-    if (open === true) {
-      setOpen(false);
+    if (visible === true) {
+      setVisible(false);
     }
   }, contentRef);
 
+  if (!visible) {
+    return null;
+  }
+
   return (
-    <Popover
-      open={open}
-      content={<Content text={tsRef?.current?.text} ref={contentRef} />}
-    >
-      <span
+    <ReactDraggable>
+      <div
         style={{
+          padding: '10px',
           position: 'fixed',
-          top: `${tsRef.current?.top}px`,
+          top: `${tsRef.current?.top + tsRef.current?.height}px`,
           left: `${tsRef.current?.left}px`,
-          height: `${tsRef.current?.height}px`,
-          width: `${tsRef.current?.width}px`,
-          pointerEvents: 'none',
         }}
-      />
-    </Popover>
+      >
+        <Content text={tsRef?.current?.text} ref={contentRef} />
+      </div>
+    </ReactDraggable>
   );
 };
