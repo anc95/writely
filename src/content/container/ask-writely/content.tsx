@@ -1,4 +1,4 @@
-import { Input, Spin, Typography } from 'antd';
+import { Input } from 'antd';
 import { forwardRef, useCallback, useMemo, useState } from 'react';
 import { useQueryOpenAIPrompt } from '../../../common/api/openai';
 import { List } from './list';
@@ -19,16 +19,13 @@ export const Content = forwardRef<HTMLDivElement, { text: string }>(
       setkeyword(item.label);
       setLoading(true);
       setResultPanelVisible(true);
-      let result = '';
 
       try {
         queryOpenAIPrompt(item.prompt(text), (text, err) => {
           if (err) {
             setResult(err.message);
           } else {
-            result += text;
-
-            setResult(result);
+            setResult(text);
           }
         });
       } catch (e) {

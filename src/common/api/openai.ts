@@ -41,6 +41,9 @@ export const useQueryOpenAIPrompt = () => {
               .toString()
               .split('\n')
               .filter((line) => line.trim() !== '');
+
+            let result = '';
+
             for (const line of lines) {
               const message = line.replace(/^data: /, '');
               if (message === '[DONE]') {
@@ -48,8 +51,10 @@ export const useQueryOpenAIPrompt = () => {
               }
 
               const parsed = JSON.parse(message);
-              onData?.(parsed.choices[0].text);
+              result += parsed.choices[0].text;
             }
+
+            onData?.(result);
           } catch (e) {
             onData?.('', e);
           }

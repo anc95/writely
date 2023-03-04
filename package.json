@@ -6,6 +6,10 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/chrome": "^0.0.212",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
@@ -21,9 +25,11 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "dev": "node build.mjs -w"
+    "dev": "yarn build -- -w",
+    "build": "rollup -c rollup.config.js"
   },
   "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.7.0",
     "ahooks": "^3.7.5",
     "antd": "^5.2.3",
     "bootstrap": "^5.2.3",
@@ -31,6 +37,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
+    "rollup": "^3.18.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-replace": "^2.2.0",
     "swr": "^2.0.4",
     "unstated-next": "^1.1.0"
   }
