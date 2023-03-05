@@ -10,4 +10,10 @@
 
 ## Demo
 
+### 飞书 (Feishu)
+
 ![](./assets/demo.gif)
+
+### Notion
+
+![](./assets/notion-demo.gif)
