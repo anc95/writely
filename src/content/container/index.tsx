@@ -1,10 +1,15 @@
-import { SettingsProvider } from '../../common/store/settings';
+import { ConfigProvider } from 'antd';
+import { useEffect } from 'react';
+import { theme } from '../../common/antd-theme';
 import { AskWritely } from './ask-writely';
+import { SelectionManagerProvider } from './store/selection';
 
 export const Menu: React.FC = () => {
   return (
-    <SettingsProvider>
-      <AskWritely />
-    </SettingsProvider>
+    <ConfigProvider theme={theme}>
+      <SelectionManagerProvider>
+        <AskWritely />
+      </SelectionManagerProvider>
+    </ConfigProvider>
   );
 };

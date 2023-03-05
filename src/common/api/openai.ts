@@ -30,7 +30,7 @@ export const useQueryOpenAIPrompt = () => {
       {
         model: settings.model,
         prompt: prompt,
-        max_tokens: 2000,
+        max_tokens: 2048 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
         stream: true,
       },
       {

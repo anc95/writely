@@ -1,4 +1,13 @@
-import { Button, Form, Input, message, Modal, Select, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Typography,
+} from 'antd';
 import { useCallback, useState } from 'react';
 import { useModels, useQueryOpenAIPrompt } from '../../common/api/openai';
 import { Block } from './block';
@@ -7,30 +16,26 @@ export const OPENAISettings: React.FC = () => {
   const { data, isLoading } = useModels();
 
   return (
-    <div className="w-[800px]">
-      <Block>
-        <div className="grid grid-cols-12 gap-8">
-          <Form.Item
-            className="col-span-5"
-            name="apiKey"
-            label="OpenAI API Key"
-            required
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item className="col-span-5" name="model" label="Model">
-            <Select loading={isLoading}>
-              {data?.map((model) => (
-                <Select.Option key={model.id} value={model.id}>
-                  {model.id}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <ConnectionTest />
-        </div>
-      </Block>
-    </div>
+    <Card title="Open AI" hoverable>
+      <Form.Item
+        className="col-span-5"
+        name="apiKey"
+        label="OpenAI API Key"
+        required
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item className="col-span-5" name="model" label="Model">
+        <Select loading={isLoading}>
+          {data?.map((model) => (
+            <Select.Option key={model.id} value={model.id}>
+              {model.id}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <ConnectionTest />
+    </Card>
   );
 };
 

@@ -45,3 +45,7 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
   createContainer(_useSettings);
 
 export { useSettings, SettingsProvider };
+
+export const getSetting = async () => {
+  return (await chrome.storage.sync.get(key))?.[key] || {};
+};
