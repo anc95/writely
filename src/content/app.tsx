@@ -3,6 +3,7 @@ import { Menu } from './container/index';
 import { StyleProvider } from '@ant-design/cssinjs';
 import Cache from '@ant-design/cssinjs/es/Cache';
 import { tag } from './shadow-dom';
+import { SettingsProvider } from '../common/store/settings';
 
 // second, create custom Cache entity
 class CustomCache extends Cache {
@@ -29,6 +30,8 @@ export const App: React.FC = () => {
 
 export const appElement = (
   <StyleProvider cache={new CustomCache()}>
-    <App />
+    <SettingsProvider>
+      <App />
+    </SettingsProvider>
   </StyleProvider>
 );

@@ -12,6 +12,11 @@ class WritelyContainer extends HTMLElement {
     const container = document.createElement('div');
     container.id = conatinerId;
     shadow.appendChild(container);
+
+    shadow.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
   }
 }
 

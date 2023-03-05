@@ -5,7 +5,8 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }

@@ -1,40 +1,42 @@
+import i18n from 'i18next';
+
 const defaultPrompt = (params: { prefix: string; suffix?: string }) => {
   return (text: string) => {
     return `${params.prefix || ''} \n${text} \n ${params.suffix || ''}`;
   };
 };
 
-const prompts = [
+const getPrompts = () => [
   {
-    label: 'Improve writing',
+    label: i18n.t('Improve writing'),
   },
   {
-    label: 'Fix spell and grammar',
+    label: i18n.t('Fix spell and grammar'),
   },
   {
-    label: 'Make shorter',
+    label: i18n.t('Make shorter'),
   },
   {
-    label: 'Make Longer',
+    label: i18n.t('Make Longer'),
   },
   {
-    label: 'Translate to',
+    label: i18n.t('Translate to'),
     children: [
       {
-        label: 'English',
+        label: i18n.t('English'),
       },
       {
-        label: 'Chinese',
+        label: i18n.t('Chinese'),
       },
     ],
   },
 ];
 
-class PromptCenter {
+export class PromptCenter {
   protected prompts;
 
   constructor() {
-    this.prompts = this.constructPrompts(prompts);
+    this.prompts = this.constructPrompts(getPrompts());
   }
 
   private constructPrompts = (prompts, prefix: string = '') => {
@@ -43,7 +45,7 @@ class PromptCenter {
         return {
           ...p,
           prompt: defaultPrompt({
-            prefix: prefix + ' ' + p.label + ' for bellow content:',
+            prefix: prefix + ' ' + p.label + i18n.t(' for bellow content:'),
           }),
         };
       }
@@ -61,5 +63,3 @@ class PromptCenter {
     );
   };
 }
-
-export const promptCenter = new PromptCenter();
