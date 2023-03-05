@@ -54,8 +54,6 @@ export class SelectionManager {
       this.setBoundingRect();
       this.highlight.unhighlight();
     }
-
-    console.log('text', this.text);
   }
 
   public append(text: string) {
@@ -63,7 +61,13 @@ export class SelectionManager {
     this.selection.collapseToEnd();
     const textNode = document.createTextNode(text);
 
-    this.selection.getRangeAt(0).insertNode(textNode);
+    if (location.host.includes('feishu')) {
+      if (!document.execCommand('insertText', false, text)) {
+        this.selection.getRangeAt(0).insertNode(textNode);
+      }
+    } else {
+      this.selection.getRangeAt(0).insertNode(textNode);
+    }
   }
 
   public replace(text: string) {
