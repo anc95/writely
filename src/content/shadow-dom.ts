@@ -13,9 +13,16 @@ class WritelyContainer extends HTMLElement {
     container.id = conatinerId;
     shadow.appendChild(container);
 
-    shadow.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    /**
+     * Prevent bubble, cause the host website might listen them to make thing unexpected
+     * For example notion, it listens on keyup event to delete content
+     * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+     * https://developer.mozilla.org/en-US/docs/Web/API/InputEvent/inputType
+     */
+    ['click', 'keydown', 'keypress', 'keyup'].forEach((eventName) => {
+      shadow.addEventListener(eventName, (e) => {
+        e.stopPropagation();
+      });
     });
   }
 }

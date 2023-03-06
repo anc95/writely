@@ -8,5 +8,7 @@
   "Chinese": "Chinese",
   "Append": "Append",
   "Replace": "Replace",
-  " for bellow content:": " for bellow content:"
+  "Prompt template": "As a {{role}}, your task is to modify the following content as required, the requirement is {{task}}, the content is '{{content}}'",
+  "Senior Writer": "Senior Writer",
+  "Send to writely": "Send to writely"
 }

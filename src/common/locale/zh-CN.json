@@ -8,5 +8,7 @@
   "Chinese": "中文",
   "Append": "添加",
   "Replace": "替换内容",
-  " for bellow content:": "以下是具体内容:"
+  "Prompt template": "作为一个 {{role}}, 你的任务是将下面的内容按照要求进行修改, 要求是 {{task}}, 内容为 '{{content}}'",
+  "Senior Writer": "写作高手",
+  "Send to writely": "发送给 Writely"
 }
