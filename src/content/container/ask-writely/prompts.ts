@@ -1,8 +1,12 @@
 import i18n from 'i18next';
 
-const defaultPrompt = (params: { prefix: string; suffix?: string }) => {
-  return (text: string) => {
-    return `${params.prefix || ''} \n${text} \n ${params.suffix || ''}`;
+export const defaultPrompt = (params: { role: string; task: string }) => {
+  return (content: string) => {
+    return i18n.t('Prompt template', {
+      content,
+      task: params.task,
+      role: params.role || i18n.t('Senior Writer'),
+    });
   };
 };
 
@@ -45,7 +49,8 @@ export class PromptCenter {
         return {
           ...p,
           prompt: defaultPrompt({
-            prefix: prefix + ' ' + p.label + i18n.t(' for bellow content:'),
+            task: p.label,
+            role: i18n.t('Senior Writer'),
           }),
         };
       }

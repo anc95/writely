@@ -9,16 +9,32 @@ export const AskWritely: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>();
   const selectionManager = useSelectionManager();
+  const clickedRef = useRef<boolean>(false);
 
   useEffect(() => {
     selectionManager.onSelectionChange((s) => {
-      setVisible(!!s.anchorNode);
+      const valid = !!s.anchorNode;
+
+      setVisible(valid);
       selectionManager.setLock(true);
-      if (!!s.anchorNode) {
-        deplayListener('click', () => {
-          setVisible(false);
-          selectionManager.setLock(false);
-        });
+
+      const destroy = () => {
+        setVisible(false);
+        selectionManager.setLock(false);
+        clickedRef.current = false;
+      };
+
+      if (valid) {
+        deplayListener('click', destroy);
+
+        clickedRef.current = false;
+
+        // if 3s later, user doesn't interact, hide myself
+        setTimeout(() => {
+          if (!clickedRef.current) {
+            destroy();
+          }
+        }, 3000);
       }
     });
   }, []);
@@ -33,6 +49,7 @@ export const AskWritely: React.FC = () => {
     <ReactDraggable>
       <div
         ref={contentRef}
+        onClick={() => (clickedRef.current = true)}
         style={{
           padding: '10px',
           position: 'fixed',

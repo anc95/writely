@@ -22,13 +22,20 @@ const baseConfig = (name) => ({
         name === 'content'
           ? (css) => {
               return `
-            setTimeout(() => {
-              var root = document.getElementsByTagName('${tag}')[0].shadowRoot;
-              var style = document.createElement('style');
-              style.type = 'text/css';
-              root.insertBefore(style);
-              style.innerHTML = ${css};
-            }, 3000)
+            var setWritelyStyle = function() {
+              setTimeout(() => {
+                try {
+                  var root = document.getElementsByTagName('${tag}')[0].shadowRoot;
+                  var style = document.createElement('style');
+                  style.type = 'text/css';
+                  root.insertBefore(style);
+                  style.innerHTML = ${css};
+                } catch {
+                  setWritelyStyle()
+                }
+              }, 1000)
+            };
+            setWritelyStyle();
           `;
             }
           : true,
