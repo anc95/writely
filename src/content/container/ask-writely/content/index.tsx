@@ -32,23 +32,29 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   const items = promptCenter.useDropDownItems(keyword);
 
   const handleClickItem = useCallback(async (item: typeof items[number]) => {
+    if (!selectionManager.text) {
+      return message.warning('No selection');
+    }
+
     setkeyword(item.label);
     setLoading(true);
     setResultPanelVisible(true);
     setQuickPromptVisible(false);
-
-    if (!selectionManager.text) {
-      return message.warning('No selection');
-    }
 
     try {
       queryOpenAIPrompt(
         (item.prompt || defaultPrompt({ role: '', task: item.label }))(
           selectionManager.text
         ),
-        (text, err) => {
+        (text, err, end) => {
+          if (end) {
+            setLoading(false);
+            return;
+          }
+
           if (err) {
             setResult(err.message);
+            setLoading(false);
           } else {
             setResult(text);
           }
@@ -56,7 +62,6 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
       );
     } catch (e) {
       setResult(e.toString());
-    } finally {
       setLoading(false);
     }
   }, []);
