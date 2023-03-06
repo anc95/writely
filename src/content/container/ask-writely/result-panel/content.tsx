@@ -1,9 +1,9 @@
 import { Button, Spin } from 'antd';
 import i18next from 'i18next';
 import { useCallback } from 'react';
-import { useSelectionManager } from '../store/selection';
+import { useSelectionManager } from '../../store/selection';
 
-export const ResultPanel: React.FC<{ loading: boolean; content: string }> = ({
+export const Content: React.FC<{ loading: boolean; content: string }> = ({
   loading,
   content,
 }) => {

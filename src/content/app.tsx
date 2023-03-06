@@ -25,7 +25,11 @@ class CustomCache extends Cache {
 }
 
 export const App: React.FC = () => {
-  return <Menu />;
+  return (
+    <div className="text-black">
+      <Menu />
+    </div>
+  );
 };
 
 export const appElement = (

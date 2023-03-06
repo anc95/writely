@@ -1,7 +1,5 @@
-import { useClickAway, useTextSelection } from 'ahooks';
 import { useEffect, useRef, useState } from 'react';
 import ReactDraggable from 'react-draggable';
-import { tag } from '../../shadow-dom';
 import { useSelectionManager } from '../store/selection';
 import { Content } from './content';
 

@@ -7,16 +7,20 @@ import {
   useState,
 } from 'react';
 import cx from 'classnames';
-import { useQueryOpenAIPrompt } from '../../../common/api/openai';
-import { useSelectionManager } from '../store/selection';
-import { List } from './list';
-import { ResultPanel } from './result-panel';
-import { defaultPrompt, PromptCenter } from './prompts';
-import { IcBaselineSend } from '../../../components/icon';
+import { useQueryOpenAIPrompt } from '@/common/api/openai';
+import { useSelectionManager } from '../../store/selection';
+import { List } from '../list';
+import { ResultPanel } from '../result-panel';
+import { defaultPrompt, PromptCenter } from '../prompts';
+import { IcBaselineSend } from '@/components/icon';
 import i18next from 'i18next';
-import { IcOutlineKeyboardReturn } from '../../../components/icon/return';
+import { IcOutlineKeyboardReturn } from '@/components/icon/return';
 
-export const Content = forwardRef<HTMLDivElement>((_, ref) => {
+export const Content: React.FC<PropsWithChildren> = () => {
+  return <CenterContent />;
+};
+
+const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   const [keyword, setkeyword] = useState<string>();
   const queryOpenAIPrompt = useQueryOpenAIPrompt();
   const [loading, setLoading] = useState(false);
