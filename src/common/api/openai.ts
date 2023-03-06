@@ -24,7 +24,7 @@ export const useQueryOpenAIPrompt = () => {
 
   return async (
     prompt: string,
-    onData?: (text: string, error?: Error) => void
+    onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
     openAI?.current?.createCompletion?.(
       {
@@ -46,11 +46,20 @@ export const useQueryOpenAIPrompt = () => {
 
             for (const line of lines) {
               const message = line.replace(/^data: /, '');
+
               if (message === '[DONE]') {
+                onData('', undefined, true);
                 return; // Stream finished
               }
 
               const parsed = JSON.parse(message);
+
+              const text = parsed.choices[0].text;
+
+              if (!result && !text.trim()) {
+                continue;
+              }
+
               result += parsed.choices[0].text;
             }
 

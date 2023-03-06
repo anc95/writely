@@ -6,8 +6,8 @@ export const ResultPanel: React.FC<{
   content: string;
 }> = ({ loading, content }) => {
   return (
-    <div>
-      <div className="border-b border-zinc-200 rounded-t-md">
+    <div className="overflow-hidden rounded-lg shadow-xl min-w-[600px] max-w-4xl">
+      <div className="border-zinc-200 rounded-lg">
         <Header />
       </div>
       <Content loading={loading} content={content} />
