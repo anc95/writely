@@ -46,13 +46,14 @@ export class SelectionManager {
       this.savedRange = this.selection.getRangeAt(0);
       this.setText();
       this.setBoundingRect();
-      this.highlight.highlight(this.savedRange);
+      // TODO:
+      // this.highlight.highlight(this.savedRange);
     } else {
       this.restoreRange();
       this.selection.removeAllRanges();
       this.setText();
       this.setBoundingRect();
-      this.highlight.unhighlight();
+      // this.highlight.unhighlight();
     }
   }
 
@@ -117,7 +118,6 @@ export class SelectionManager {
 
   private setBoundingRect() {
     if (this.selection.rangeCount === 0) {
-      console.log('no selection valiable');
       this.selectionBoundingRect = undefined;
 
       return;

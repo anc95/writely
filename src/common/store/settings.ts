@@ -10,7 +10,7 @@ const _useSettings = () => {
 
   useEffect(() => {
     const initSettings = async () => {
-      _setSettings((await chrome.storage.sync.get(key))?.[key] || {});
+      _setSettings(await getSetting());
       setLoading(false);
     };
 

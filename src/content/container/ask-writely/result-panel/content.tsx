@@ -1,20 +1,70 @@
 import { SystemUiconsWrite } from '@/components/icon';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import mdit from 'markdown-it';
 import hljsPlugin from 'markdown-it-highlightjs';
 import { Actions } from './actions';
 import { Copy } from './actions/copy';
 import { Replay } from './actions/replay';
 import cx from 'classnames';
+import { useSelectionManager } from '../../store/selection';
+import { message } from 'antd';
+import { useQueryOpenAIPrompt } from '@/common/api/openai';
+import { defaultPrompt } from '../prompts';
+import { useResultPanel } from '../../store/result-panel';
 
 const md = mdit().use(hljsPlugin);
 
-export const Content: React.FC<{ loading: boolean; content: string }> = ({
-  loading,
-  content,
-}) => {
+export const Content: React.FC<{ text: string }> = ({ text }) => {
   const mdContainerRef = useRef<HTMLDivElement>();
-  const parsedContent = md.render(content);
+  const selectionManager = useSelectionManager();
+  const queryOpenAIPrompt = useQueryOpenAIPrompt();
+  const { result, setResult, loading, setLoading } = useResultPanel();
+  const sequenceRef = useRef<number>(0);
+
+  const handleQuery = useCallback(async () => {
+    if (!selectionManager.text) {
+      return message.warning('No selection');
+    }
+
+    sequenceRef.current += 1;
+    const currentSequence = sequenceRef.current;
+
+    try {
+      queryOpenAIPrompt(
+        // Todo: prompt optimization
+        defaultPrompt({ role: '', task: text })(selectionManager.text),
+        (text, err, end) => {
+          if (currentSequence != sequenceRef.current) {
+            return;
+          }
+
+          if (end) {
+            setLoading(false);
+            return;
+          }
+
+          if (err) {
+            setResult(err.message);
+            setLoading(false);
+          } else {
+            setResult(md.render(text));
+          }
+        }
+      );
+    } catch (e) {
+      setResult(e.toString());
+      setLoading(false);
+    }
+  }, [queryOpenAIPrompt]);
+
+  useEffect(() => {
+    if (loading) {
+      setResult('');
+      handleQuery();
+    }
+  }, [loading]);
+
+  useEffect(() => setLoading(true), []);
 
   return (
     <div className="shadow-xl bg-zinc-100">
@@ -23,7 +73,7 @@ export const Content: React.FC<{ loading: boolean; content: string }> = ({
           <div
             ref={mdContainerRef}
             className="transition-all"
-            dangerouslySetInnerHTML={{ __html: parsedContent }}
+            dangerouslySetInnerHTML={{ __html: result }}
           ></div>
           {loading ? (
             <div className="flex justify-center text-4xl text-[#925761]">

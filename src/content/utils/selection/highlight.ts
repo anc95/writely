@@ -5,11 +5,15 @@ export class Highlight {
   private surroundContainers: HTMLElement[] = [];
 
   public highlight(range: Range) {
-    let span = document.createElement('span');
-    span.setAttribute('className', this.className);
-    span.setAttribute('style', 'background-color: #ababb7 !important;');
-    this.surroundContainers.push(span);
-    range.surroundContents(span);
+    try {
+      let span = document.createElement('span');
+      span.setAttribute('className', this.className);
+      span.setAttribute('style', 'background-color: #ababb7 !important;');
+      this.surroundContainers.push(span);
+      range.surroundContents(span);
+    } catch {
+      //
+    }
   }
 
   public unhighlight() {

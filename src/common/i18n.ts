@@ -7,8 +7,6 @@ import { getSetting } from './store/settings';
 export const initI18n = async () => {
   const settings = await getSetting();
 
-  console.log(settings, 'settings');
-
   return i18n.use(LanguageDetector).init({
     resources: {
       'en-US': {

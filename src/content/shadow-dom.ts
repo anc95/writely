@@ -20,11 +20,13 @@ class WritelyContainer extends HTMLElement {
      * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
      * https://developer.mozilla.org/en-US/docs/Web/API/InputEvent/inputType
      */
-    ['click', 'keydown', 'keypress', 'keyup'].forEach((eventName) => {
-      shadow.addEventListener(eventName, (e) => {
-        e.stopPropagation();
-      });
-    });
+    ['click', 'keydown', 'keypress', 'keyup', 'copy', 'paste'].forEach(
+      (eventName) => {
+        shadow.addEventListener(eventName, (e) => {
+          e.stopPropagation();
+        });
+      }
+    );
   }
 }
 

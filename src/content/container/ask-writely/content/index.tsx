@@ -1,4 +1,4 @@
-import { Badge, Input, message, Tag, Tooltip } from 'antd';
+import { Badge, Button, Input, message, Tag, Tooltip } from 'antd';
 import {
   forwardRef,
   PropsWithChildren,
@@ -15,6 +15,8 @@ import { defaultPrompt, PromptCenter } from '../prompts';
 import { IcBaselineSend } from '@/components/icon';
 import i18next from 'i18next';
 import { IcOutlineKeyboardReturn } from '@/components/icon/return';
+import { useView } from '../../store/view';
+import { DashiconsMove } from '@/components/icon/drag';
 
 export const Content: React.FC<PropsWithChildren> = () => {
   return <CenterContent />;
@@ -22,111 +24,91 @@ export const Content: React.FC<PropsWithChildren> = () => {
 
 const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   const [keyword, setkeyword] = useState<string>();
-  const queryOpenAIPrompt = useQueryOpenAIPrompt();
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState('');
-  const [resultPanelVisible, setResultPanelVisible] = useState(false);
-  const [quickPromptVisible, setQuickPromptVisible] = useState(false);
-  const selectionManager = useSelectionManager();
-  const promptCenter = useMemo(() => new PromptCenter(), []);
-  const items = promptCenter.useDropDownItems(keyword);
-
-  const handleClickItem = useCallback(async (item: typeof items[number]) => {
-    if (!selectionManager.text) {
-      return message.warning('No selection');
-    }
-
-    setkeyword(item.label);
-    setLoading(true);
-    setResultPanelVisible(true);
-    setQuickPromptVisible(false);
-
-    try {
-      queryOpenAIPrompt(
-        (item.prompt || defaultPrompt({ role: '', task: item.label }))(
-          selectionManager.text
-        ),
-        (text, err, end) => {
-          if (end) {
-            setLoading(false);
-            return;
-          }
-
-          if (err) {
-            setResult(err.message);
-            setLoading(false);
-          } else {
-            setResult(text);
-          }
-        }
-      );
-    } catch (e) {
-      setResult(e.toString());
-      setLoading(false);
-    }
-  }, []);
+  const { viewStatus, goToInputPage, goToResult } = useView();
 
   const handleClickIcon = useCallback(() => {
-    setQuickPromptVisible(true);
-    selectionManager.setLock(true);
-  }, [setQuickPromptVisible]);
+    goToInputPage();
+  }, [goToInputPage]);
 
-  if (resultPanelVisible) {
-    return <ResultPanel loading={loading} content={result} />;
+  if (viewStatus === 'icon') {
+    return (
+      <div onClick={handleClickIcon}>
+        <Tag color="orange" className="cursor-pointer">
+          Writely
+        </Tag>
+      </div>
+    );
   }
 
+  if (viewStatus === 'result') {
+    return <ResultPanel text={keyword} />;
+  }
+
+  return <InputPanel keyword={keyword} onChange={setkeyword} />;
+});
+
+const InputPanel: React.FC<{
+  keyword: string;
+  onChange: (keyword: string) => void;
+}> = ({ keyword, onChange }) => {
+  const { goToResult } = useView();
+  const [value, setValue] = useState('');
+  const promptCenter = useMemo(() => new PromptCenter(), []);
+  const items = promptCenter.useDropDownItems(value);
+
   return (
-    <div ref={ref} className="">
-      {quickPromptVisible ? null : (
-        <div onClick={handleClickIcon}>
-          <Tag color="orange" className="cursor-pointer">
-            Writely
-          </Tag>
-        </div>
-      )}
+    <>
       <div
-        className={cx('bg-zinc-10000 transition-all duration-500 relative', {
-          'w-[700px] shadow-stone-100 shadow-xl block': quickPromptVisible,
-          'w-[0px] hidden': !quickPromptVisible,
-        })}
+        className={cx(
+          'bg-zinc-10000 transition-all duration-500 relative w-[500px] shadow-stone-100 shadow-xl block'
+        )}
       >
         <Input.TextArea
+          className="pl-8"
           onPressEnter={() => {
-            handleClickItem({ label: keyword });
+            onChange(value);
+            goToResult();
           }}
           autoSize={{ minRows: 1, maxRows: 4 }}
           placeholder="Ask writely to..."
-          value={keyword}
-          onChange={(e) => setkeyword(e.target.value)}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
         <div>
           <SendToWritelyTip>
             <IcBaselineSend
               className={cx(
                 'w-4 h-4 text-gray-300 absolute right-2 bottom-2',
-                {
-                  'opacity-0': !quickPromptVisible,
-                  'opacity-100': quickPromptVisible,
-                },
-                !!keyword?.trim()?.length
+                !!value?.trim()?.length
                   ? 'text-zinc-900 cursor-pointer'
                   : 'text-zinc-300'
               )}
             />
           </SendToWritelyTip>
         </div>
+        <Button
+          type="ghost"
+          className="absolute left-2 top-0 text-lg handle animate__animated animate__fadeInDown"
+          icon={<DragTip />}
+        ></Button>
       </div>
       <div
-        className={cx('w-80 bg-zinc-100 duration-500 transition-shadow', {
-          'hidden shadow-xl shadow-stone-100': !quickPromptVisible,
-          'block shadow-stone-300 shadow-xl': quickPromptVisible,
-        })}
+        className={cx(
+          'w-80 bg-zinc-100 duration-500 transition-shadow block shadow-stone-300 shadow-xl'
+        )}
       >
-        <List items={items} onClick={handleClickItem} />
+        <List
+          items={items}
+          onClick={() => {
+            onChange(value);
+            goToResult();
+          }}
+        />
       </div>
-    </div>
+      <div>DragTip</div>
+    </>
   );
-});
+};
 
 const SendToWritelyTip: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -138,6 +120,14 @@ const SendToWritelyTip: React.FC<PropsWithChildren> = ({ children }) => {
       }
     >
       {children}
+    </Tooltip>
+  );
+};
+
+const DragTip: React.FC<PropsWithChildren> = () => {
+  return (
+    <Tooltip title={<div>{i18next.t('Drag')}</div>}>
+      <DashiconsMove />
     </Tooltip>
   );
 };
