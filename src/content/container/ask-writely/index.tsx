@@ -55,6 +55,7 @@ export const AskWritely: React.FC = () => {
           left: `${boundingRect?.left}px`,
           zIndex: 9999999999999,
         }}
+        className="animate__animated animate__bounce"
       >
         <Content />
       </div>
