@@ -7,6 +7,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import replace from 'rollup-plugin-replace';
+import builtins from 'rollup-plugin-node-builtins';
 
 const tag = 'writely-container';
 
@@ -16,6 +17,7 @@ const baseConfig = (name) => ({
       browser: true,
     }),
     commonjs(),
+    builtins(),
     json(),
     postcss({
       inject:
@@ -70,6 +72,16 @@ const config = ['content', 'options', 'popup'].map((entry) => {
     output: {
       file: `dist/${entry}/index.js`,
       format: 'esm',
+      globals: {
+        punycode: `{
+          toASCII: function(x) {
+            return x;
+          },
+          toUnicode: function(x) {
+            return x;
+          }
+        }`,
+      },
     },
   };
 });
