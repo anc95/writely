@@ -23,7 +23,11 @@ export const Copy: React.FC<{
   }, []);
 
   return (
-    <BaseAction tooltip={i18next.t('Copy')} onClick={handleClick}>
+    <BaseAction
+      tooltip={i18next.t('Copy')}
+      successTooltip={i18next.t('Copied')}
+      onClick={handleClick}
+    >
       <MaterialSymbolsContentCopyOutline />
     </BaseAction>
   );

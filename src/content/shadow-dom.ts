@@ -11,6 +11,7 @@ class WritelyContainer extends HTMLElement {
 
     const container = document.createElement('div');
     container.id = conatinerId;
+    container.setAttribute('style', 'font-size:16px;');
     shadow.appendChild(container);
 
     /**

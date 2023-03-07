@@ -5,3 +5,4 @@ export * from './back';
 export * from './close';
 export * from './write';
 export * from './copy';
+export * from './replay';

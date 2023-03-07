@@ -5,12 +5,12 @@ module.exports = {
     extend: {
       keyframes: {
         swaying: {
-          '0%, 100%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(10px)' },
+          '0%, 100%': { transform: 'translateX(-20px)' },
+          '50%': { transform: 'translateX(20px)' },
         },
       },
       animation: {
-        swaying: 'swaying 1s ease-in-out infinite',
+        swaying: 'swaying 3s ease-in-out infinite',
       },
     },
   },
