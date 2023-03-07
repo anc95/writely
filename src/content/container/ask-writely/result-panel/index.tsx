@@ -6,7 +6,7 @@ export const ResultPanel: React.FC<{
   content: string;
 }> = ({ loading, content }) => {
   return (
-    <div className="overflow-hidden rounded-lg shadow-xl min-w-[600px] max-w-4xl">
+    <div className="overflow-hidden rounded-lg shadow-xl w-[500px]">
       <div className="border-zinc-200 rounded-lg">
         <Header />
       </div>

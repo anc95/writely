@@ -1,17 +1,44 @@
 import { Tooltip } from 'antd';
-import { PropsWithChildren, useRef } from 'react';
+import { PropsWithChildren, useCallback, useRef, useState } from 'react';
 
 export const BaseAction: React.FC<
-  PropsWithChildren<{ tooltip: string; onClick?: () => void }>
-> = ({ tooltip, children, onClick }) => {
-  const btnRef = useRef<HTMLDivElement>();
+  PropsWithChildren<{
+    tooltip: string;
+    successTooltip: string;
+    onClick?: () => void;
+  }>
+> = ({ tooltip, successTooltip, children, onClick }) => {
+  const [title, setTitle] = useState<string>();
+  const [open, setOpen] = useState(false);
+
+  const handleMouseEnter = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setOpen(false);
+    setTitle(tooltip);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    onClick?.();
+    setTitle(successTooltip);
+  }, [onClick]);
+
+  console.log(open, successTooltip);
 
   return (
-    <Tooltip title={tooltip} getPopupContainer={() => btnRef.current}>
+    <Tooltip
+      open={open}
+      title={title}
+      getPopupContainer={(element) => element.parentElement}
+      getTooltipContainer={(element) => element.parentElement}
+    >
       <div
-        ref={btnRef}
-        className="p-2 text-xs hover:text-base hover:bg-black hover:text-orange-600 rounded-sm flex items-center justify-center cursor-pointer transition-all"
-        onClick={() => onClick?.()}
+        className="h-8 w-8 text-base hover:text-lg hover:bg-black hover:text-white rounded-sm flex items-center justify-center cursor-pointer transition-all"
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {children}
       </div>

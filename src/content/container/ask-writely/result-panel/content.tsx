@@ -7,6 +7,8 @@ import mdit from 'markdown-it';
 import hljsPlugin from 'markdown-it-highlightjs';
 import { Actions } from './actions';
 import { Copy } from './actions/copy';
+import { Replay } from './actions/replay';
+import cx from 'classnames';
 
 const md = mdit().use(hljsPlugin);
 
@@ -14,17 +16,7 @@ export const Content: React.FC<{ loading: boolean; content: string }> = ({
   loading,
   content,
 }) => {
-  const selectionManager = useSelectionManager();
   const mdContainerRef = useRef<HTMLDivElement>();
-
-  const handleAppend = useCallback(() => {
-    selectionManager.append(content);
-  }, [content]);
-
-  const handleReplace = useCallback(() => {
-    selectionManager.replace(content);
-  }, [content]);
-
   const parsedContent = md.render(content);
 
   return (
@@ -33,14 +25,25 @@ export const Content: React.FC<{ loading: boolean; content: string }> = ({
         <div className="whitespace-pre-wrap">
           <div
             ref={mdContainerRef}
+            className="transition-all"
             dangerouslySetInnerHTML={{ __html: parsedContent }}
           ></div>
-          {loading ? <WritingAnimation /> : null}
+          {loading ? (
+            <div className="flex justify-center text-4xl text-[#925761]">
+              <WritingAnimation />
+            </div>
+          ) : null}
         </div>
       </div>
-      <div className="h-16">
+      <div
+        className={cx(
+          'h-10 flex items-center justify-center border-t border-zinc-200',
+          loading ? 'opacity-0' : 'opacity-100'
+        )}
+      >
         <Actions>
           <Copy dom={mdContainerRef} />
+          <Replay />
         </Actions>
       </div>
     </div>
