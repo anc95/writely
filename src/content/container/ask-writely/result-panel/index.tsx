@@ -1,16 +1,18 @@
+import { ResultPanelProvider } from '../../store/result-panel';
 import { Content } from './content';
 import { Header } from './header';
 
 export const ResultPanel: React.FC<{
-  loading: boolean;
-  content: string;
-}> = ({ loading, content }) => {
+  text: string;
+}> = ({ text }) => {
   return (
-    <div className="overflow-hidden rounded-lg shadow-xl w-[500px]">
-      <div className="border-zinc-200 rounded-lg">
-        <Header />
+    <ResultPanelProvider>
+      <div className="overflow-hidden rounded-lg shadow-xl w-[500px]">
+        <div className="border-zinc-200 rounded-lg">
+          <Header />
+        </div>
+        <Content text={text} />
       </div>
-      <Content loading={loading} content={content} />
-    </div>
+    </ResultPanelProvider>
   );
 };
