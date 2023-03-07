@@ -1,8 +1,5 @@
 import { SystemUiconsWrite } from '@/components/icon';
-import { Button, Spin } from 'antd';
-import i18next from 'i18next';
-import { useCallback, useRef } from 'react';
-import { useSelectionManager } from '../../store/selection';
+import { useRef } from 'react';
 import mdit from 'markdown-it';
 import hljsPlugin from 'markdown-it-highlightjs';
 import { Actions } from './actions';
@@ -20,7 +17,7 @@ export const Content: React.FC<{ loading: boolean; content: string }> = ({
   const parsedContent = md.render(content);
 
   return (
-    <div className="shadow-2xl bg-zinc-100">
+    <div className="shadow-xl bg-zinc-100">
       <div className="p-4 max-h-[50vh] overflow-auto">
         <div className="whitespace-pre-wrap">
           <div
