@@ -8,7 +8,7 @@
   "Chinese": "Chinese",
   "Append": "Append",
   "Replace": "Replace",
-  "Prompt template": "As a {{role}}, your task is to modify the following content as required, the requirement is {{task}}, the content is '{{content}}'",
+  "Prompt template": "Just Do whant I told you, the requirement is {{task}}, the content is '{{content}}'",
   "Senior Writer": "Senior Writer",
   "Send to writely": "Send to writely"
 }
