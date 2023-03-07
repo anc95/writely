@@ -17,6 +17,9 @@
       "js": [
         "dist/content/index.js"
       ],
+      "css": [
+        "node_modules/animate.css/animate.css"
+      ],
       "matches": [
         "*://*/*"
       ]

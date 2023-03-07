@@ -1,4 +1,4 @@
-import { Input, message, Tooltip } from 'antd';
+import { Badge, Input, message, Tag, Tooltip } from 'antd';
 import {
   forwardRef,
   PropsWithChildren,
@@ -66,7 +66,7 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
     }
   }, []);
 
-  const handleOnFoucus = useCallback(() => {
+  const handleClickIcon = useCallback(() => {
     setQuickPromptVisible(true);
     selectionManager.setLock(true);
   }, [setQuickPromptVisible]);
@@ -77,17 +77,23 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
 
   return (
     <div ref={ref} className="">
+      {quickPromptVisible ? null : (
+        <div onClick={handleClickIcon}>
+          <Tag color="orange" className="cursor-pointer">
+            Writely
+          </Tag>
+        </div>
+      )}
       <div
         className={cx('bg-zinc-10000 transition-all duration-500 relative', {
-          'w-[700px] shadow-stone-100 shadow-xl': quickPromptVisible,
-          'w-[200px] shadow-stone-300 shadow-2xl': !quickPromptVisible,
+          'w-[700px] shadow-stone-100 shadow-xl block': quickPromptVisible,
+          'w-[0px] hidden': !quickPromptVisible,
         })}
       >
         <Input.TextArea
           onPressEnter={() => {
             handleClickItem({ label: keyword });
           }}
-          onFocus={handleOnFoucus}
           autoSize={{ minRows: 1, maxRows: 4 }}
           placeholder="Ask writely to..."
           value={keyword}
@@ -113,7 +119,7 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
       <div
         className={cx('w-80 bg-zinc-100 duration-500 transition-shadow', {
           'hidden shadow-xl shadow-stone-100': !quickPromptVisible,
-          'block shadow-stone-300 shadow-2xl': quickPromptVisible,
+          'block shadow-stone-300 shadow-xl': quickPromptVisible,
         })}
       >
         <List items={items} onClick={handleClickItem} />
