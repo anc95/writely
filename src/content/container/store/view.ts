@@ -10,10 +10,19 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
     const viewStatusRef = useRef<string>();
     viewStatusRef.current = viewStatus;
     const selection = useSelectionManager();
+    const disposeListRef = useRef<(() => void)[]>([]);
+
+    const disposeAll = useCallback(() => {
+      disposeListRef.current.forEach((c) => c());
+      disposeListRef.current = [];
+    }, []);
 
     const goToInputPage = useCallback(() => {
       if (viewStatusRef.current !== 'icon') {
-        setTimeout(() => document.addEventListener('click', hide), 1000);
+        document.addEventListener('click', hide);
+        disposeListRef.current.push(() => {
+          document.removeEventListener('click', hide);
+        });
       }
       setViewStatus('input');
       selection.setLock(true);
@@ -21,34 +30,44 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
 
     const goToResult = useCallback(() => {
       setViewStatus('result');
-      document.removeEventListener('click', hide);
+      disposeAll();
     }, []);
 
     const goToIcon = useCallback(() => {
       selection.setLock(true);
       setViewStatus('icon');
-      setTimeout(() => document.addEventListener('click', hide), 1000);
+      document.addEventListener('click', hide);
+      disposeListRef.current.push(() => {
+        document.removeEventListener('click', hide);
+      });
     }, []);
 
     const hide = useCallback(() => {
       setViewStatus('none');
       selection.setLock(false);
+      disposeAll();
     }, []);
 
     useEffect(() => {
-      selection.onSelectionChange((s) => {
-        if (s.toString()) {
-          goToIcon();
-        }
+      let id = null;
 
-        setTimeout(() => {
-          if (viewStatusRef.current === 'icon') {
-            hide();
-          }
-        }, 3000);
+      selection.onSelectionChange((s) => {
+        if (s.toString() && viewStatusRef.current === 'none') {
+          goToIcon();
+
+          clearTimeout(id);
+          id = setTimeout(() => {
+            if (viewStatusRef.current === 'icon') {
+              hide();
+            }
+          }, 3000);
+        }
       });
 
-      return () => document.removeEventListener('click', hide);
+      return () => {
+        disposeAll();
+        clearTimeout(id);
+      };
     }, []);
 
     return {

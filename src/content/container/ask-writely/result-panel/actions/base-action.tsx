@@ -25,15 +25,8 @@ export const BaseAction: React.FC<
     setTitle(successTooltip);
   }, [onClick]);
 
-  console.log(open, successTooltip);
-
   return (
-    <Tooltip
-      open={open}
-      title={title}
-      getPopupContainer={(element) => element.parentElement}
-      getTooltipContainer={(element) => element.parentElement}
-    >
+    <Tooltip open={open} title={title}>
       <div
         className="h-8 w-8 text-base hover:text-lg hover:bg-black hover:text-white rounded-sm flex items-center justify-center cursor-pointer transition-all"
         onClick={handleClick}

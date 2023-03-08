@@ -14,6 +14,10 @@ type ListProps = {
 export const List: React.FC<ListProps> = ({ items, onClick }) => {
   const handleClick = useCallback((item) => onClick?.(item), [onClick]);
 
+  if (items.length === 0) {
+    return null;
+  }
+
   return (
     <div className="p-1.5 flex flex-col">
       {items.map((item, index) => {
