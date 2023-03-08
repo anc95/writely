@@ -1,4 +1,4 @@
-import { Badge, Button, Input, message, Tag, Tooltip } from 'antd';
+import { Button, Input, Tag, Tooltip } from 'antd';
 import {
   forwardRef,
   PropsWithChildren,
@@ -17,6 +17,7 @@ import i18next from 'i18next';
 import { IcOutlineKeyboardReturn } from '@/components/icon/return';
 import { useView } from '../../store/view';
 import { DashiconsMove } from '@/components/icon/drag';
+import { getFixedDom } from '..';
 
 export const Content: React.FC<PropsWithChildren> = () => {
   return <CenterContent />;
@@ -64,7 +65,7 @@ const InputPanel: React.FC<{
         )}
       >
         <Input.TextArea
-          className="pl-8"
+          className="!pl-8"
           onPressEnter={() => {
             onChange(value);
             goToResult();
@@ -76,19 +77,21 @@ const InputPanel: React.FC<{
         />
         <div>
           <SendToWritelyTip>
-            <IcBaselineSend
-              className={cx(
-                'w-4 h-4 text-gray-300 absolute right-2 bottom-2',
-                !!value?.trim()?.length
-                  ? 'text-zinc-900 cursor-pointer'
-                  : 'text-zinc-300'
-              )}
-            />
+            <div className="absolute right-2 bottom-2">
+              <IcBaselineSend
+                className={cx(
+                  'w-4 h-4 text-gray-300',
+                  !!value?.trim()?.length
+                    ? 'text-zinc-900 cursor-pointer'
+                    : 'text-zinc-300'
+                )}
+              />
+            </div>
           </SendToWritelyTip>
         </div>
         <Button
           type="ghost"
-          className="absolute left-2 top-0 text-lg handle animate__animated animate__fadeInDown"
+          className="!absolute left-2 top-0 text-lg handle animate__animated animate__fadeInDown"
           icon={<DragTip />}
         ></Button>
       </div>
@@ -105,7 +108,6 @@ const InputPanel: React.FC<{
           }}
         />
       </div>
-      <div>DragTip</div>
     </>
   );
 };
@@ -127,7 +129,9 @@ const SendToWritelyTip: React.FC<PropsWithChildren> = ({ children }) => {
 const DragTip: React.FC<PropsWithChildren> = () => {
   return (
     <Tooltip title={<div>{i18next.t('Drag')}</div>}>
-      <DashiconsMove />
+      <div>
+        <DashiconsMove />
+      </div>
     </Tooltip>
   );
 };

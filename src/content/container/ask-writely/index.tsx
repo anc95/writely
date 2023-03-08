@@ -1,13 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import ReactDraggable from 'react-draggable';
 import { useSelectionManager } from '../store/selection';
 import { useView } from '../store/view';
 import { Content } from './content';
 
+let fixedRef: MutableRefObject<HTMLDivElement>;
+
 export const AskWritely: React.FC = () => {
   const selectionManager = useSelectionManager();
-  const { selectionBoundingRect: boundingRect } = selectionManager;
+  const { position } = selectionManager;
   const { viewStatus } = useView();
+  const _fixedRef = useRef<HTMLDivElement>();
+
+  fixedRef = _fixedRef;
 
   if (viewStatus === 'none') {
     return null;
@@ -16,11 +21,12 @@ export const AskWritely: React.FC = () => {
   return (
     <ReactDraggable handle=".handle">
       <div
+        ref={_fixedRef}
         style={{
           padding: '10px',
           position: 'fixed',
-          top: `${boundingRect?.top + boundingRect?.height}px`,
-          left: `${boundingRect?.left}px`,
+          top: `${position.y}px`,
+          left: `${position.x}px`,
           zIndex: 9999999999999,
         }}
       >
@@ -28,4 +34,8 @@ export const AskWritely: React.FC = () => {
       </div>
     </ReactDraggable>
   );
+};
+
+export const getFixedDom = () => {
+  return fixedRef.current;
 };

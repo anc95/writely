@@ -10,7 +10,7 @@ export class SelectionManager {
   protected savedRange: Range;
 
   public text: string = '';
-  public selectionBoundingRect?: DOMRect;
+  public position: { x: number; y: number };
 
   constructor() {
     this.setup();
@@ -45,14 +45,12 @@ export class SelectionManager {
     if (locked) {
       this.savedRange = this.selection.getRangeAt(0);
       this.setText();
-      this.setBoundingRect();
       // TODO:
       // this.highlight.highlight(this.savedRange);
     } else {
       this.restoreRange();
-      this.selection.removeAllRanges();
+      // this.selection.removeAllRanges();
       this.setText();
-      this.setBoundingRect();
       // this.highlight.unhighlight();
     }
   }
@@ -93,17 +91,16 @@ export class SelectionManager {
     document.addEventListener(
       'mouseup',
       // debounce the event
-      debounce(() => {
-        if (this.locked) {
-          return;
-        }
-
+      debounce((e) => {
         this.selection = window.getSelection();
-        const valid =
-          this.selection.anchorOffset !== this.selection.focusOffset;
+
+        const valid = !!this.selection.toString();
 
         if (valid) {
-          this.setBoundingRect();
+          this.position = {
+            x: Math.max(e.x - 30, 10),
+            y: e.y + 10,
+          };
           this.selectChangeHandlers.forEach((handler) =>
             handler(this.selection)
           );
@@ -114,18 +111,6 @@ export class SelectionManager {
 
   private setText() {
     this.text = this.selection.toString();
-  }
-
-  private setBoundingRect() {
-    if (this.selection.rangeCount === 0) {
-      this.selectionBoundingRect = undefined;
-
-      return;
-    }
-
-    const range = this.selection.getRangeAt(0);
-
-    this.selectionBoundingRect = range.getBoundingClientRect();
   }
 
   private restoreRange() {
