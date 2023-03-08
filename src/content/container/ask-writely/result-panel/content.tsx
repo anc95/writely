@@ -1,5 +1,11 @@
 import { SystemUiconsWrite } from '@/components/icon';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import mdit from 'markdown-it';
 import hljsPlugin from 'markdown-it-highlightjs';
 import { Actions } from './actions';
@@ -98,9 +104,32 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
 };
 
 const WritingAnimation: React.FC = () => {
+  const divRef = useRef<HTMLDivElement>();
+
+  useWritingAnimationEffect(divRef);
+
   return (
-    <div className="animate-swaying inline-block">
+    <div className="animate-swaying inline-block" ref={divRef}>
       <SystemUiconsWrite />
     </div>
   );
+};
+
+const useWritingAnimationEffect = (ref: MutableRefObject<HTMLDivElement>) => {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry.intersectionRatio);
+        if (entry.intersectionRatio < 0.95) {
+          ref.current.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }
+      });
+    });
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, []);
 };
