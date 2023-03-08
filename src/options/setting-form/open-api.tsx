@@ -6,6 +6,7 @@ import {
   message,
   Modal,
   Select,
+  Tooltip,
   Typography,
 } from 'antd';
 import { useCallback, useState } from 'react';
@@ -13,7 +14,7 @@ import { useModels, useQueryOpenAIPrompt } from '../../common/api/openai';
 import { Block } from './block';
 
 export const OPENAISettings: React.FC = () => {
-  const { data, isLoading } = useModels();
+  const models = useModels();
 
   return (
     <Card title="Open AI" hoverable>
@@ -26,10 +27,10 @@ export const OPENAISettings: React.FC = () => {
         <Input />
       </Form.Item>
       <Form.Item className="col-span-5" name="model" label="Model">
-        <Select loading={isLoading}>
-          {data?.map((model) => (
+        <Select>
+          {models.map((model) => (
             <Select.Option key={model.id} value={model.id}>
-              {model.id}
+              {model.id} {model.price}
             </Select.Option>
           ))}
         </Select>
@@ -49,12 +50,10 @@ const ConnectionTest: React.FC = () => {
   const handleOk = useCallback(async () => {
     setLoading(true);
     setResult('');
-    let result = '';
 
     try {
       queryOpenAI(message, (text, err) => {
-        result += text;
-        setResult(result);
+        setResult(text);
         setLoading(false);
 
         if (err) {

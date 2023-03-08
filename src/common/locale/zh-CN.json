@@ -10,5 +10,12 @@
   "Replace": "替换内容",
   "Prompt template": "按照我说的做, 要求是 {{task}}, 内容为 '{{content}}'",
   "Senior Writer": "写作高手",
-  "Send to writely": "发送给 Writely"
+  "Send to writely": "发送给 Writely",
+  "Change tone": "改变语调",
+  "Professional": "专业",
+  "Casual": "随意",
+  "Straightforward": "简单明了",
+  "Confident": "自信",
+  "Friendly": "友好",
+  "Change tone to": "语气变为"
 }

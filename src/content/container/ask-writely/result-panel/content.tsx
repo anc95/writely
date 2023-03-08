@@ -14,9 +14,10 @@ import { Replay } from './actions/replay';
 import cx from 'classnames';
 import { useSelectionManager } from '../../store/selection';
 import { message } from 'antd';
-import { useQueryOpenAIPrompt } from '@/common/api/openai';
+import { useOpenAIEditPrompt, useQueryOpenAIPrompt } from '@/common/api/openai';
 import { defaultPrompt } from '../prompts';
 import { useResultPanel } from '../../store/result-panel';
+import { Insert } from './actions/update';
 
 const md = mdit().use(hljsPlugin);
 
@@ -24,6 +25,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
   const mdContainerRef = useRef<HTMLDivElement>();
   const selectionManager = useSelectionManager();
   const queryOpenAIPrompt = useQueryOpenAIPrompt();
+  const queryOpenAIEdit = useOpenAIEditPrompt();
   const { result, setResult, loading, setLoading } = useResultPanel();
   const sequenceRef = useRef<number>(0);
 
@@ -35,28 +37,31 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
     sequenceRef.current += 1;
     const currentSequence = sequenceRef.current;
 
+    const handler = (text: string, err: Error, end: boolean) => {
+      if (currentSequence != sequenceRef.current) {
+        return;
+      }
+
+      if (end) {
+        setLoading(false);
+        return;
+      }
+
+      if (err) {
+        setResult(err.message);
+        setLoading(false);
+      } else {
+        setResult(md.render(text));
+      }
+    };
+
     try {
       queryOpenAIPrompt(
         // Todo: prompt optimization
         defaultPrompt({ role: '', task: text })(selectionManager.text),
-        (text, err, end) => {
-          if (currentSequence != sequenceRef.current) {
-            return;
-          }
-
-          if (end) {
-            setLoading(false);
-            return;
-          }
-
-          if (err) {
-            setResult(err.message);
-            setLoading(false);
-          } else {
-            setResult(md.render(text));
-          }
-        }
+        handler
       );
+      // queryOpenAIEdit(selectionManager.text, text, handler);
     } catch (e) {
       setResult(e.toString());
       setLoading(false);
@@ -95,6 +100,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
         )}
       >
         <Actions>
+          <Insert />
           <Copy dom={mdContainerRef} />
           <Replay />
         </Actions>
@@ -119,8 +125,7 @@ const useWritingAnimationEffect = (ref: MutableRefObject<HTMLDivElement>) => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry.intersectionRatio);
-        if (entry.intersectionRatio < 0.95) {
+        if (entry.intersectionRatio < 0.99) {
           ref.current.scrollIntoView({
             behavior: 'smooth',
           });
