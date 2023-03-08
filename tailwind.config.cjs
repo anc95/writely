@@ -14,9 +14,18 @@ module.exports = {
               'translateX(20px); color: pink; filter: hue-rotate(360deg);',
           },
         },
+        breathe: {
+          '0%, 100%': {
+            opacity: '1',
+          },
+          '50%': {
+            opacity: '0.9',
+          },
+        },
       },
       animation: {
         swaying: 'swaying 3s ease-in-out infinite',
+        breathe: 'breathe 3s ease-in-out infinite',
       },
     },
   },

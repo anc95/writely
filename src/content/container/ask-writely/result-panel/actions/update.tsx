@@ -3,19 +3,25 @@ import { IcOutlineCheck } from '@/components/icon/update';
 import { useResultPanel } from '@/content/container/store/result-panel';
 import { useSelectionManager } from '@/content/container/store/selection';
 import i18next from 'i18next';
+import { useCallback } from 'react';
 import { BaseAction } from './base-action';
+import { copy } from './copy';
 
-export const Insert: React.FC = () => {
+export const Insert: React.FC<{
+  dom: React.MutableRefObject<HTMLDivElement>;
+}> = ({ dom }) => {
   const selection = useSelectionManager();
-  const { text } = useResultPanel();
+
+  const handleClick = useCallback(() => {
+    copy(dom.current);
+    selection.append();
+  }, []);
 
   return (
     <BaseAction
       tooltip={i18next.t('Append text')}
       successTooltip={i18next.t('Inserted')}
-      onClick={() => {
-        selection.append('\n' + text);
-      }}
+      onClick={handleClick}
     >
       <IcOutlineCheck />
     </BaseAction>

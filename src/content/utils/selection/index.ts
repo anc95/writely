@@ -54,25 +54,18 @@ export class SelectionManager {
     }
   }
 
-  public async append(text: string) {
+  public async append() {
     this.restoreRange();
     this.selection.collapseToEnd();
-    const range = this.selection.getRangeAt(0);
-    const node = document.createTextNode(text);
 
-    if (location.host.includes('feishu')) {
-      document.execCommand('insertText', false, text);
-    } else {
-      range.insertNode(node);
-    }
+    document.execCommand('paste');
   }
 
-  public replace(text: string) {
+  public replace() {
     this.restoreRange();
     this.selection.deleteFromDocument();
-    const textNode = document.createTextNode(text);
 
-    this.selection.getRangeAt(0).insertNode(textNode);
+    document.execCommand('paste');
   }
 
   private setup() {

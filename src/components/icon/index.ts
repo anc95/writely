@@ -6,3 +6,5 @@ export * from './close';
 export * from './write';
 export * from './copy';
 export * from './replay';
+export * from './setting';
+export * from './heart';

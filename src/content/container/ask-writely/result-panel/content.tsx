@@ -18,6 +18,7 @@ import { useOpenAIEditPrompt, useQueryOpenAIPrompt } from '@/common/api/openai';
 import { defaultPrompt } from '../prompts';
 import { useResultPanel } from '../../store/result-panel';
 import { Insert } from './actions/update';
+import { Replace } from './actions/replace';
 
 const md = mdit().use(hljsPlugin);
 
@@ -81,7 +82,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
   return (
     <div className="shadow-xl bg-zinc-100">
       <div className="p-4 max-h-[50vh] overflow-auto">
-        <div className="whitespace-pre-wrap">
+        <div>
           <div
             ref={mdContainerRef}
             className="transition-all"
@@ -101,7 +102,8 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
         )}
       >
         <Actions>
-          <Insert />
+          <Replace dom={mdContainerRef} />
+          <Insert dom={mdContainerRef} />
           <Copy dom={mdContainerRef} />
           <Replay />
         </Actions>
