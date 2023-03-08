@@ -27,12 +27,47 @@ const getPrompts = () => [
     label: i18n.t('Translate to'),
     children: [
       {
-        label: i18n.t('English'),
+        label: '🇬🇧' + i18n.t('English'),
       },
       {
-        label: i18n.t('Chinese'),
+        label: '🇨🇳' + i18n.t('Chinese'),
       },
-    ],
+      {
+        label: '🇯🇵' + i18n.t('Japanese'),
+      },
+      {
+        label: '🇰🇷' + i18n.t('Korean'),
+      },
+      {
+        label: '🇩🇪' + i18n.t('German'),
+      },
+      {
+        label: '🇫🇷' + i18n.t('French'),
+      },
+      {
+        label: '🇮🇹' + i18n.t('Italian'),
+      },
+    ].map((item) => {
+      return {
+        ...item,
+        instruction: i18n.t('Translate to'),
+      };
+    }),
+  },
+  {
+    label: i18n.t('Change tone'),
+    children: [
+      i18n.t('Professional'),
+      i18n.t('Casual'),
+      i18n.t('Straightforward'),
+      i18n.t('Confident'),
+      i18n.t('Friendly'),
+    ].map((label) => {
+      return {
+        label,
+        instruction: i18n.t('Change tone to'),
+      };
+    }),
   },
 ];
 

@@ -12,7 +12,16 @@ type ListProps = {
 };
 
 export const List: React.FC<ListProps> = ({ items, onClick }) => {
-  const handleClick = useCallback((item) => onClick?.(item), [onClick]);
+  const handleClick = useCallback(
+    (item) => {
+      if (item.children) {
+        return;
+      }
+
+      onClick?.(item);
+    },
+    [onClick]
+  );
 
   if (items.length === 0) {
     return null;
@@ -46,7 +55,7 @@ export const List: React.FC<ListProps> = ({ items, onClick }) => {
           <Popover
             placement="right"
             getPopupContainer={(e) => e.parentElement}
-            content={<List items={item.children} />}
+            content={<List items={item.children} onClick={handleClick} />}
           >
             {itemEle}
           </Popover>
