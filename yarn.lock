@@ -1533,6 +1533,11 @@ html-parse-stringify@^3.0.1:
   dependencies:
     void-elements "3.1.0"
 
+htmldom@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/htmldom/-/htmldom-4.0.11.tgz#85c7268add7d9c985c94e0d71ca3c3f7422bc0e8"
+  integrity sha512-W8Dayv3yLxxduG5IFZGvYosw4Okm1/0ZpobbJBejaBMAuSuI6chHmEw2aFopF7m2IxPhMO7UX1lDxclyFUi3Pw==
+
 i18next-browser-languagedetector@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.0.1.tgz#ead34592edc96c6c3a618a51cb57ad027c5b5d87"
