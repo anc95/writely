@@ -1,6 +1,5 @@
 import { Highlight } from './highlight';
 import { debounce } from 'lodash-es';
-
 export class SelectionManager {
   protected selectChangeHandlers = [];
   // lock a selction, means when selection change, we won't emit onSelectionChange
@@ -59,22 +58,12 @@ export class SelectionManager {
     this.restoreRange();
     this.selection.collapseToEnd();
     const range = this.selection.getRangeAt(0);
+    const node = document.createTextNode(text);
 
-    text = '\n' + text;
-
-    for (let char of text) {
-      const textNode = document.createTextNode(char);
-
-      if (location.host.includes('feishu')) {
-        if (!document.execCommand('insertText', false, char)) {
-          range.insertNode(textNode);
-        }
-      } else {
-        range.insertNode(textNode);
-      }
-
-      range.selectNode(range.commonAncestorContainer);
-      range.collapse();
+    if (location.host.includes('feishu')) {
+      document.execCommand('insertText', false, text);
+    } else {
+      range.insertNode(node);
     }
   }
 

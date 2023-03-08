@@ -24,7 +24,6 @@ const axiosOptionForOpenAI = (
   responseType: 'stream' as ResponseType,
   onDownloadProgress: (e) => {
     try {
-      debugger;
       const lines = e.currentTarget.response
         .toString()
         .split('\n')

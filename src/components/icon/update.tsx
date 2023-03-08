@@ -1,18 +1,18 @@
-import React from 'react';
+import { SVGProps } from 'react';
 
-export const UpdateIcon: React.FC = () => {
+export function IcOutlineCheck(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
     >
       <path
-        d="M9 17L11.5 9.5L20 12V9L11.5 6.5L9 0H7L14.5 9.5L7 18V15L11.5 11.5L9 17Z"
-        fill="#007AFF"
-      />
+        fill="currentColor"
+        d="M9 16.17L4.83 12l-1.42 1.41L9 19L21 7l-1.41-1.41L9 16.17z"
+      ></path>
     </svg>
   );
-};
+}

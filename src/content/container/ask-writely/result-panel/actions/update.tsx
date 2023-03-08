@@ -1,18 +1,23 @@
-import { SVGProps } from 'react';
+import { TablerRefresh } from '@/components/icon';
+import { IcOutlineCheck } from '@/components/icon/update';
+import { useResultPanel } from '@/content/container/store/result-panel';
+import { useSelectionManager } from '@/content/container/store/selection';
+import i18next from 'i18next';
+import { BaseAction } from './base-action';
 
-export function IcOutlineCheck(props: SVGProps<SVGSVGElement>) {
+export const Insert: React.FC = () => {
+  const selection = useSelectionManager();
+  const { text } = useResultPanel();
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      {...props}
+    <BaseAction
+      tooltip={i18next.t('Append text')}
+      successTooltip={i18next.t('Inserted')}
+      onClick={() => {
+        selection.append('\n' + text);
+      }}
     >
-      <path
-        fill="currentColor"
-        d="M9 16.17L4.83 12l-1.42 1.41L9 19L21 7l-1.41-1.41L9 16.17z"
-      ></path>
-    </svg>
+      <IcOutlineCheck />
+    </BaseAction>
   );
-}
+};

@@ -25,8 +25,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
   const mdContainerRef = useRef<HTMLDivElement>();
   const selectionManager = useSelectionManager();
   const queryOpenAIPrompt = useQueryOpenAIPrompt();
-  const queryOpenAIEdit = useOpenAIEditPrompt();
-  const { result, setResult, loading, setLoading } = useResultPanel();
+  const { result, setResult, loading, setLoading, setText } = useResultPanel();
   const sequenceRef = useRef<number>(0);
 
   const handleQuery = useCallback(async () => {
@@ -51,6 +50,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
         setResult(err.message);
         setLoading(false);
       } else {
+        setText(text);
         setResult(md.render(text));
       }
     };
@@ -71,6 +71,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
   useEffect(() => {
     if (loading) {
       setResult('');
+      setText('');
       handleQuery();
     }
   }, [loading]);
