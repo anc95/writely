@@ -4,7 +4,7 @@ import { PropsWithChildren, useCallback, useRef, useState } from 'react';
 export const BaseAction: React.FC<
   PropsWithChildren<{
     tooltip: string;
-    successTooltip: string;
+    successTooltip?: string;
     onClick?: () => void;
   }>
 > = ({ tooltip, successTooltip, children, onClick }) => {
@@ -22,7 +22,7 @@ export const BaseAction: React.FC<
 
   const handleClick = useCallback(() => {
     onClick?.();
-    setTitle(successTooltip);
+    successTooltip && setTitle(successTooltip);
   }, [onClick]);
 
   return (

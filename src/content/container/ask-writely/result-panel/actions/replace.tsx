@@ -1,29 +1,28 @@
-import { TablerRefresh } from '@/components/icon';
-import { IcOutlineCheck } from '@/components/icon/update';
-import { useResultPanel } from '@/content/container/store/result-panel';
+import { MaterialSymbolsContentCopyOutline } from '@/components/icon';
+import { BiFileCheck } from '@/components/icon/replace';
 import { useSelectionManager } from '@/content/container/store/selection';
 import i18next from 'i18next';
 import { useCallback } from 'react';
 import { BaseAction } from './base-action';
 import { copy } from './copy';
 
-export const Insert: React.FC<{
+export const Replace: React.FC<{
   dom: React.MutableRefObject<HTMLDivElement>;
 }> = ({ dom }) => {
   const selection = useSelectionManager();
 
   const handleClick = useCallback(() => {
     copy(dom.current);
-    selection.append();
+    selection.replace();
   }, []);
 
   return (
     <BaseAction
-      tooltip={i18next.t('Append text')}
-      successTooltip={i18next.t('Inserted')}
+      tooltip={i18next.t('Replace text')}
+      successTooltip={i18next.t('Replaced')}
       onClick={handleClick}
     >
-      <IcOutlineCheck />
+      <BiFileCheck />
     </BaseAction>
   );
 };

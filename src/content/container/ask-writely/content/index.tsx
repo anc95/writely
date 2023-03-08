@@ -22,7 +22,7 @@ export const Content: React.FC<PropsWithChildren> = () => {
 
 const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   const [keyword, setkeyword] = useState<string>();
-  const { viewStatus, goToInputPage, goToResult } = useView();
+  const { viewStatus, goToInputPage } = useView();
 
   const handleClickIcon = useCallback(() => {
     goToInputPage();
@@ -58,11 +58,11 @@ const InputPanel: React.FC<{
     <>
       <div
         className={cx(
-          'bg-zinc-10000 transition-all duration-500 relative w-[500px] shadow-stone-100 shadow-xl block'
+          'bg-zinc-10000 transition-all duration-500 relative w-[500px] shadow-md block'
         )}
       >
         <Input.TextArea
-          className="!pl-8"
+          className="!pl-8 animate-breathe"
           onPressEnter={() => {
             onChange(value);
             goToResult();
@@ -94,7 +94,7 @@ const InputPanel: React.FC<{
       </div>
       <div
         className={cx(
-          'w-80 bg-zinc-100 duration-500 transition-shadow block shadow-stone-300 shadow-xl'
+          'w-80 bg-zinc-100 duration-500 transition-shadow block  shadow-md'
         )}
       >
         <List

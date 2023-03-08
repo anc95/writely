@@ -1,8 +1,6 @@
 import { SVGProps } from 'react';
 
-export function MaterialSymbolsKeyboardBackspace(
-  props: SVGProps<SVGSVGElement>
-) {
+export function RiHeartFill(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +11,7 @@ export function MaterialSymbolsKeyboardBackspace(
     >
       <path
         fill="currentColor"
-        d="m9 18l-6-6l6-6l1.4 1.4L6.8 11H21v2H6.8l3.6 3.6L9 18Z"
+        d="M12.001 4.529a5.998 5.998 0 0 1 8.242.228a6 6 0 0 1 .236 8.236l-8.48 8.492l-8.478-8.492a6 6 0 0 1 8.48-8.464z"
       ></path>
     </svg>
   );
