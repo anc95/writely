@@ -5,8 +5,14 @@ module.exports = {
     extend: {
       keyframes: {
         swaying: {
-          '0%, 100%': { transform: 'translateX(-20px)' },
-          '50%': { transform: 'translateX(20px)' },
+          '0%, 100%': {
+            transform:
+              'translateX(-20px); color: red; filter: hue-rotate(0deg);',
+          },
+          '50%': {
+            transform:
+              'translateX(20px); color: pink; filter: hue-rotate(360deg);',
+          },
         },
       },
       animation: {

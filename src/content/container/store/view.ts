@@ -6,7 +6,7 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
   () => {
     const [viewStatus, setViewStatus] = useState<
       'icon' | 'input' | 'result' | 'none'
-    >();
+    >('none');
     const viewStatusRef = useRef<string>();
     viewStatusRef.current = viewStatus;
     const selection = useSelectionManager();
