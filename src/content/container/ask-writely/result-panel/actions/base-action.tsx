@@ -8,7 +8,7 @@ export const BaseAction: React.FC<
     onClick?: () => void;
   }>
 > = ({ tooltip, successTooltip, children, onClick }) => {
-  const [title, setTitle] = useState<string>();
+  const [title, setTitle] = useState<string>(tooltip);
   const [open, setOpen] = useState(false);
 
   const handleMouseEnter = useCallback(() => {
@@ -28,7 +28,7 @@ export const BaseAction: React.FC<
   return (
     <Tooltip open={open} title={title}>
       <div
-        className="h-8 w-8 text-base hover:text-lg hover:bg-black hover:text-white rounded-sm flex items-center justify-center cursor-pointer transition-all"
+        className="h-8 w-8 text-base hover:text-xl hover:bg-black hover:text-white rounded-sm hover:rounded-md flex items-center justify-center cursor-pointer transition-all duration-700"
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

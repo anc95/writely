@@ -43,11 +43,12 @@ export const Header: React.FC = () => {
         />
         <Operation
           onClick={() => {
-            const url = chrome.runtime.getURL('dist/options/index.html');
-            window.open(url);
+            // send message to do
+            const url = chrome.runtime.getURL?.('dist/options/index.html');
+            // chrome.tabs.create({ url });
           }}
           icon={<DashiconsAdminGeneric />}
-          tootip="Jump to settings"
+          tootip="Jump to settings (In dev)"
         />
       </div>
     </div>
@@ -63,7 +64,7 @@ const Operation: React.FC<{
     <Tooltip title={tootip}>
       <div
         onClick={() => onClick?.()}
-        className="text-white p-3 flex items-center justify-center cursor-pointer hover:bg-zinc-800"
+        className="text-white p-3 text-base flex items-center justify-center cursor-pointer hover:bg-zinc-700 transition-all duration-700"
       >
         {icon}
       </div>

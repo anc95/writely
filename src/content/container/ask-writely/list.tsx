@@ -36,7 +36,7 @@ export const List: React.FC<ListProps> = ({ items, onClick }) => {
           <div
             key={index}
             onClick={() => handleClick(item)}
-            className="h-7 hover:bg-zinc-200 rounded-md flex items-center justify-between text-sm cursor-pointer px-1.5"
+            className="h-7 hover:bg-zinc-200 rounded-none hover:rounded-md flex items-center justify-between text-sm hover:text-base cursor-pointer px-1.5 transition-all duration-300"
           >
             {item.label}
             {hasChildren ? (
