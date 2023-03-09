@@ -1,9 +1,8 @@
 name: Release
 
 on:
-  push:
-    tags: [v\d+\.\d+\.\d+]
-
+  release: created
+  
 jobs:
   build:
     runs-on: ubuntu-22.04
