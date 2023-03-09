@@ -26,8 +26,16 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
   const mdContainerRef = useRef<HTMLDivElement>();
   const selectionManager = useSelectionManager();
   const queryOpenAIPrompt = useQueryOpenAIPrompt();
-  const { result, setResult, loading, setLoading, setText } = useResultPanel();
+  const {
+    result,
+    setResult,
+    loading,
+    setLoading,
+    setText,
+    text: resultText,
+  } = useResultPanel();
   const sequenceRef = useRef<number>(0);
+  const { isOriginText } = useResultPanel();
 
   const handleQuery = useCallback(async () => {
     if (!selectionManager.text) {
@@ -43,17 +51,16 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
       }
 
       if (end) {
-        setResult(md.render(text));
+        setText(text);
         setLoading(false);
         return;
       }
 
       if (err) {
-        setResult(err.message);
+        setText(err.message);
         setLoading(false);
       } else {
         setText(text);
-        setResult(md.render(text));
       }
     };
 
@@ -77,6 +84,14 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
       handleQuery();
     }
   }, [loading]);
+
+  useEffect(() => {
+    if (!isOriginText) {
+      setResult(md.render(resultText));
+    } else {
+      setResult(resultText);
+    }
+  }, [isOriginText, resultText]);
 
   useEffect(() => setLoading(true), []);
 

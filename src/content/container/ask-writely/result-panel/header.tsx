@@ -1,4 +1,4 @@
-import { Tooltip } from 'antd';
+import { Popover, Switch, Tooltip } from 'antd';
 import {
   MdiClose,
   MaterialSymbolsKeyboardBackspace,
@@ -8,9 +8,11 @@ import {
 import { ReactNode } from 'react';
 import { useView } from '../../store/view';
 import i18next from 'i18next';
+import { useResultPanel } from '../../store/result-panel';
 
 export const Header: React.FC = () => {
   const { hide, goToInputPage } = useView();
+  const { isOriginText, setIsOriginText } = useResultPanel();
 
   return (
     <div className="flex px-2 items-center bg-zinc-900 cursor-move handle justify-between">
@@ -23,6 +25,14 @@ export const Header: React.FC = () => {
         <Operation icon={<MdiClose />} tootip="Close window" onClick={hide} />
       </div>
       <div className="flex items-center">
+        <Tooltip title={i18next.t('Display original text')}>
+          <Switch
+            title={i18next.t('Text')}
+            checked={!!isOriginText}
+            onChange={(e) => setIsOriginText(e)}
+            className={isOriginText ? '!bg-amber-800' : '!bg-gray-400'}
+          />
+        </Tooltip>
         <Operation
           icon={
             <a href="https://github.com/anc95/writely" target="_blank">
@@ -50,13 +60,13 @@ const Operation: React.FC<{
   onClick?: () => void;
 }> = ({ icon, tootip, onClick }) => {
   return (
-    // <Tooltip title={tootip}>
-    <div
-      onClick={() => onClick?.()}
-      className="text-white p-3 flex items-center justify-center cursor-pointer hover:bg-zinc-800"
-    >
-      {icon}
-    </div>
-    // </Tooltip>
+    <Tooltip title={tootip}>
+      <div
+        onClick={() => onClick?.()}
+        className="text-white p-3 flex items-center justify-center cursor-pointer hover:bg-zinc-800"
+      >
+        {icon}
+      </div>
+    </Tooltip>
   );
 };
