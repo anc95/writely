@@ -31,7 +31,8 @@
   },
   "scripts": {
     "dev": "yarn build -- -w",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 rollup -c rollup.config.js"
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 rollup -c rollup.config.js",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.7.0",
@@ -46,6 +47,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-highlightjs": "^4.0.1",
     "openai": "^3.2.1",
+    "patch-package": "^6.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",

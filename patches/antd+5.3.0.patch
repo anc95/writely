@@ -1,0 +1,19 @@
+diff --git a/node_modules/antd/es/tooltip/index.js b/node_modules/antd/es/tooltip/index.js
+index fa4ab64..cf61ce8 100644
+--- a/node_modules/antd/es/tooltip/index.js
++++ b/node_modules/antd/es/tooltip/index.js
+@@ -244,10 +244,10 @@ const Tooltip = /*#__PURE__*/React.forwardRef((props, ref) => {
+     arrowContent: /*#__PURE__*/React.createElement("span", {
+       className: `${prefixCls}-arrow-content`
+     }),
+-    motion: {
+-      motionName: getTransitionName(rootPrefixCls, 'zoom-big-fast', props.transitionName),
+-      motionDeadline: 1000
+-    },
++    // motion: {
++    //   motionName: getTransitionName(rootPrefixCls, 'zoom-big-fast', props.transitionName),
++    //   motionDeadline: 1000
++    // },
+     destroyTooltipOnHide: !!destroyTooltipOnHide
+   }), tempOpen ? cloneElement(child, {
+     className: childCls
