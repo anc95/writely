@@ -1,4 +1,4 @@
-import { Popover, Switch, Tooltip } from 'antd';
+import { Switch, Tooltip } from 'antd';
 import {
   MdiClose,
   MaterialSymbolsKeyboardBackspace,
@@ -9,6 +9,7 @@ import { ReactNode } from 'react';
 import { useView } from '../../store/view';
 import i18next from 'i18next';
 import { useResultPanel } from '../../store/result-panel';
+import type { MessagePayload } from '@/common/types';
 
 export const Header: React.FC = () => {
   const { hide, goToInputPage } = useView();
@@ -19,10 +20,10 @@ export const Header: React.FC = () => {
       <div className="flex items-center">
         <Operation
           icon={<MaterialSymbolsKeyboardBackspace />}
-          tootip="Back"
+          tooltip="Back"
           onClick={goToInputPage}
         />
-        <Operation icon={<MdiClose />} tootip="Close window" onClick={hide} />
+        <Operation icon={<MdiClose />} tooltip="Close window" onClick={hide} />
       </div>
       <div className="flex items-center">
         <Tooltip title={i18next.t('Display original text')}>
@@ -39,16 +40,16 @@ export const Header: React.FC = () => {
               <RiHeartFill className="text-orange-600" />
             </a>
           }
-          tootip={i18next.t('Love')}
+          tooltip={i18next.t('Love')}
         />
         <Operation
           onClick={() => {
-            // send message to do
-            const url = chrome.runtime.getURL?.('dist/options/index.html');
-            // chrome.tabs.create({ url });
+            chrome.runtime.sendMessage<MessagePayload>({
+              type: 'open-options-page'
+            })
           }}
           icon={<DashiconsAdminGeneric />}
-          tootip="Jump to settings (In dev)"
+          tooltip="Jump to settings"
         />
       </div>
     </div>
@@ -57,11 +58,11 @@ export const Header: React.FC = () => {
 
 const Operation: React.FC<{
   icon: ReactNode;
-  tootip: string;
+  tooltip: string;
   onClick?: () => void;
-}> = ({ icon, tootip, onClick }) => {
+}> = ({ icon, tooltip, onClick }) => {
   return (
-    <Tooltip title={tootip}>
+    <Tooltip title={tooltip}>
       <div
         onClick={() => onClick?.()}
         className="text-white p-3 text-base flex items-center justify-center cursor-pointer hover:bg-zinc-700 transition-all duration-700"
