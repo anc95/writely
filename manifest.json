@@ -25,6 +25,9 @@
       ]
     }
   ],
+  "background": {
+    "service_worker": "dist/background/index.js"
+  },
   "permissions": [
     "storage",
     "clipboardRead"
