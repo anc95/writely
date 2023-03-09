@@ -54,6 +54,10 @@ const baseConfig = (name) => ({
           src: ['./src/popup/index.html'],
           dest: ['./dist/popup'],
         },
+        {
+          src: ['./node_modules/animate.css/animate.css'],
+          dest: ['./dist/content'],
+        },
       ],
     }),
     replace({
