@@ -43,6 +43,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
       }
 
       if (end) {
+        setResult(text);
         setLoading(false);
         return;
       }
