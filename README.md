@@ -4,6 +4,8 @@
 
 ![](./assets/logo.png)
 
+[English Doc](./README-EN.md)
+
 ## 特点
 1.🔥 基于 Open AI GPT 模型，带来全新的智能写作体验，。
 
