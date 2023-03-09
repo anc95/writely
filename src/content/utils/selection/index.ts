@@ -56,11 +56,6 @@ export class SelectionManager {
 
   public async append(text?: string, replace?: boolean) {
     this.restoreRange();
-
-    if (!replace) {
-      this.selection.collapseToEnd();
-    }
-
     const container = this.selection.getRangeAt(0).commonAncestorContainer;
 
     // for input/text-area. In most case we selected the parent selection. not themself
@@ -78,6 +73,9 @@ export class SelectionManager {
       (inputNode as any).focus();
       return document.execCommand('insertText', false, text);
     } else {
+      if (!replace) {
+        this.selection.collapseToEnd();
+      }
       return document.execCommand('paste');
     }
   }

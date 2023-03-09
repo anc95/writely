@@ -1,11 +1,11 @@
 {
-  "name": "C",
+  "name": "Writely",
   "version": "1.0.0",
-  "description": "latest covid data of UK",
+  "description": "A GPT Powered Extension helping your writing and reading",
   "manifest_version": 3,
-  "author": "Sampurna Chapagain",
+  "author": "https://github.com/anc95",
   "action": {
-    "default_title": "Latest Covid Report",
+    "default_title": "Writely",
     "default_popup": "dist/popup/index.html"
   },
   "options_ui": {
