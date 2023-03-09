@@ -32,11 +32,11 @@ export const Header: React.FC = () => {
           tootip={i18next.t('Love')}
         />
         <Operation
-          icon={
-            <a href={chrome.runtime.getURL('dist/options/index.html')}>
-              <DashiconsAdminGeneric />
-            </a>
-          }
+          onClick={() => {
+            const url = chrome.runtime.getURL('dist/options/index.html');
+            window.open(url);
+          }}
+          icon={<DashiconsAdminGeneric />}
           tootip="Jump to settings"
         />
       </div>
@@ -50,13 +50,13 @@ const Operation: React.FC<{
   onClick?: () => void;
 }> = ({ icon, tootip, onClick }) => {
   return (
-    <Tooltip title={tootip}>
-      <div
-        onClick={() => onClick?.()}
-        className="text-white p-3 flex items-center justify-center cursor-pointer hover:bg-zinc-800"
-      >
-        {icon}
-      </div>
-    </Tooltip>
+    // <Tooltip title={tootip}>
+    <div
+      onClick={() => onClick?.()}
+      className="text-white p-3 flex items-center justify-center cursor-pointer hover:bg-zinc-800"
+    >
+      {icon}
+    </div>
+    // </Tooltip>
   );
 };

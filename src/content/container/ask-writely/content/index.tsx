@@ -1,4 +1,4 @@
-import { Button, Input, Tag, Tooltip } from 'antd';
+import { Avatar, Button, Input, Tag, Tooltip } from 'antd';
 import {
   forwardRef,
   PropsWithChildren,
@@ -10,7 +10,7 @@ import cx from 'classnames';
 import { List } from '../list';
 import { ResultPanel } from '../result-panel';
 import { PromptCenter } from '../prompts';
-import { IcBaselineSend } from '@/components/icon';
+import { IcBaselineSend, Logo } from '@/components/icon';
 import i18next from 'i18next';
 import { IcOutlineKeyboardReturn } from '@/components/icon/return';
 import { useView } from '../../store/view';
@@ -31,9 +31,10 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   if (viewStatus === 'icon') {
     return (
       <div onClick={handleClickIcon}>
-        <Tag color="orange" className="cursor-pointer">
-          Writely
-        </Tag>
+        <Avatar
+          className="cursor-pointer !opacity-90 hover:!opacity-100 !shadow-sm hover:!shadow-md !bg-black !text-2xl hover:!text-3xl !transition-all !duration-700 !flex !items-center !justify-center"
+          icon={<Logo />}
+        />
       </div>
     );
   }
