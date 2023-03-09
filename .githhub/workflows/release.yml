@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags: [v\d+\.\d+\.\d+]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Get version
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - run: yarn install
+      - run: yarn build
+
+      - name: Change version
+        run: |
+          sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.get_version.outputs.version-without-v }}\"/" manifest.json
+      - name: Package plugin
+        run: |
+          mkdir -p release/dist
+          mv dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/dist
+          mv manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
+          cd release
+          zip -r release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/*
+      - name: Upload plugin to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          release_name: ${{ steps.get_version.outputs.version }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip
+          asset_name: writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: ${{ steps.tag.outputs.message }}
