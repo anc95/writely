@@ -26,7 +26,7 @@ jobs:
           sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.get_version.outputs.version-without-v }}\"/" manifest.json
       - name: Package plugin
         run: |
-          mkdir -p release/dist
+          mkdir -p release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/dist
           mv dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/dist
           mv manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
           cd release
