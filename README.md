@@ -15,7 +15,7 @@
 
 ### 安装
 1. 前往 [release](https://github.com/anc95/writely/releases/tag/v0.0.1) 下载 Zip 安装包，并解压
-2. 浏览器 chrome://extensions/
+2. 浏览器打开 chrome://extensions/
 3. 确保右上角开发者模式已开启
 4. 点击左上角的 `Load Unpacked` 加载步骤1中的文件夹
 <img width="1708" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png">
