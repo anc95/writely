@@ -50,9 +50,10 @@ const axiosOptionForOpenAI = (
         const text =
           parsed.choices[0].text ||
           parsed.choices[0]?.delta?.content ||
-          parsed.choices[0]?.message?.content;
+          parsed.choices[0]?.message?.content ||
+          '';
 
-        if (!text || !text.trim()) {
+        if (!text && !result) {
           continue;
         }
 
