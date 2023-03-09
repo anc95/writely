@@ -15,6 +15,7 @@ const baseConfig = (name) => ({
   plugins: [
     nodeResolve({
       browser: true,
+      extensions: ['.tsx', '.ts', '.js']
     }),
     commonjs(),
     builtins(),
@@ -69,10 +70,10 @@ const baseConfig = (name) => ({
 /**
  * @type {import('rollup').RollupOptions}
  */
-const config = ['content', 'options', 'popup'].map((entry) => {
+const config = ['content', 'options', 'popup', 'background'].map((entry) => {
   return {
     ...baseConfig(entry),
-    input: `src/${entry}/index.tsx`,
+    input: `src/${entry}/index`,
     output: {
       file: `dist/${entry}/index.js`,
       format: 'esm',
