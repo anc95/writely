@@ -24,7 +24,7 @@ export const OPENAISettings: React.FC = () => {
         label="OpenAI API Key"
         required
       >
-        <Input />
+        <Input.Password />
       </Form.Item>
       <Form.Item className="col-span-5" name="model" label="Model">
         <Select>
@@ -34,6 +34,9 @@ export const OPENAISettings: React.FC = () => {
             </Select.Option>
           ))}
         </Select>
+      </Form.Item>
+      <Form.Item label="Url" name="url">
+        <Input />
       </Form.Item>
       <ConnectionTest />
     </Card>

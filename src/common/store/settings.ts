@@ -47,5 +47,11 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
 export { useSettings, SettingsProvider };
 
 export const getSetting = async () => {
-  return (await chrome.storage.sync.get(key))?.[key] || {};
+  const res = (await chrome.storage.sync.get(key))?.[key] || {};
+
+  if (!res.url) {
+    res.url = 'https://api.openai.com/v1';
+  }
+
+  return res;
 };

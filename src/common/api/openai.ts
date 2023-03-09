@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { useEffect, useMemo, useRef } from 'react';
-import useSWR from 'swr';
+import { logger } from '../debug';
 import { useSettings } from '../store/settings';
 
 const useOpenAPI = () => {
@@ -10,10 +10,11 @@ const useOpenAPI = () => {
   useEffect(() => {
     const config = new Configuration({
       apiKey: settings?.apiKey,
+      basePath: settings.url,
     });
 
     openAIRef.current = new OpenAIApi(config);
-  }, [settings?.apiKey]);
+  }, [settings?.apiKey, settings.url]);
 
   return openAIRef;
 };
@@ -31,12 +32,17 @@ const axiosOptionForOpenAI = (
 
       let result = '';
 
+      logger.debug('[EventSource]', e.currentTarget.response);
+
+      let ended = false;
+
       for (const line of lines) {
         const message = line.replace(/^data: /, '');
 
         if (message === '[DONE]') {
-          onData('', undefined, true);
-          return; // Stream finished
+          // stream finished
+          ended = true;
+          break;
         }
 
         const parsed = JSON.parse(message);
@@ -53,7 +59,11 @@ const axiosOptionForOpenAI = (
         result += text;
       }
 
-      onData?.(result);
+      if (ended) {
+        onData(result, '', true);
+      } else {
+        onData?.(result);
+      }
     } catch (e) {
       onData?.('', e);
     }
