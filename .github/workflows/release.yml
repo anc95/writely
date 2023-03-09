@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  release: created
-  
+  release:
+    type: [created]
+
 jobs:
   build:
     runs-on: ubuntu-22.04
