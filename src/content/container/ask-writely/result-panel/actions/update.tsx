@@ -14,7 +14,7 @@ export const Insert: React.FC<{
 
   const handleClick = useCallback(() => {
     copy(dom.current);
-    selection.append();
+    selection.append(dom.current?.innerText);
   }, []);
 
   return (

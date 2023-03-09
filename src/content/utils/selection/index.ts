@@ -42,7 +42,7 @@ export class SelectionManager {
     this.locked = locked;
 
     if (locked) {
-      this.savedRange = this.selection.getRangeAt(0);
+      this.savedRange = this.selection.getRangeAt(0).cloneRange();
       this.setText();
       // TODO:
       // this.highlight.highlight(this.savedRange);
@@ -54,18 +54,36 @@ export class SelectionManager {
     }
   }
 
-  public async append() {
+  public async append(text?: string, replace?: boolean) {
     this.restoreRange();
-    this.selection.collapseToEnd();
 
-    document.execCommand('paste');
+    if (!replace) {
+      this.selection.collapseToEnd();
+    }
+
+    const container = this.selection.getRangeAt(0).commonAncestorContainer;
+
+    // for input/text-area. In most case we selected the parent selection. not themself
+    const inputNode = [...container.childNodes].find(
+      (child) => child.nodeName === 'TEXTAREA' || child.nodeName === 'INPUT'
+    );
+
+    if (inputNode) {
+      this.selection.getRangeAt(0).selectNode(inputNode);
+
+      if (!replace) {
+        this.selection.collapseToEnd();
+      }
+
+      (inputNode as any).focus();
+      return document.execCommand('insertText', false, text);
+    } else {
+      return document.execCommand('paste');
+    }
   }
 
-  public replace() {
-    this.restoreRange();
-    this.selection.deleteFromDocument();
-
-    document.execCommand('paste');
+  public replace(text?: string) {
+    this.append(text, true);
   }
 
   private setup() {

@@ -13,7 +13,7 @@ export const Replace: React.FC<{
 
   const handleClick = useCallback(() => {
     copy(dom.current);
-    selection.replace();
+    selection.replace(dom.current.innerText);
   }, []);
 
   return (
