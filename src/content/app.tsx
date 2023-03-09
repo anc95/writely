@@ -2,7 +2,7 @@ import { Menu } from './container/index';
 // first, import these 2 badboys
 import { StyleProvider } from '@ant-design/cssinjs';
 import Cache from '@ant-design/cssinjs/es/Cache';
-import { tag } from './shadow-dom';
+import { conatinerId, tag } from './shadow-dom';
 import { SettingsProvider } from '../common/store/settings';
 
 // second, create custom Cache entity
@@ -26,16 +26,18 @@ class CustomCache extends Cache {
 
 export const App: React.FC = () => {
   return (
-    <div className="text-black">
-      <Menu />
-    </div>
+    <StyleProvider
+      cache={new CustomCache()}
+      // https://github.com/ant-design/cssinjs/issues/28
+      container={document
+        .getElementsByTagName(tag)[0]
+        .shadowRoot.ownerDocument.getElementById(conatinerId)}
+    >
+      <SettingsProvider>
+        <div className="text-black">
+          <Menu />
+        </div>
+      </SettingsProvider>
+    </StyleProvider>
   );
 };
-
-export const appElement = (
-  <StyleProvider cache={new CustomCache()}>
-    <SettingsProvider>
-      <App />
-    </SettingsProvider>
-  </StyleProvider>
-);

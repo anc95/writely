@@ -113,16 +113,18 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
       </div>
       <div
         className={cx(
-          'h-10 flex items-center justify-center border-t border-zinc-200',
-          loading ? 'opacity-0' : 'opacity-100'
+          'h-10 flex items-center justify-center border-t border-zinc-200 transition-all duration-700',
+          loading ? 'opacity-0 !h-0' : 'opacity-100'
         )}
       >
-        <Actions>
-          <Replace dom={mdContainerRef} />
-          <Insert dom={mdContainerRef} />
-          <Copy dom={mdContainerRef} />
-          <Replay />
-        </Actions>
+        {loading ? null : (
+          <Actions>
+            <Replace dom={mdContainerRef} />
+            <Insert dom={mdContainerRef} />
+            <Copy dom={mdContainerRef} />
+            <Replay />
+          </Actions>
+        )}
       </div>
     </div>
   );
