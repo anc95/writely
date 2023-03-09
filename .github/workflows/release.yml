@@ -30,7 +30,7 @@ jobs:
           mv dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/dist
           mv manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
           cd release
-          zip -r release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/*
+          zip -r writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip writely-chrome-${{ steps.get_version.outputs.version-without-v }}/*
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
