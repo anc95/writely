@@ -1,4 +1,4 @@
-# Writely (Under building)
+# Writely (Beta)
 
 > Bring the power like Notion AI to everywhere
 
