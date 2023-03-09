@@ -6,6 +6,7 @@ const { useContainer: useResultPanel, Provider: ResultPanelProvider } =
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState('');
     const [text, setText] = useState('');
+    const [isOriginText, setIsOriginText] = useState(false);
 
     return {
       loading,
@@ -13,6 +14,8 @@ const { useContainer: useResultPanel, Provider: ResultPanelProvider } =
       result,
       setResult,
       text,
+      isOriginText,
+      setIsOriginText,
       setText,
     };
   });
