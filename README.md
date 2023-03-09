@@ -20,12 +20,15 @@
 4. 点击左上角的 `Load Unpacked` 加载步骤1中的文件夹
 <img width="1708" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png">
 
-### Config
+### 配置
 
-点击插件 icon，点击 `设置` 图标
+1. 有一个 Open AI 的 API Key，若无，请去 https://platform.openai.com/account/api-keys 申请
+
+2. 点击插件 icon，点击 `设置` 图标
+
 <img width="430" alt="image" src="https://user-images.githubusercontent.com/13167934/223933756-b001d01a-899c-42e5-be14-753357a1bba5.png">
 
-
+3. 进行配置
 ![](./assets/config.png)
 
 ## Demo
