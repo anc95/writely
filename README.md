@@ -31,10 +31,11 @@
 3. 进行配置
 ![](./assets/config.png)
 
+
 ## Demo
 
 ### 飞书
-https://player.bilibili.com/player.html?aid=738181642&bvid=BV1RD4y1M7TW&cid=1045834169&page=1
+https://user-images.githubusercontent.com/13167934/223999481-62c20e4a-97c1-4cfe-8648-84c96535d4a0.mov
 
 ### 知乎
 https://user-images.githubusercontent.com/13167934/223768368-99711deb-db46-4c5e-9d26-26c7cb2b7276.mov
