@@ -1,7 +1,9 @@
 # Writely (Beta)
 > 将 Notion AI 的能力带到任何地方 
+
 ![](./assets/logo.png) 
-[英文文档](README.md) 
+
+[English Version](README.md) 
 
 ## 特性
 1.🔥 基于 Open AI GPT 模型，带来了全新的智能写作体验。
