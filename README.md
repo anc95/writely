@@ -4,7 +4,9 @@
 
 ![](./assets/logo.png)
 
-[English Doc](./README-EN.md)
+[English Document](./README-EN.md)
+
+
 
 ## 特点
 1.🔥 基于 Open AI GPT 模型，带来全新的智能写作体验，。
@@ -39,13 +41,3 @@
 4. 所有网页上滑词后，鼠标附近会出现一个 “W” 图标，点击即可使用
 
 ![demo](https://user-images.githubusercontent.com/13167934/224236822-eb1cc963-77e5-4820-aa6d-63088989c0cf.gif)
-
-
-## Demo
-
-### 飞书
-https://user-images.githubusercontent.com/13167934/223999481-62c20e4a-97c1-4cfe-8648-84c96535d4a0.mov
-
-### 知乎
-https://user-images.githubusercontent.com/13167934/223768368-99711deb-db46-4c5e-9d26-26c7cb2b7276.mov
-
