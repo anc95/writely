@@ -2,9 +2,14 @@
 > Bring the power of Notion AI to everywhere 
 
 ![](./assets/logo.png) 
-[Chinese Document](README.md) ## Features 
+
+[中文文档](README-CN.md) 
+
+## Features 
 1.🔥 Based on Open AI GPT model, brings a new intelligent writing experience. 
+
 2.✍️ Support writing assistant on any editor webpage on the Internet, effectively improving users' writing efficiency and quality. 
+
 3.📖 The product can perform query translation and assist reading, greatly reducing users' reading time and improving comprehension. 
 
 ## Usage 
