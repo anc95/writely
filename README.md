@@ -30,8 +30,15 @@
 
 <img width="430" alt="image" src="https://user-images.githubusercontent.com/13167934/223933756-b001d01a-899c-42e5-be14-753357a1bba5.png">
 
+
 3. 进行配置
+
 ![](./assets/config.png)
+
+
+4. 所有网页上滑词后，鼠标附近会出现一个 “W” 图标，点击即可使用
+
+![demo](https://user-images.githubusercontent.com/13167934/224236822-eb1cc963-77e5-4820-aa6d-63088989c0cf.gif)
 
 
 ## Demo
