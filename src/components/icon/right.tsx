@@ -10,7 +10,7 @@ export const RightArrowIcon: React.FC = () => {
         fill: 'rgba(55, 53, 47, 0.45)',
         flexShrink: 0,
         backfaceVisibility: 'hidden',
-        transform: 'rotate(-90deg)',
+        // transform: 'rotate(-90deg)',
       }}
     >
       <polygon points="17.4,15 7,25.2 9.8,28 23,15 9.8,2 7,4.8"></polygon>
