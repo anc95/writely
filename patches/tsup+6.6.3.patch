@@ -1,0 +1,139 @@
+diff --git a/node_modules/tsup/dist/chunk-LK5S4QIZ.js b/node_modules/tsup/dist/chunk-OU6LATR4.js
+similarity index 98%
+rename from node_modules/tsup/dist/chunk-LK5S4QIZ.js
+rename to node_modules/tsup/dist/chunk-OU6LATR4.js
+index 2245021..274555e 100644
+--- a/node_modules/tsup/dist/chunk-LK5S4QIZ.js
++++ b/node_modules/tsup/dist/chunk-OU6LATR4.js
+@@ -1,6 +1,6 @@
+ "use strict";Object.defineProperty(exports, "__esModule", {value: true});
+ 
+-var _chunk2RD5DPBZjs = require('./chunk-2RD5DPBZ.js');
++var _chunkUWWD4V4Jjs = require('./chunk-UWWD4V4J.js');
+ 
+ 
+ 
+@@ -218,7 +218,7 @@ async function main(options = {}) {
+     await build(options);
+   });
+   cli.help();
+-  cli.version(_chunk2RD5DPBZjs.version);
++  cli.version(_chunkUWWD4V4Jjs.version);
+   cli.parse(process.argv, { run: false });
+   await cli.runMatchedCommand();
+ }
+diff --git a/node_modules/tsup/dist/chunk-2RD5DPBZ.js b/node_modules/tsup/dist/chunk-UWWD4V4J.js
+similarity index 74%
+rename from node_modules/tsup/dist/chunk-2RD5DPBZ.js
+rename to node_modules/tsup/dist/chunk-UWWD4V4J.js
+index 1fc8760..d058fba 100644
+--- a/node_modules/tsup/dist/chunk-2RD5DPBZ.js
++++ b/node_modules/tsup/dist/chunk-UWWD4V4J.js
+@@ -1,5 +1,5 @@
+ "use strict";Object.defineProperty(exports, "__esModule", {value: true});// package.json
+-var version = "6.6.3";
++var version = "0.0.0-semantic-release";
+ 
+ 
+ 
+diff --git a/node_modules/tsup/dist/cli-default.js b/node_modules/tsup/dist/cli-default.js
+index 8128570..c99774f 100755
+--- a/node_modules/tsup/dist/cli-default.js
++++ b/node_modules/tsup/dist/cli-default.js
+@@ -1,12 +1,12 @@
+ #!/usr/bin/env node
+ "use strict";
+ 
+-var _chunkLK5S4QIZjs = require('./chunk-LK5S4QIZ.js');
+-require('./chunk-2RD5DPBZ.js');
++var _chunkOU6LATR4js = require('./chunk-OU6LATR4.js');
++require('./chunk-UWWD4V4J.js');
+ 
+ 
+ var _chunkQAQ2Z76Ijs = require('./chunk-QAQ2Z76I.js');
+ require('./chunk-OSC67C6M.js');
+ 
+ // src/cli-default.ts
+-_chunkLK5S4QIZjs.main.call(void 0, ).catch(_chunkQAQ2Z76Ijs.handleError);
++_chunkOU6LATR4js.main.call(void 0, ).catch(_chunkQAQ2Z76Ijs.handleError);
+diff --git a/node_modules/tsup/dist/cli-main.js b/node_modules/tsup/dist/cli-main.js
+index 5c9c4aa..cd40bf8 100644
+--- a/node_modules/tsup/dist/cli-main.js
++++ b/node_modules/tsup/dist/cli-main.js
+@@ -1,8 +1,8 @@
+ "use strict";Object.defineProperty(exports, "__esModule", {value: true});
+ 
+-var _chunkLK5S4QIZjs = require('./chunk-LK5S4QIZ.js');
+-require('./chunk-2RD5DPBZ.js');
++var _chunkOU6LATR4js = require('./chunk-OU6LATR4.js');
++require('./chunk-UWWD4V4J.js');
+ require('./chunk-OSC67C6M.js');
+ 
+ 
+-exports.main = _chunkLK5S4QIZjs.main;
++exports.main = _chunkOU6LATR4js.main;
+diff --git a/node_modules/tsup/dist/cli-node.js b/node_modules/tsup/dist/cli-node.js
+index 7631688..b7ca32c 100755
+--- a/node_modules/tsup/dist/cli-node.js
++++ b/node_modules/tsup/dist/cli-node.js
+@@ -1,14 +1,14 @@
+ #!/usr/bin/env node
+ "use strict";
+ 
+-var _chunkLK5S4QIZjs = require('./chunk-LK5S4QIZ.js');
+-require('./chunk-2RD5DPBZ.js');
++var _chunkOU6LATR4js = require('./chunk-OU6LATR4.js');
++require('./chunk-UWWD4V4J.js');
+ 
+ 
+ var _chunkQAQ2Z76Ijs = require('./chunk-QAQ2Z76I.js');
+ require('./chunk-OSC67C6M.js');
+ 
+ // src/cli-node.ts
+-_chunkLK5S4QIZjs.main.call(void 0, {
++_chunkOU6LATR4js.main.call(void 0, {
+   skipNodeModulesBundle: true
+ }).catch(_chunkQAQ2Z76Ijs.handleError);
+diff --git a/node_modules/tsup/dist/index.d.ts b/node_modules/tsup/dist/index.d.ts
+index c7c135a..e73f262 100644
+--- a/node_modules/tsup/dist/index.d.ts
++++ b/node_modules/tsup/dist/index.d.ts
+@@ -487,7 +487,7 @@ type Options = {
+      * Inject CSS as style tags to document head
+      * @default {false}
+      */
+-    injectStyle?: boolean;
++    injectStyle?: boolean | ((css: string, fileId: string) => string);
+     /**
+      * Inject cjs and esm shims if needed
+      * @default false
+diff --git a/node_modules/tsup/dist/index.js b/node_modules/tsup/dist/index.js
+index 889170d..4b2df22 100644
+--- a/node_modules/tsup/dist/index.js
++++ b/node_modules/tsup/dist/index.js
+@@ -1,6 +1,6 @@
+ "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; } function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } }
+ 
+-var _chunk2RD5DPBZjs = require('./chunk-2RD5DPBZ.js');
++var _chunkUWWD4V4Jjs = require('./chunk-UWWD4V4J.js');
+ 
+ 
+ 
+@@ -1357,7 +1357,7 @@ var postcssPlugin = ({
+             logLevel: build2.initialOptions.logLevel,
+             loader: "css"
+           })).code;
+-          contents = `import styleInject from '#style-inject';styleInject(${JSON.stringify(
++          contents = typeof inject === "function" ? inject(JSON.stringify(contents), args.path) : `import styleInject from '#style-inject';styleInject(${JSON.stringify(
+             contents
+           )})`;
+           return {
+@@ -2250,7 +2250,7 @@ async function build(_options) {
+       async (item) => {
+         const logger2 = _chunkCTQOVGLWjs.createLogger.call(void 0, item == null ? void 0 : item.name);
+         const options = await normalizeOptions(logger2, item, _options);
+-        logger2.info("CLI", `tsup v${_chunk2RD5DPBZjs.version}`);
++        logger2.info("CLI", `tsup v${_chunkUWWD4V4Jjs.version}`);
+         if (config.path) {
+           logger2.info("CLI", `Using tsup config: ${config.path}`);
+         }
