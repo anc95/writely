@@ -41,3 +41,8 @@
 4. 所有网页上滑词后，鼠标附近会出现一个 “W” 图标，点击即可使用
 
 ![demo](https://user-images.githubusercontent.com/13167934/224236822-eb1cc963-77e5-4820-aa6d-63088989c0cf.gif)
+
+
+## More demos
+
+[Demos](./DEMO.md)
