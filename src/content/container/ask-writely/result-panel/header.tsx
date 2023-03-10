@@ -26,18 +26,25 @@ export const Header: React.FC = () => {
         <Operation icon={<MdiClose />} tooltip="Close window" onClick={hide} />
       </div>
       <div className="flex items-center">
-        <Tooltip title={i18next.t('Display original text')}>
-          <Switch
-            size="small"
-            title={i18next.t('Text')}
-            checked={!!isOriginText}
-            onChange={(e) => setIsOriginText(e)}
-            className={isOriginText ? '!bg-amber-800' : '!bg-gray-400'}
-          />
-        </Tooltip>
         <Operation
           icon={
-            <a href="https://github.com/anc95/writely" target="_blank">
+            <Switch
+              size="small"
+              title={i18next.t('Text')}
+              checked={!!isOriginText}
+              onChange={(e) => setIsOriginText(e)}
+              className={isOriginText ? '!bg-amber-800' : '!bg-gray-400'}
+            />
+          }
+          tooltip={i18next.t('Display original text')}
+        ></Operation>
+        <Operation
+          icon={
+            <a
+              className="h-4"
+              href="https://github.com/anc95/writely"
+              target="_blank"
+            >
               <RiHeartFill className="text-orange-600" />
             </a>
           }
