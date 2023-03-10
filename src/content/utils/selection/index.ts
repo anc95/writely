@@ -75,6 +75,7 @@ export class SelectionManager {
     } else {
       if (!replace) {
         this.selection.collapseToEnd();
+        container?.parentElement?.focus?.();
       }
       return document.execCommand('paste');
     }
@@ -114,5 +115,8 @@ export class SelectionManager {
   private restoreRange() {
     this.selection.removeAllRanges();
     this.selection.addRange(this.savedRange);
+
+    // clone a new copy, to prevent it's being altered
+    this.savedRange = this.savedRange.cloneRange();
   }
 }
