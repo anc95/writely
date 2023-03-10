@@ -19,7 +19,7 @@
 3. Make sure that the developer mode in the upper right corner is enabled. 
 4. Click `Load Unpacked` in the upper left corner and load the folder from step 1. 
 
-<img width="1708" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png"> 
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png"> 
 
 ### Configuration 
 1. Obtain an Open AI API Key. If you don't have one, apply for it at https://platform.openai.com/account/api-keys. 
@@ -30,7 +30,7 @@
 
 3. Perform configuration.
 
-![](./assets/config.png) 
+<img width="800" alt="image" src="./assets/config.png"> 
 
 
 4. After sliding the word on any webpage, a "W" icon will appear near the mouse, click to use. 
