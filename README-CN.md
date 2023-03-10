@@ -18,7 +18,7 @@
 1. 转到 [release](https://github.com/anc95/writely/releases) 下载 Zip 包并解压缩。
 2. 打开浏览器并转到 chrome://extensions/。 
 3. 确保右上角的开发者模式已启用。
-4. 在左上角单击“Load unpacked”并记载步骤 1 中载入文件夹。
+4. 在左上角单击“Load unpacked”并记载步骤 1 中解压的文件夹。
 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png">
 
