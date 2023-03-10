@@ -16,7 +16,7 @@ export default defineConfig({
   sourcemap: false,
   clean: true,
   define: {
-    "process.env.NODE_ENV": JSON.stringify("production"),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
   },
   injectStyle: (css) => {
     return `
@@ -59,7 +59,7 @@ export default defineConfig({
           to: ["./content"],
         },
       ],
-      watch: true,
+      watch: process.env.NODE_ENV  !== 'production',
     }),
   ],
 });

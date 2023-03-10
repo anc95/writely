@@ -44,8 +44,8 @@
     "unstated-next": "^1.1.0"
   },
   "scripts": {
-    "dev": "yarn build -- --watch",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 tsup",
+    "dev": "cross-env NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 tsup --watch",
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 tsup",
     "postinstall": "patch-package"
   }
 }
