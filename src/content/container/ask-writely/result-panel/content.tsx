@@ -97,19 +97,17 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
 
   return (
     <div className="shadow-xl bg-zinc-100">
-      <div className="p-4 max-h-[50vh] overflow-auto">
-        <div>
-          <div
-            ref={mdContainerRef}
-            className="transition-all"
-            dangerouslySetInnerHTML={{ __html: result }}
-          ></div>
-          {loading ? (
-            <div className="flex justify-center text-4xl text-[#925761]">
-              <WritingAnimation />
-            </div>
-          ) : null}
-        </div>
+      <div className="p-4 max-h-[50vh] overflow-auto transition-all duration-700">
+        <div
+          ref={mdContainerRef}
+          className="transition-all duration-500"
+          dangerouslySetInnerHTML={{ __html: result }}
+        ></div>
+        {loading ? (
+          <div className="flex justify-center text-4xl text-[#925761]">
+            <WritingAnimation />
+          </div>
+        ) : null}
       </div>
       <div
         className={cx(
@@ -146,7 +144,7 @@ const useWritingAnimationEffect = (ref: MutableRefObject<HTMLDivElement>) => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.intersectionRatio < 0.99) {
+        if (entry.intersectionRatio !== 1) {
           ref.current.scrollIntoView({
             behavior: 'smooth',
           });
