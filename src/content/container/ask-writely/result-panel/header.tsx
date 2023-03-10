@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
       <div className="flex items-center">
         <Tooltip title={i18next.t('Display original text')}>
           <Switch
+            size="small"
             title={i18next.t('Text')}
             checked={!!isOriginText}
             onChange={(e) => setIsOriginText(e)}
@@ -40,13 +41,13 @@ export const Header: React.FC = () => {
               <RiHeartFill className="text-orange-600" />
             </a>
           }
-          tooltip={i18next.t('Love')}
+          tooltip={i18next.t('Star')}
         />
         <Operation
           onClick={() => {
             chrome.runtime.sendMessage<MessagePayload>({
-              type: 'open-options-page'
-            })
+              type: 'open-options-page',
+            });
           }}
           icon={<DashiconsAdminGeneric />}
           tooltip="Jump to settings"
