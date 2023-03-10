@@ -35,6 +35,7 @@
 
 4. After sliding the word on any webpage, a "W" icon will appear near the mouse, click to use. 
 
+![ezgif com-video-to-gif (7)](https://user-images.githubusercontent.com/13167934/224320617-b8ba473b-6250-470c-92ac-aa206adbb5a8.gif)
 ![demo](https://user-images.githubusercontent.com/13167934/224236822-eb1cc963-77e5-4820-aa6d-63088989c0cf.gif) 
 
 ## More demos [Demos](./DEMO.md)
