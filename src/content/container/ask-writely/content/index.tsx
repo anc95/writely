@@ -75,7 +75,7 @@ const InputPanel: React.FC<{
         />
         <div>
           <SendToWritelyTip>
-            <div className="absolute right-2 bottom-2">
+            <div className="absolute right-2 bottom-[3px]">
               <IcBaselineSend
                 className={cx(
                   'w-4 h-4 text-gray-300',
@@ -89,7 +89,7 @@ const InputPanel: React.FC<{
         </div>
         <Button
           type="ghost"
-          className="!absolute left-2 top-0 text-lg handle animate__animated animate__fadeInDown"
+          className="!absolute left-2 top-[3px] text-lg handle animate__animated animate__fadeInDown"
           icon={<DragTip />}
         ></Button>
       </div>
