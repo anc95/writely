@@ -25,10 +25,13 @@
 ### 配置
 1. 获取 Open AI API Key。 如果您没有，请在 https://platform.openai.com/account/api-keys 上进行申请。 
 2. 单击插件图标，然后单击“设置”图标。
+
 <img width="430" alt="image" src="https://user-images.githubusercontent.com/13167934/223933756-b001d01a-899c-42e5-be14-753357a1bba5.png">
 
+
 3. 进行配置。
-<img width="800" alt="image" src="./assets/config.png">
+
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/224465348-f2e0aaf8-ce7b-48d2-9637-be2a205f317f.png">
 
 4. 将鼠标滑动到任何网页上的单词上，一个“W”图标将出现在鼠标附近，单击以使用。
 
