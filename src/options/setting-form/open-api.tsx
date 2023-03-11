@@ -25,10 +25,36 @@ export const OPENAISettings: React.FC = () => {
         name="apiKey"
         label="OpenAI API Key"
         required
+        tooltip={
+          <div>
+            Don't know or don't have one? reach{' '}
+            <a
+              className="text-blue-300"
+              href="https://platform.openai.com/account/api-keys"
+            >
+              here
+            </a>{' '}
+            for more details
+          </div>
+        }
       >
         <Input.Password />
       </Form.Item>
-      <Form.Item className="col-span-5" name="model" label="Model">
+      <Form.Item
+        className="col-span-5"
+        name="model"
+        label="Model"
+        required
+        requiredMark
+        tooltip={
+          <a
+            className="text-blue-300"
+            href="https://platform.openai.com/docs/models/overview"
+          >
+            Models Introduction
+          </a>
+        }
+      >
         {/* <Select>
           {models.map((model) => (
             <Select.Option key={model.id} value={model.id}>
@@ -36,15 +62,15 @@ export const OPENAISettings: React.FC = () => {
             </Select.Option>
           ))}
         </Select> */}
-        <Radio.Group className="grid grid-cols-3 gap-4">
+        <Radio.Group className="flex flex-wrap gap-4">
           {models.map((m) => (
-            <Radio value={m.id}>
+            <Radio className="" value={m.id}>
               <ModelCard {...m} />
             </Radio>
           ))}
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="Url" name="url">
+      <Form.Item label="URL" name="url" required>
         <Input />
       </Form.Item>
       <ConnectionTest />
@@ -113,14 +139,14 @@ const ModelCard: React.FC<{
     <Tooltip title={description}>
       <div
         className={cx(
-          'border border-gray-100 hover:shadow-md rounded-sm transition-all duration-300 p-3',
+          'border border-gray-100 hover:rounded-lg rounded-md hover:shadow-sm transition-all duration-300 p-3  bg-zinc-100 flex flex-col gap-2',
           model === id ? '!border-black' : ''
         )}
       >
-        <div>
-          <a>{id}</a>
-          <Tag color="gold-inverse">{price}</Tag>
-        </div>
+        <div className="font-semibold text-sm">{id}</div>
+        <Tag className="!text-xs" color="gold-inverse">
+          {price}
+        </Tag>
       </div>
     </Tooltip>
   );

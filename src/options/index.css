@@ -395,3 +395,10 @@ video {
 
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * antd override
+ */
+.ant-radio {
+  display: none !important;
+}

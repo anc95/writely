@@ -1,10 +1,12 @@
-import { Form } from 'antd';
+import { Button, Form, Tooltip } from 'antd';
 import { useCallback, useEffect } from 'react';
 import { useSWRConfig } from 'swr';
 import { Settings } from '../types';
 import { useSettings } from '../../common/store/settings';
 import { OPENAISettings } from './open-api';
 import { SystemSetting } from './system';
+import { LogosGithubIcon } from '@/components/icon/github';
+import { CodiconFeedback } from '@/components/icon/feedback';
 
 export const SettingsForm: React.FC = () => {
   const { loading, settings, setSettings } = useSettings();
@@ -29,13 +31,31 @@ export const SettingsForm: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="font-semibold text-3xl lg:w-5/6 border-b py-5 mb-4">
-        Settings
+      <div className="flex justify-between lg:w-5/6 border-b mb-4 pt-6 pb-1">
+        <div className="font-semibold text-3xl">Settings</div>
+        <div>
+          <div className="flex items-baseline text-xl gap-4">
+            <Tooltip title="Github">
+              <a href="https://github.com/anc95/writely">
+                <div className="p-2 rounded-sm hover:rounded-md bg-gray-50 hover:bg-gray-200 transition-all duration-300 cursor-pointer">
+                  <LogosGithubIcon />
+                </div>
+              </a>
+            </Tooltip>
+            <Tooltip title="Feedback">
+              <a href="https://github.com/anc95/writely/issues">
+                <div className="p-2 rounded-sm hover:rounded-md bg-gray-50 hover:bg-gray-200 transition-all duration-300 cursor-pointer">
+                  <CodiconFeedback />
+                </div>
+              </a>
+            </Tooltip>
+          </div>
+        </div>
       </div>
       <Form
         onValuesChange={handleFormChange}
         initialValues={settings}
-        labelCol={{ span: 4 }}
+        labelCol={{ span: 5 }}
       >
         <div className="max-w-4xl w-[800px] flex flex-col gap-4">
           <OPENAISettings />
