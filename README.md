@@ -30,7 +30,7 @@
 
 3. Perform configuration.
 
-<img width="800" alt="image" src="./assets/config.png"> 
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/224465348-f2e0aaf8-ce7b-48d2-9637-be2a205f317f.png">
 
 
 4. After sliding the word on any webpage, a "W" icon will appear near the mouse, click to use. 
