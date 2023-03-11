@@ -53,6 +53,7 @@ export const List: React.FC<ListProps> = ({ items, onClick }) => {
 
         return (
           <Popover
+            key={index}
             placement="right"
             getPopupContainer={(e) => e.parentElement}
             content={<List items={item.children} onClick={handleClick} />}

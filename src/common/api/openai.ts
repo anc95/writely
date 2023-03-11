@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { Configuration, OpenAIApi } from 'openai';
 import { useEffect, useMemo, useRef } from 'react';
 import { logger } from '../debug';
@@ -24,6 +25,11 @@ const axiosOptionForOpenAI = (
 ) => ({
   responseType: 'stream' as ResponseType,
   onDownloadProgress: (e) => {
+    if (e.currentTarget.status !== 200) {
+      onData('', e.currentTarget.responseText, true);
+      return;
+    }
+
     try {
       const lines = e.currentTarget.response
         .toString()
@@ -58,6 +64,12 @@ const axiosOptionForOpenAI = (
         }
 
         result += text;
+
+        // edits don't support stream
+        if (parsed.object === 'edit') {
+          ended = true;
+          break;
+        }
       }
 
       if (ended) {
@@ -66,7 +78,8 @@ const axiosOptionForOpenAI = (
         onData?.(result);
       }
     } catch (e) {
-      onData?.('', e);
+      // expose current response for error display
+      onData?.('', e.currentTarget.response);
     }
   },
 });
@@ -110,12 +123,28 @@ export const useQueryOpenAIPrompt = () => {
 export const useOpenAIEditPrompt = () => {
   const openAI = useOpenAPI();
   const { settings } = useSettings();
+  const queryPrompt = useQueryOpenAIPrompt();
 
   return async (
     input: string,
     instruction: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
+    // https://platform.openai.com/docs/api-reference/edits
+    if (
+      settings.model !== 'text-davinci-edit-001' &&
+      settings.model !== 'code-davinci-edit-001'
+    ) {
+      queryPrompt(
+        !instruction
+          ? input
+          : i18next.t('Prompt template', { content: input, task: instruction }),
+        onData
+      );
+
+      return;
+    }
+
     openAI.current.createEdit(
       {
         input,
@@ -148,6 +177,16 @@ export const useModels = () => {
         description:
           'Can do any language task with better quality, longer output, and consistent instruction-following than the curie, babbage, or ada models. Also supports inserting completions within text.',
         price: '$0.02 / 1K tokens',
+      },
+      {
+        id: 'text-davinci-edit-001',
+        price: '$0.02 / 1K tokens',
+        description: 'Better for text edits',
+      },
+      {
+        id: 'code-davinci-edit-001',
+        price: '$0.02 / 1K tokens',
+        description: 'Better for code edits',
       },
     ];
   }, []);

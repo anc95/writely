@@ -3,5 +3,11 @@ import { App } from './app';
 import 'antd/dist/reset.css';
 import './index.css';
 import '../common/i18n';
+import { initI18n } from '../common/i18n';
 
-createRoot(document.getElementById('app')).render(<App />);
+const render = async () => {
+  await initI18n();
+  createRoot(document.getElementById('app')).render(<App />);
+};
+
+render();

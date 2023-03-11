@@ -1,11 +1,10 @@
 import i18n from 'i18next';
 
-export const defaultPrompt = (params: { role: string; task: string }) => {
+export const defaultPrompt = (params: { task: string }) => {
   return (content: string) => {
     return i18n.t('Prompt template', {
       content,
       task: params.task,
-      role: params.role || i18n.t('Senior Writer'),
     });
   };
 };

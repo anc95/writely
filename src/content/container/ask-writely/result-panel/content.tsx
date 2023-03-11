@@ -14,7 +14,7 @@ import { Replay } from './actions/replay';
 import cx from 'classnames';
 import { useSelectionManager } from '../../store/selection';
 import { message } from 'antd';
-import { useOpenAIEditPrompt, useQueryOpenAIPrompt } from '@/common/api/openai';
+import { useOpenAIEditPrompt } from '@/common/api/openai';
 import { defaultPrompt } from '../prompts';
 import { useResultPanel } from '../../store/result-panel';
 import { Insert } from './actions/update';
@@ -22,10 +22,10 @@ import { Replace } from './actions/replace';
 
 const md = mdit().use(hljsPlugin);
 
-export const Content: React.FC<{ text: string }> = ({ text }) => {
+export const Content: React.FC<{ text: string }> = ({ text: task }) => {
   const mdContainerRef = useRef<HTMLDivElement>();
   const selectionManager = useSelectionManager();
-  const queryOpenAIPrompt = useQueryOpenAIPrompt();
+  const queryOpenAIPrompt = useOpenAIEditPrompt();
   const {
     result,
     setResult,
@@ -65,11 +65,7 @@ export const Content: React.FC<{ text: string }> = ({ text }) => {
     };
 
     try {
-      queryOpenAIPrompt(
-        // Todo: prompt optimization
-        defaultPrompt({ role: '', task: text })(selectionManager.text),
-        handler
-      );
+      queryOpenAIPrompt(selectionManager.text, task, handler);
       // queryOpenAIEdit(selectionManager.text, text, handler);
     } catch (e) {
       setResult(e.toString());
