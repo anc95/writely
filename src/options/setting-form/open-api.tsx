@@ -5,13 +5,15 @@ import {
   Input,
   message,
   Modal,
+  Radio,
   Select,
+  Tag,
   Tooltip,
   Typography,
 } from 'antd';
 import { useCallback, useState } from 'react';
-import { useModels, useQueryOpenAIPrompt } from '../../common/api/openai';
-import { Block } from './block';
+import { useModels, useOpenAIEditPrompt } from '../../common/api/openai';
+import cx from 'classnames';
 
 export const OPENAISettings: React.FC = () => {
   const models = useModels();
@@ -27,13 +29,20 @@ export const OPENAISettings: React.FC = () => {
         <Input.Password />
       </Form.Item>
       <Form.Item className="col-span-5" name="model" label="Model">
-        <Select>
+        {/* <Select>
           {models.map((model) => (
             <Select.Option key={model.id} value={model.id}>
               {model.id} {model.price}
             </Select.Option>
           ))}
-        </Select>
+        </Select> */}
+        <Radio.Group className="grid grid-cols-3 gap-4">
+          {models.map((m) => (
+            <Radio value={m.id}>
+              <ModelCard {...m} />
+            </Radio>
+          ))}
+        </Radio.Group>
       </Form.Item>
       <Form.Item label="Url" name="url">
         <Input />
@@ -45,7 +54,7 @@ export const OPENAISettings: React.FC = () => {
 
 const ConnectionTest: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const queryOpenAI = useQueryOpenAIPrompt();
+  const queryOpenAIEdit = useOpenAIEditPrompt();
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>('');
   const [message, setMessage] = useState<string>('hello');
@@ -55,7 +64,7 @@ const ConnectionTest: React.FC = () => {
     setResult('');
 
     try {
-      queryOpenAI(message, (text, err) => {
+      queryOpenAIEdit(message, 'test', (text, err) => {
         setResult(text);
         setLoading(false);
 
@@ -68,7 +77,7 @@ const ConnectionTest: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [queryOpenAI]);
+  }, [queryOpenAIEdit]);
 
   return (
     <div>
@@ -90,5 +99,29 @@ const ConnectionTest: React.FC = () => {
         <Typography>{result}</Typography>
       </Modal>
     </div>
+  );
+};
+
+const ModelCard: React.FC<{
+  id: string;
+  price: string;
+  description: string;
+}> = ({ id, price, description }) => {
+  const model = Form.useWatch('model');
+
+  return (
+    <Tooltip title={description}>
+      <div
+        className={cx(
+          'border border-gray-100 hover:shadow-md rounded-sm transition-all duration-300 p-3',
+          model === id ? '!border-black' : ''
+        )}
+      >
+        <div>
+          <a>{id}</a>
+          <Tag color="gold-inverse">{price}</Tag>
+        </div>
+      </div>
+    </Tooltip>
   );
 };
