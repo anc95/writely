@@ -15,7 +15,6 @@ import cx from 'classnames';
 import { useSelectionManager } from '../../store/selection';
 import { message } from 'antd';
 import { useOpenAIEditPrompt } from '@/common/api/openai';
-import { defaultPrompt } from '../prompts';
 import { useResultPanel } from '../../store/result-panel';
 import { Insert } from './actions/update';
 import { Replace } from './actions/replace';

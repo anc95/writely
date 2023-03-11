@@ -26,7 +26,7 @@ const axiosOptionForOpenAI = (
   responseType: 'stream' as ResponseType,
   onDownloadProgress: (e) => {
     if (e.currentTarget.status !== 200) {
-      onData('', e.currentTarget.responseText, true);
+      onData('', new Error(e.currentTarget.responseText), false);
       return;
     }
 
