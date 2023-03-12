@@ -11,3 +11,5 @@ https://user-images.githubusercontent.com/13167934/223768368-99711deb-db46-4c5e-
 ### Gmail
 https://user-images.githubusercontent.com/13167934/224238265-69d19f7e-266a-48da-96e1-9554dee3ace3.mov
 
+### Bilibli Collection
+https://www.zhihu.com/zvideo/1618328598485667840
