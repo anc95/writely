@@ -1,5 +1,5 @@
 # Writely (Beta) 
-> Bring the power of Notion AI to everywhere 
+> Let's bring the power of Notion AI to everywhere!
 
 ![](./assets/logo.png) 
 
