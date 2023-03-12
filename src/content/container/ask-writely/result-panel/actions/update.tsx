@@ -12,9 +12,9 @@ export const Insert: React.FC<{
 }> = ({ dom }) => {
   const selection = useSelectionManager();
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     copy(dom.current);
-    selection.append(dom.current?.innerText);
+    return selection.append(dom.current?.innerText);
   }, []);
 
   return (

@@ -86,26 +86,33 @@ export class SelectionManager {
   }
 
   private setup() {
+    // debounce the event
+    const eventHandler = debounce((e: MouseEvent) => {
+      this.selection =
+        (e.target as any)?.ownerDocument?.getSelection() ||
+        window.getSelection();
+
+      const valid = !!this.selection.toString();
+
+      if (valid) {
+        this.position = {
+          x: Math.max(e.x - 30, 10),
+          y: e.y + 10,
+        };
+        this.selectChangeHandlers.forEach((handler) => handler(this.selection));
+      }
+    }, 300);
+
     // listen keyup and check if there is a selection
-    document.addEventListener(
-      'mouseup',
-      // debounce the event
-      debounce((e) => {
-        this.selection = window.getSelection();
+    document.addEventListener('mouseup', eventHandler, true);
 
-        const valid = !!this.selection.toString();
-
-        if (valid) {
-          this.position = {
-            x: Math.max(e.x - 30, 10),
-            y: e.y + 10,
-          };
-          this.selectChangeHandlers.forEach((handler) =>
-            handler(this.selection)
-          );
-        }
-      }, 300)
-    );
+    // bind mouseup for every iframes
+    const iframes = [...document.getElementsByTagName('iframe')];
+    iframes.forEach((f) => {
+      if (f.contentDocument) {
+        f.contentDocument.addEventListener('mouseup', eventHandler, true);
+      }
+    });
   }
 
   private setText() {
