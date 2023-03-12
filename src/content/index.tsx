@@ -10,7 +10,7 @@ const render = () => {
   window.addEventListener('load', async () => {
     const container = document.createElement(tag);
     container.className = 'writly-container';
-    document.body.append(container);
+    document.documentElement.append(container);
 
     await initI18n();
 
