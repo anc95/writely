@@ -1,4 +1,3 @@
-import { TablerRefresh } from '@/components/icon';
 import { IcOutlineCheck } from '@/components/icon/update';
 import { useResultPanel } from '@/content/container/store/result-panel';
 import { useSelectionManager } from '@/content/container/store/selection';
@@ -19,7 +18,7 @@ export const Insert: React.FC<{
 
   return (
     <BaseAction
-      tooltip={i18next.t('Append text')}
+      tooltip={i18next.t('Insert content')}
       successTooltip={i18next.t('Inserted')}
       onClick={handleClick}
     >

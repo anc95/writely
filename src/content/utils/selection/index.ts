@@ -7,6 +7,7 @@ export class SelectionManager {
   protected selection: Selection;
   protected highlight: Highlight;
   protected savedRange: Range;
+  private textPasted: boolean;
 
   public text: string = '';
   public position: { x: number; y: number };
@@ -44,13 +45,10 @@ export class SelectionManager {
     if (locked) {
       this.savedRange = this.selection.getRangeAt(0).cloneRange();
       this.setText();
-      // TODO:
-      // this.highlight.highlight(this.savedRange);
     } else {
-      this.restoreRange();
-      // this.selection.removeAllRanges();
+      // this.restoreRange();
       this.setText();
-      // this.highlight.unhighlight();
+      this.textPasted = false;
     }
   }
 
@@ -77,7 +75,16 @@ export class SelectionManager {
         this.selection.collapseToEnd();
         container?.parentElement?.focus?.();
       }
-      return document.execCommand('paste');
+
+      // don't know why. but at first time settimeout excute paste actions, everything works as expected
+      if (this.textPasted) {
+        document.execCommand('paste');
+      } else {
+        setTimeout(() => {
+          document.execCommand('paste');
+          this.textPasted = true;
+        });
+      }
     }
   }
 
@@ -99,6 +106,7 @@ export class SelectionManager {
           x: Math.max(e.x - 30, 10),
           y: e.y + 10,
         };
+
         this.selectChangeHandlers.forEach((handler) => handler(this.selection));
       }
     }, 300);

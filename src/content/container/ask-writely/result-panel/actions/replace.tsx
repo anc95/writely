@@ -18,7 +18,7 @@ export const Replace: React.FC<{
 
   return (
     <BaseAction
-      tooltip={i18next.t('Replace text')}
+      tooltip={i18next.t('Replace content')}
       successTooltip={i18next.t('Replaced')}
       onClick={handleClick}
     >
