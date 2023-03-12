@@ -7,7 +7,6 @@ import {
   useState,
 } from 'react';
 import cx from 'classnames';
-import { List } from '../list';
 import { ResultPanel } from '../result-panel';
 import { PromptCenter } from '../prompts';
 import { IcBaselineSend, Logo } from '@/components/icon';
@@ -15,6 +14,7 @@ import i18next from 'i18next';
 import { IcOutlineKeyboardReturn } from '@/components/icon/return';
 import { useView } from '../../store/view';
 import { DashiconsMove } from '@/components/icon/drag';
+import { QuickPrompt } from './quick-prompt';
 
 export const Content: React.FC<PropsWithChildren> = () => {
   return <CenterContent />;
@@ -52,8 +52,6 @@ const InputPanel: React.FC<{
 }> = ({ onChange }) => {
   const { goToResult } = useView();
   const [value, setValue] = useState('');
-  const promptCenter = useMemo(() => new PromptCenter(), []);
-  const items = promptCenter.useDropDownItems(value);
 
   return (
     <>
@@ -75,7 +73,13 @@ const InputPanel: React.FC<{
         />
         <div>
           <SendToWritelyTip>
-            <div className="absolute right-2 bottom-[3px]">
+            <div
+              className="absolute right-2 bottom-[3px]"
+              onClick={() => {
+                onChange(value);
+                goToResult();
+              }}
+            >
               <IcBaselineSend
                 className={cx(
                   'w-4 h-4 text-gray-300',
@@ -89,22 +93,24 @@ const InputPanel: React.FC<{
         </div>
         <Button
           type="ghost"
-          className="!absolute left-2 top-[3px] text-lg handle animate__animated animate__fadeInDown"
+          className="!absolute left-[3px] top-[3px] text-lg handle animate__animated animate__fadeInDown"
           icon={<DragTip />}
         ></Button>
       </div>
       <div
         className={cx(
-          'w-80 bg-zinc-100 duration-500 transition-shadow block  shadow-md'
+          'w-80 bg-zinc-100 duration-500 transition-shadow block shadow-md max-h-52 overflow-auto'
         )}
       >
-        <List
-          items={items}
-          onClick={(item) => {
-            onChange((item.instruction || '') + ' ' + item.label);
-            goToResult();
-          }}
-        />
+        <div>
+          <QuickPrompt
+            filter={value}
+            onClick={(instruction: string) => {
+              goToResult();
+              onChange(instruction);
+            }}
+          />
+        </div>
       </div>
     </>
   );

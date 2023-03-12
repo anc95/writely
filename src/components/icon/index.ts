@@ -10,3 +10,4 @@ export * from './setting';
 export * from './heart';
 export * from './logo';
 export * from './insert';
+export * from './prompt-icons';
