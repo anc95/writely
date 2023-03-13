@@ -83,7 +83,7 @@ export class SelectionManager {
         setTimeout(() => {
           document.execCommand('paste');
           this.textPasted = true;
-        });
+        }, 100);
       }
     }
   }
