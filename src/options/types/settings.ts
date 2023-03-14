@@ -3,4 +3,6 @@ export type Settings = {
   model?: string;
   lang?: string;
   url?: string;
+  customInstructions?: string[];
+  debug?: boolean;
 };
