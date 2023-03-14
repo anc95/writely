@@ -53,5 +53,5 @@ export const getSetting = async () => {
     res.url = 'https://api.openai.com/v1';
   }
 
-  return res;
+  return res as Settings;
 };
