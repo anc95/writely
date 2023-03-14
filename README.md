@@ -5,6 +5,10 @@
 
 [中文文档](README-CN.md) 
 
+<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
+<img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn?label=Chrome%20Web%20Store%40Writely&style=for-the-badge" />
+</a>
+
 ## Features 
 1.🔥 Based on Open AI GPT model, brings a new intelligent writing experience. 
 
@@ -14,6 +18,13 @@
 
 ## Usage 
 ### Installation 
+
+#### Install From Chrome Web Store
+<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
+<img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn?label=Chrome%20Web%20Store%40Writely&style=for-the-badge" />
+</a>
+
+#### Install Manually
 1. Go to [release](https://github.com/anc95/writely/releases) to download the Zip package and unzip it. 
 2. Open the browser and go to chrome://extensions/. 
 3. Make sure that the developer mode in the upper right corner is enabled. 
