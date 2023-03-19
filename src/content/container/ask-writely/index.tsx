@@ -23,7 +23,6 @@ export const AskWritely: React.FC = () => {
       <div
         ref={_fixedRef}
         style={{
-          padding: '10px',
           position: 'fixed',
           top: `${position.y}px`,
           left: `${position.x}px`,
