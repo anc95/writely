@@ -58,7 +58,7 @@ const InputPanel: React.FC<{
     <>
       <div
         className={cx(
-          'bg-zinc-10000 transition-all duration-500 relative w-[500px] shadow-md block'
+          'bg-zinc-100 transition-all duration-500 relative w-80 shadow-md block'
         )}
       >
         <Input.TextArea
@@ -100,7 +100,7 @@ const InputPanel: React.FC<{
       </div>
       <div
         className={cx(
-          'w-80 bg-zinc-100 duration-500 transition-shadow block shadow-md max-h-52 overflow-auto'
+          'w-80 bg-zinc-100 duration-500 transition-shadow block shadow-md overflow-auto max-h-52'
         )}
       >
         <div>
