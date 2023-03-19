@@ -39,7 +39,7 @@ export const List: React.FC<ListProps> = ({ items, onClick }) => {
             onClick={() => handleClick(item)}
             className="h-7 hover:bg-zinc-200 rounded-none hover:rounded-md flex items-center justify-between text-[13px] hover:text-[14px] cursor-pointer px-1.5 transition-all duration-300"
           >
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 overflow-hidden text-ellipsis whitespace-nowrap">
               <span className="text-amber-600 text-base h-4">{item.icon}</span>{' '}
               {item.label}
             </div>

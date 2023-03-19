@@ -41,7 +41,7 @@ export const CustomList: React.FC<{
           <IcOutlineCheck />
         </IconBtn>
       </div>
-      <div className="flex flex-col gap-2 mt-2">
+      <div className="flex flex-col gap-2 mt-2 max-h-56 overflow-auto">
         {(value || []).map((p) => {
           return (
             <div className="flex gap-2">
