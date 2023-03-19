@@ -32,6 +32,7 @@ const Card: React.FC<{
         <div className="text-gray-600 text-xs mb-1">{category}</div>
         <List
           items={menus}
+          max={4}
           onClick={(i) => onClick(i.instruction || (i.label as string))}
         />
       </div>
