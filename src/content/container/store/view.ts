@@ -1,3 +1,5 @@
+import { EventName } from '@/common/event-name';
+import { MessagePayload } from '@/common/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { useSelectionManager } from './selection';
@@ -68,6 +70,22 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
         disposeAll();
         clearTimeout(id);
       };
+    }, []);
+
+    useEffect(() => {
+      const listener = (message: MessagePayload<EventName.launchWritely>) => {
+        if (message.type !== EventName.launchWritely) {
+          return;
+        }
+
+        if (viewStatusRef.current === 'none') {
+          goToInputPage();
+        }
+      };
+
+      chrome.runtime.onMessage.addListener(listener);
+
+      return () => chrome.runtime.onMessage.removeListener(listener);
     }, []);
 
     return {

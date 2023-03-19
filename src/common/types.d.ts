@@ -1,3 +1,5 @@
-export type MessagePayload = {
-  type: 'open-options-page'
-}
+import { EventName } from './event-name';
+
+export type MessagePayload<T extends EventName> = {
+  type: T;
+};
