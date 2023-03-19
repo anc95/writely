@@ -42,10 +42,7 @@ export class SelectionManager {
 
     this.locked = locked;
 
-    if (locked) {
-      this.savedRange = this.selection.getRangeAt(0).cloneRange();
-      this.setText();
-    } else {
+    if (!locked) {
       this.textPasted = false;
     }
   }
@@ -104,6 +101,11 @@ export class SelectionManager {
           x: Math.max(e.x - 30, 10),
           y: e.y + 10,
         };
+
+        if (!this.locked) {
+          this.savedRange = this.selection.getRangeAt(0).cloneRange();
+          this.setText();
+        }
 
         this.selectChangeHandlers.forEach((handler) => handler(this.selection));
       }

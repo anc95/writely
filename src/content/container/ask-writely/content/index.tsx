@@ -15,13 +15,14 @@ import { IcOutlineKeyboardReturn } from '@/components/icon/return';
 import { useView } from '../../store/view';
 import { DashiconsMove } from '@/components/icon/drag';
 import { QuickPrompt } from './quick-prompt';
+import { useInstruction } from '../../store/instruction';
 
 export const Content: React.FC<PropsWithChildren> = () => {
   return <CenterContent />;
 };
 
 const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
-  const [keyword, setkeyword] = useState<string>();
+  const { instruction, setInstruction } = useInstruction();
   const { viewStatus, goToInputPage } = useView();
 
   const handleClickIcon = useCallback(() => {
@@ -40,10 +41,10 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
   }
 
   if (viewStatus === 'result') {
-    return <ResultPanel text={keyword} />;
+    return <ResultPanel text={instruction} />;
   }
 
-  return <InputPanel keyword={keyword} onChange={setkeyword} />;
+  return <InputPanel keyword={instruction} onChange={setInstruction} />;
 });
 
 const InputPanel: React.FC<{
