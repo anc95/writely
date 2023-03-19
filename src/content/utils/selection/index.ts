@@ -46,8 +46,6 @@ export class SelectionManager {
       this.savedRange = this.selection.getRangeAt(0).cloneRange();
       this.setText();
     } else {
-      // this.restoreRange();
-      this.setText();
       this.textPasted = false;
     }
   }

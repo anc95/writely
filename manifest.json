@@ -30,6 +30,7 @@
   },
   "permissions": [
     "storage",
-    "clipboardRead"
+    "clipboardRead",
+    "contextMenus"
   ]
 }
