@@ -11,8 +11,8 @@ export const QuickPrompt: React.FC<{
 
   return (
     <div>
-      {items.map((item) => (
-        <Card {...item} onClick={onClick} />
+      {items.map((item, index) => (
+        <Card {...item} key={index} onClick={onClick} />
       ))}
     </div>
   );
