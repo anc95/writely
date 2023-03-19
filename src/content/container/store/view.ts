@@ -1,5 +1,8 @@
+import { EventName } from '@/common/event-name';
+import { MessagePayload } from '@/common/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createContainer } from 'unstated-next';
+import { useInstruction } from './instruction';
 import { useSelectionManager } from './selection';
 
 const { useContainer: useView, Provider: ViewProvider } = createContainer(
@@ -10,6 +13,7 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
     const viewStatusRef = useRef<string>();
     viewStatusRef.current = viewStatus;
     const selection = useSelectionManager();
+    const { setInstruction } = useInstruction();
     const disposeListRef = useRef<(() => void)[]>([]);
 
     const disposeAll = useCallback(() => {
@@ -68,6 +72,25 @@ const { useContainer: useView, Provider: ViewProvider } = createContainer(
         disposeAll();
         clearTimeout(id);
       };
+    }, []);
+
+    useEffect(() => {
+      const listener = (message: MessagePayload<EventName.launchWritely>) => {
+        if (message.type === EventName.launchWritely) {
+          goToInputPage();
+          return;
+        }
+
+        if (message.type === EventName.launchWritelyResultPanel) {
+          setInstruction(message.data?.instruction);
+          goToResult();
+          return;
+        }
+      };
+
+      chrome.runtime.onMessage.addListener(listener);
+
+      return () => chrome.runtime.onMessage.removeListener(listener);
     }, []);
 
     return {

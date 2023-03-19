@@ -10,6 +10,7 @@ import { useView } from '../../store/view';
 import i18next from 'i18next';
 import { useResultPanel } from '../../store/result-panel';
 import type { MessagePayload } from '@/common/types';
+import { EventName } from '@/common/event-name';
 
 export const Header: React.FC = () => {
   const { hide, goToInputPage } = useView();
@@ -52,8 +53,10 @@ export const Header: React.FC = () => {
         />
         <Operation
           onClick={() => {
-            chrome.runtime.sendMessage<MessagePayload>({
-              type: 'open-options-page',
+            chrome.runtime.sendMessage<
+              MessagePayload<EventName.openOptionsPage>
+            >({
+              type: EventName.openOptionsPage,
             });
           }}
           icon={<DashiconsAdminGeneric />}
