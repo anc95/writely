@@ -67,6 +67,7 @@ const InputPanel: React.FC<{
             onChange(value);
             goToResult();
           }}
+          autoFocus
           autoSize={{ minRows: 1, maxRows: 4 }}
           placeholder="Ask writely to..."
           value={value}
