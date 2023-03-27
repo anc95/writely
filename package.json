@@ -24,14 +24,17 @@
     "esbuild": "^0.17.5",
     "esbuild-plugin-copy": "^2.1.0",
     "esbuild-style-plugin": "^1.6.1",
+    "husky": ">=6",
     "i18next": "^22.4.10",
     "i18next-browser-languagedetector": "^7.0.1",
+    "lint-staged": ">=10",
     "lodash-es": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-highlightjs": "^4.0.1",
     "nodemon": "^2.0.20",
     "openai": "^3.2.1",
     "patch-package": "^6.5.1",
+    "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
@@ -46,6 +49,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 tsup --watch",
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 tsup",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,tsx}": "prettier --write"
   }
 }
