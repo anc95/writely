@@ -24,11 +24,12 @@ jobs:
       - name: Change version
         run: |
           sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.get_version.outputs.version-without-v }}\"/" manifest.json
-      - name: Package plugin
+          sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.get_version.outputs.version-without-v }}\"/" manifest.firefox.json
+      - name: Package chrome plugin
         run: |
           mkdir -p release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
-          mv dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/
-          mv manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
+          cp dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/
+          cp manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
           cd release
           zip -r writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip writely-chrome-${{ steps.get_version.outputs.version-without-v }}/*
       - name: Upload plugin to release
@@ -38,6 +39,24 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip
           asset_name: writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: ${{ steps.tag.outputs.message }}
+
+      - name: Package firefox plugin
+        run: |
+          mkdir -p release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}
+          cp dist release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}/
+          cp manifest.firefox.json release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}
+          cd release
+          zip -r writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip writely-firefox-${{ steps.get_version.outputs.version-without-v }}/*
+      - name: Upload plugin to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          release_name: ${{ steps.get_version.outputs.version }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip
+          asset_name: writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip
           tag: ${{ github.ref }}
           overwrite: true
           body: ${{ steps.tag.outputs.message }}
