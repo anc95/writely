@@ -6,7 +6,7 @@
   "author": "https://github.com/anc95",
   "action": {
     "default_title": "Writely",
-    "defult_icon": "dist/assets/icon.png"
+    "page": "dist/options/index.html"
   },
   "options_ui": {
     "page": "dist/options/index.html",
