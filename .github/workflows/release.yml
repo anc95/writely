@@ -27,11 +27,11 @@ jobs:
           sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.get_version.outputs.version-without-v }}\"/" manifest.firefox.json
       - name: Package chrome plugin
         run: |
-          mkdir -p release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
-          cp dist release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}/
-          cp manifest.json release/writely-chrome-${{ steps.get_version.outputs.version-without-v }}
+          mkdir -p release/writely
+          mv dist release/writely
+          mv manifest.json release/writely
           cd release
-          zip -r writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip writely-chrome-${{ steps.get_version.outputs.version-without-v }}/*
+          zip -r writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip writely/*
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -45,11 +45,10 @@ jobs:
 
       - name: Package firefox plugin
         run: |
-          mkdir -p release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}
-          cp dist release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}/
-          cp manifest.firefox.json release/writely-firefox-${{ steps.get_version.outputs.version-without-v }}
+          rm -rf release/writely/manifest.json
+          mv manifest.firefox.json release/writely/manifest.json
           cd release
-          zip -r writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip writely-firefox-${{ steps.get_version.outputs.version-without-v }}/*
+          zip -r writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip writely/*
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
