@@ -59,6 +59,10 @@ export default defineConfig({
           from: ['./node_modules/animate.css/animate.css'],
           to: ['./content'],
         },
+        {
+          from: ['./src/assets/*'],
+          to: ['./assets'],
+        },
       ],
       watch: process.env.NODE_ENV !== 'production',
     }),

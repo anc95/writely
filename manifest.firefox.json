@@ -1,0 +1,49 @@
+{
+  "name": "Writely",
+  "version": "1.0.0",
+  "description": "A GPT Powered Extension helping your writing and reading",
+  "manifest_version": 3,
+  "author": "https://github.com/anc95",
+  "action": {
+    "default_title": "Writely",
+    "defult_icon": "dist/assets/icon.png"
+  },
+  "options_ui": {
+    "page": "dist/options/index.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "dist/assets/icon.png",
+    "32": "dist/assets/icon.png",
+    "48": "dist/assets/icon.png",
+    "128": "dist/assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "dist/content/index.js"
+      ],
+      "css": [
+        "dist/content/animate.css"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "dist/background/index.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "clipboardRead",
+    "contextMenus"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "anchao951220@gmail.com"
+    }
+  }
+}

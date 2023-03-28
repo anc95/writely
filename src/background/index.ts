@@ -1,55 +1,56 @@
-import { EventName, launch_writely } from '@/common/event-name';
-import { getSetting } from '@/common/store/settings';
-import type { MessagePayload } from '@/common/types';
+import { EventName } from '@/common/event-name'
+import { getSetting } from '@/common/store/settings'
+import type { MessagePayload } from '@/common/types'
+import browser from 'webextension-polyfill'
 
-chrome.runtime.onMessage.addListener(
-  async (message: MessagePayload<EventName.openOptionsPage>) => {
+browser.runtime.onMessage.addListener(
+  (message: MessagePayload<EventName.openOptionsPage>) => {
     if (message.type === 'open-options-page') {
-      chrome.runtime.openOptionsPage();
+      browser.runtime.openOptionsPage()
     }
   }
-);
+)
 
-chrome.contextMenus.create({
+browser.contextMenus.create({
   title: 'Launch writely',
   id: 'writely',
   contexts: ['selection'],
-});
+})
 
-chrome.contextMenus.create({
+browser.contextMenus.create({
   title: 'Writely instructions',
   id: 'writely-instructions',
   contexts: ['selection'],
-});
+})
 
 const createSubMenu = async () => {
-  const settings = await getSetting();
+  const settings = await getSetting()
 
   settings.customInstructions?.map((instruction) => {
-    chrome.contextMenus.create({
+    browser.contextMenus.create({
       title: instruction,
       id: instruction,
       contexts: ['selection'],
       parentId: 'writely-instructions',
-    });
-  });
-};
+    })
+  })
+}
 
-createSubMenu();
+createSubMenu()
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'writely' && tab.id) {
-    chrome.tabs.sendMessage(tab.id, {
+    browser.tabs.sendMessage(tab.id, {
       type: EventName.launchWritely,
-    });
+    })
   }
 
   if (info.parentMenuItemId === 'writely-instructions') {
-    chrome.tabs.sendMessage(tab.id, {
+    browser.tabs.sendMessage(tab.id, {
       type: EventName.launchWritelyResultPanel,
       data: {
         instruction: info.menuItemId,
       },
-    });
+    })
   }
-});
+})
