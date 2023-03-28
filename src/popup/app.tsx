@@ -1,5 +1,6 @@
-import { DashiconsAdminGeneric } from '@/components/icon';
-import './index.css';
+import { DashiconsAdminGeneric } from '@/components/icon'
+import './index.css'
+import browser from 'webextension-polyfill'
 
 export const App: React.FC = () => {
   return (
@@ -9,13 +10,13 @@ export const App: React.FC = () => {
         <div
           className="text-xl cursor-pointer hover:bg-slate-300 p-1"
           onClick={() => {
-            const url = chrome.runtime.getURL('dist/options/index.html');
-            window.open(url);
+            const url = browser.runtime.getURL('dist/options/index.html')
+            window.open(url)
           }}
         >
           <DashiconsAdminGeneric />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

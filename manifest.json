@@ -6,11 +6,18 @@
   "author": "https://github.com/anc95",
   "action": {
     "default_title": "Writely",
-    "default_popup": "dist/popup/index.html"
+    "default_popup": "dist/popup/index.html",
+    "defult_icon": "dist/assets/icon.png"
   },
   "options_ui": {
     "page": "dist/options/index.html",
     "open_in_tab": true
+  },
+  "icons": {
+    "16": "dist/assets/icon.png",
+    "32": "dist/assets/icon.png",
+    "48": "dist/assets/icon.png",
+    "128": "dist/assets/icon.png"
   },
   "content_scripts": [
     {
