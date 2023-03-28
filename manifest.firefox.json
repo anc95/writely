@@ -6,7 +6,6 @@
   "author": "https://github.com/anc95",
   "action": {
     "default_title": "Writely",
-    "default_popup": "dist/popup/index.html",
     "defult_icon": "dist/assets/icon.png"
   },
   "options_ui": {
@@ -33,11 +32,18 @@
     }
   ],
   "background": {
-    "service_worker": "dist/background/index.js"
+    "scripts": [
+      "dist/background/index.js"
+    ]
   },
   "permissions": [
     "storage",
     "clipboardRead",
     "contextMenus"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "anchao951220@gmail.com"
+    }
+  }
 }

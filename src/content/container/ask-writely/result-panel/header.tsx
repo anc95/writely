@@ -1,20 +1,21 @@
-import { Switch, Tooltip } from 'antd';
+import { Switch, Tooltip } from 'antd'
 import {
   MdiClose,
   MaterialSymbolsKeyboardBackspace,
   DashiconsAdminGeneric,
   RiHeartFill,
-} from '@/components/icon';
-import { ReactNode } from 'react';
-import { useView } from '../../store/view';
-import i18next from 'i18next';
-import { useResultPanel } from '../../store/result-panel';
-import type { MessagePayload } from '@/common/types';
-import { EventName } from '@/common/event-name';
+} from '@/components/icon'
+import { ReactNode } from 'react'
+import { useView } from '../../store/view'
+import i18next from 'i18next'
+import { useResultPanel } from '../../store/result-panel'
+import type { MessagePayload } from '@/common/types'
+import { EventName } from '@/common/event-name'
+import browser from 'webextension-polyfill'
 
 export const Header: React.FC = () => {
-  const { hide, goToInputPage } = useView();
-  const { isOriginText, setIsOriginText } = useResultPanel();
+  const { hide, goToInputPage } = useView()
+  const { isOriginText, setIsOriginText } = useResultPanel()
 
   return (
     <div className="flex px-2 items-center bg-zinc-900 cursor-move handle justify-between">
@@ -53,24 +54,24 @@ export const Header: React.FC = () => {
         />
         <Operation
           onClick={() => {
-            chrome.runtime.sendMessage<
+            browser.runtime.sendMessage<
               MessagePayload<EventName.openOptionsPage>
             >({
               type: EventName.openOptionsPage,
-            });
+            })
           }}
           icon={<DashiconsAdminGeneric />}
           tooltip="Jump to settings"
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Operation: React.FC<{
-  icon: ReactNode;
-  tooltip: string;
-  onClick?: () => void;
+  icon: ReactNode
+  tooltip: string
+  onClick?: () => void
 }> = ({ icon, tooltip, onClick }) => {
   return (
     <Tooltip title={tooltip}>
@@ -81,5 +82,5 @@ const Operation: React.FC<{
         {icon}
       </div>
     </Tooltip>
-  );
-};
+  )
+}
