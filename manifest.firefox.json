@@ -6,7 +6,7 @@
   "author": "https://github.com/anc95",
   "action": {
     "default_title": "Writely",
-    "page": "dist/options/index.html"
+    "default_popup": "dist/popup/index.html"
   },
   "options_ui": {
     "page": "dist/options/index.html",
@@ -28,7 +28,8 @@
       ],
       "matches": [
         "*://*/*"
-      ]
+      ],
+      "all_frames": true
     }
   ],
   "background": {

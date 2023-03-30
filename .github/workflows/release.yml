@@ -30,8 +30,8 @@ jobs:
           mkdir -p release/writely
           mv dist release/writely
           mv manifest.json release/writely
-          cd release
-          zip -r writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip writely/*
+          cd release/writely
+          zip -r ../writely-chrome-${{ steps.get_version.outputs.version-without-v }}.zip *
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -47,8 +47,8 @@ jobs:
         run: |
           rm -rf release/writely/manifest.json
           mv manifest.firefox.json release/writely/manifest.json
-          cd release
-          zip -r writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip writely/*
+          cd release/writely
+          zip -r ../writely-firefox-${{ steps.get_version.outputs.version-without-v }}.zip *
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
