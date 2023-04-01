@@ -1,24 +1,24 @@
-import i18next from 'i18next';
-import { Configuration, OpenAIApi } from 'openai';
-import { useEffect, useMemo, useRef } from 'react';
-import { logger } from '../debug';
-import { useSettings } from '../store/settings';
+import i18next from 'i18next'
+import { Configuration, OpenAIApi } from 'openai'
+import { useEffect, useMemo, useRef } from 'react'
+import { logger } from '../debug'
+import { useSettings } from '../store/settings'
 
 const useOpenAPI = () => {
-  const { settings } = useSettings();
-  const openAIRef = useRef<OpenAIApi>();
+  const { settings } = useSettings()
+  const openAIRef = useRef<OpenAIApi>()
 
   useEffect(() => {
     const config = new Configuration({
       apiKey: settings?.apiKey,
       basePath: settings.url,
-    });
+    })
 
-    openAIRef.current = new OpenAIApi(config);
-  }, [settings?.apiKey, settings.url]);
+    openAIRef.current = new OpenAIApi(config)
+  }, [settings?.apiKey, settings.url])
 
-  return openAIRef;
-};
+  return openAIRef
+}
 
 const axiosOptionForOpenAI = (
   onData: (text: string, err?: any, end?: boolean) => void
@@ -26,79 +26,80 @@ const axiosOptionForOpenAI = (
   responseType: 'stream' as ResponseType,
   onDownloadProgress: (e) => {
     if (e.currentTarget.status !== 200) {
-      onData('', new Error(e.currentTarget.responseText), false);
-      return;
+      onData('', new Error(e.currentTarget.responseText), false)
+      return
     }
 
     try {
       const lines = e.currentTarget.response
         .toString()
         .split('\n')
-        .filter((line) => line.trim() !== '');
+        .filter((line) => line.trim() !== '')
 
-      let result = '';
+      let result = ''
 
-      logger.debug('[EventSource]', e.currentTarget.response);
+      logger.debug('[EventSource]', e.currentTarget.response)
 
-      let ended = false;
+      let ended = false
 
       for (const line of lines) {
-        const message = line.replace(/^data: /, '');
+        const message = line.replace(/^data: /, '')
 
         if (message === '[DONE]') {
           // stream finished
-          ended = true;
-          break;
+          ended = true
+          break
         }
 
-        const parsed = JSON.parse(message);
+        const parsed = JSON.parse(message)
 
         const text =
           parsed.choices[0].text ||
           parsed.choices[0]?.delta?.content ||
           parsed.choices[0]?.message?.content ||
-          '';
+          ''
 
         if (!text && !result) {
-          continue;
+          continue
         }
 
-        result += text;
+        result += text
 
         // edits don't support stream
         if (parsed.object === 'edit') {
-          ended = true;
-          break;
+          ended = true
+          break
         }
       }
 
       if (ended) {
-        onData(result, '', true);
+        onData(result, '', true)
       } else {
-        onData?.(result);
+        onData?.(result)
       }
     } catch (e) {
       // expose current response for error display
-      onData?.('', e.currentTarget.response);
+      onData?.('', e.currentTarget.response)
     }
   },
-});
+})
 
 export const useQueryOpenAIPrompt = () => {
-  const openAI = useOpenAPI();
-  const { settings } = useSettings();
+  const openAI = useOpenAPI()
+  const { settings } = useSettings()
 
   return async (
     prompt: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
-    const isChat = settings.model.includes('turbo');
+    const isChat =
+      settings.model.includes('turbo') || settings.model === 'gpt-4'
 
     const commonOption = {
       max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
       model: settings.model,
-    };
+    }
 
     if (isChat) {
       openAI?.current?.createChatCompletion(
@@ -107,7 +108,7 @@ export const useQueryOpenAIPrompt = () => {
           messages: [{ role: 'user', content: prompt }],
         },
         axiosOptionForOpenAI(onData) as any
-      );
+      )
     } else {
       openAI?.current?.createCompletion(
         {
@@ -115,15 +116,15 @@ export const useQueryOpenAIPrompt = () => {
           prompt: prompt,
         },
         axiosOptionForOpenAI(onData) as any
-      );
+      )
     }
-  };
-};
+  }
+}
 
 export const useOpenAIEditPrompt = () => {
-  const openAI = useOpenAPI();
-  const { settings } = useSettings();
-  const queryPrompt = useQueryOpenAIPrompt();
+  const openAI = useOpenAPI()
+  const { settings } = useSettings()
+  const queryPrompt = useQueryOpenAIPrompt()
 
   return async (
     input: string,
@@ -140,9 +141,9 @@ export const useOpenAIEditPrompt = () => {
           ? input
           : i18next.t('Prompt template', { content: input, task: instruction }),
         onData
-      );
+      )
 
-      return;
+      return
     }
 
     openAI.current.createEdit(
@@ -154,9 +155,9 @@ export const useOpenAIEditPrompt = () => {
         model: settings.model,
       },
       axiosOptionForOpenAI(onData) as any
-    );
-  };
-};
+    )
+  }
+}
 
 export const useModels = () => {
   // const api = useOpenAPI();
@@ -166,6 +167,12 @@ export const useModels = () => {
 
   return useMemo(() => {
     return [
+      {
+        id: 'gpt-4',
+        description:
+          'Make sure you have access to gpt-4 before using it. With broad general knowledge and domain expertise, GPT-4 can follow complex instructions in natural language and solve difficult problems with accuracy.',
+        price: 'Prompt: $0.03 / 1K tokens, Completion: $0.06 / 1K tokens',
+      },
       {
         id: 'gpt-3.5-turbo',
         description:
@@ -188,6 +195,6 @@ export const useModels = () => {
         price: '$0.02 / 1K tokens',
         description: 'Better for code edits',
       },
-    ];
-  }, []);
-};
+    ]
+  }, [])
+}
