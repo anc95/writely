@@ -25,22 +25,11 @@
 
 ### Installation
 
-#### Install
-
 Chrome Web Store: <a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
 <img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn" />
 </a>
 
 Firefox Add-on: <a href="https://addons.mozilla.org/en-US/firefox/addon/writely/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/v/writely"></a>
-
-#### Install Manually
-
-1. Go to [release](https://github.com/anc95/writely/releases) to download the Zip package and unzip it.
-2. Open the browser and go to chrome://extensions/.
-3. Make sure that the developer mode in the upper right corner is enabled.
-4. Click `Load Unpacked` in the upper left corner and load the folder from step 1.
-
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png">
 
 ### Configuration
 
