@@ -3,11 +3,16 @@
 
 ![](./assets/logo.png) 
 
+<p align="center">
+<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
+<img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn" />
+</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/writely/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/v/writely"></a>
+</p>
+
+
 [English Version](README.md) 
 
-<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
-<img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn?label=Chrome%20Web%20Store%40Writely&style=for-the-badge" />
-</a>
 
 ## 特性
 1.🔥 基于 Open AI GPT 模型，带来了全新的智能写作体验。
@@ -20,18 +25,12 @@
 ## 使用方法 
 ### 安装
 
-#### 从 Chrome 商店安装
-<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
-<img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn?label=Chrome%20Web%20Store%40Writely&style=for-the-badge" />
+Chrome 插件：<a href="https://chrome.google.com/webstore/detail/writely/eocenplmfgoaibmmohkhhocnlkpaecgn">
+  <img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn" />
 </a>
 
-#### 手动安装
-1. 转到 [release](https://github.com/anc95/writely/releases) 下载 Zip 包并解压缩。
-2. 打开浏览器并转到 chrome://extensions/。 
-3. 确保右上角的开发者模式已启用。
-4. 在左上角单击“Load unpacked”并记载步骤 1 中解压的文件夹。
+Firefox 扩展：<a href="https://addons.mozilla.org/en-US/firefox/addon/writely/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/v/writely"></a>
 
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/13167934/223933464-e8518da6-86eb-4bc3-b2cd-72497cbe5c18.png">
 
 ### 配置
 1. 获取 Open AI API Key。 如果您没有，请在 https://platform.openai.com/account/api-keys 上进行申请。 
