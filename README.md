@@ -21,6 +21,14 @@
 
 3.📖 The product can perform query translation and assist reading, greatly reducing users' reading time and improving comprehension.
 
+## What it can do for you
+
+1. 📧 Write an email 
+2. 📖 Write an article 
+3. 📺 Browse social media platforms such as Twitter and Weibo and reply to netizens 
+4. 😯 Write stories on Zhihu
+...
+
 ## Usage
 
 ### Installation
