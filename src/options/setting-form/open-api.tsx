@@ -10,13 +10,13 @@ import {
   Tag,
   Tooltip,
   Typography,
-} from 'antd';
-import { useCallback, useState } from 'react';
-import { useModels, useOpenAIEditPrompt } from '../../common/api/openai';
-import cx from 'classnames';
+} from 'antd'
+import { useCallback, useState } from 'react'
+import { useModels, useOpenAIEditPrompt } from '../../common/api/openai'
+import cx from 'classnames'
 
 export const OPENAISettings: React.FC = () => {
-  const models = useModels();
+  const models = useModels()
 
   return (
     <Card title="Open AI" hoverable>
@@ -70,40 +70,67 @@ export const OPENAISettings: React.FC = () => {
           ))}
         </Radio.Group>
       </Form.Item>
+      <Form.Item
+        className="col-span-5"
+        name="temperature"
+        label="Temperature"
+        required
+        requiredMark
+        tooltip={
+          <a
+            className="text-blue-300"
+            href="https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature"
+          >
+            Temperature Introduction
+          </a>
+        }
+      >
+        <Radio.Group defaultValue="1">
+          <Tooltip title="0">
+            <Radio.Button value="0">accurate</Radio.Button>
+          </Tooltip>
+          <Tooltip title="0.7">
+            <Radio.Button value="0.7">balance</Radio.Button>
+          </Tooltip>
+          <Tooltip title="1">
+            <Radio.Button value="1">creative</Radio.Button>
+          </Tooltip>
+        </Radio.Group>
+      </Form.Item>
       <Form.Item label="URL" name="url" required>
         <Input />
       </Form.Item>
       <ConnectionTest />
     </Card>
-  );
-};
+  )
+}
 
 const ConnectionTest: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const queryOpenAIEdit = useOpenAIEditPrompt();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [result, setResult] = useState<string>('');
-  const [message, setMessage] = useState<string>('hello');
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const queryOpenAIEdit = useOpenAIEditPrompt()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [result, setResult] = useState<string>('')
+  const [message, setMessage] = useState<string>('hello')
 
   const handleOk = useCallback(async () => {
-    setLoading(true);
-    setResult('');
+    setLoading(true)
+    setResult('')
 
     try {
       queryOpenAIEdit(message, 'test', (text, err) => {
-        setResult(text);
-        setLoading(false);
+        setResult(text)
+        setLoading(false)
 
         if (err) {
-          setResult(err.message);
+          setResult(err.message)
         }
-      });
+      })
     } catch (e) {
-      setResult(e.toString());
+      setResult(e.toString())
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [queryOpenAIEdit]);
+  }, [queryOpenAIEdit])
 
   return (
     <div>
@@ -125,15 +152,15 @@ const ConnectionTest: React.FC = () => {
         <Typography>{result}</Typography>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
 const ModelCard: React.FC<{
-  id: string;
-  price: string;
-  description: string;
+  id: string
+  price: string
+  description: string
 }> = ({ id, price, description }) => {
-  const model = Form.useWatch('model');
+  const model = Form.useWatch('model')
 
   return (
     <Tooltip title={description}>
@@ -149,5 +176,5 @@ const ModelCard: React.FC<{
         </Tag>
       </div>
     </Tooltip>
-  );
-};
+  )
+}
