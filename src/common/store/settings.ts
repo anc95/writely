@@ -78,19 +78,17 @@ export const saveSetting = async (newSettings: Partial<Settings>) => {
 }
 
 const patchCustomInstructions = (setting: Settings) => {
-  if (setting.customInstructions) {
-    setting.customInstructions =
-      setting.customInstructions?.map((instruction) => {
-        if (typeof instruction === 'string') {
-          return {
-            id: uniqueId(),
-            name: instruction,
-            instruction: instruction,
-            icon: '😄',
-          }
+  setting.customInstructions =
+    setting.customInstructions?.map((instruction) => {
+      if (typeof instruction === 'string') {
+        return {
+          id: uniqueId(),
+          name: instruction,
+          instruction: instruction,
+          icon: '😄',
         }
+      }
 
-        return instruction
-      }) || []
-  }
+      return instruction
+    }) || []
 }
