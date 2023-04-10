@@ -99,6 +99,7 @@ export const useQueryOpenAIPrompt = () => {
       max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
       model: settings.model,
+      temperature: parseFloat(settings.temperature),
     }
 
     if (isChat) {
