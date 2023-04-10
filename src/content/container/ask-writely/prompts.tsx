@@ -1,4 +1,4 @@
-import { getSetting, useSettings } from '@/common/store/settings';
+import { getSetting, useSettings } from '@/common/store/settings'
 import {
   IcBaselineAutoFixHigh,
   IcBaselineCheck,
@@ -15,17 +15,17 @@ import {
   MdiMessageReplyTextOutline,
   MdiTextLong,
   MdiTreeOutline,
-} from '@/components/icon';
-import i18n from 'i18next';
+} from '@/components/icon'
+import i18n from 'i18next'
 
 export const defaultPrompt = (params: { task: string }) => {
   return (content: string) => {
     return i18n.t('Prompt template', {
       content,
       task: params.task,
-    });
-  };
-};
+    })
+  }
+}
 
 function getRandomEmoji() {
   const emojis = [
@@ -41,19 +41,19 @@ function getRandomEmoji() {
     '😎',
     '😜',
     '🤪',
-  ];
-  const randomIndex = Math.floor(Math.random() * emojis.length);
-  return emojis[randomIndex];
+  ]
+  const randomIndex = Math.floor(Math.random() * emojis.length)
+  return emojis[randomIndex]
 }
 
-let settings = null;
+let settings = null
 
-(async function () {
-  settings = await getSetting();
-})();
+;(async function () {
+  settings = await getSetting()
+})()
 
 const getPrompts = () => {
-  const customInstructions = settings?.customInstructions || [];
+  const customInstructions = settings?.customInstructions || []
 
   const predefined = [
     {
@@ -88,7 +88,7 @@ const getPrompts = () => {
             return {
               label,
               instruction: i18n.t('Change tone to'),
-            };
+            }
           }),
         },
       ],
@@ -136,7 +136,7 @@ const getPrompts = () => {
             return {
               ...item,
               instruction: i18n.t('Translate to') + ' ' + item.label,
-            };
+            }
           }),
         },
         {
@@ -193,35 +193,35 @@ const getPrompts = () => {
         return {
           ...item,
           instruction: i18n.t('Write a') + ' ' + item.label,
-        };
+        }
       }),
     },
-  ];
+  ]
 
   if (customInstructions?.length) {
     predefined.unshift({
       category: i18n.t('Custom instructions'),
       menus: customInstructions?.map((i) => ({
-        label: i,
-        icon: getRandomEmoji() as any,
-        instruction: i,
+        label: i.name,
+        icon: i.icon,
+        instruction: i.instruction,
       })),
-    });
+    })
   }
 
-  return predefined;
-};
+  return predefined
+}
 
 export class PromptCenter {
-  protected prompts;
+  protected prompts
 
   constructor() {
-    this.initPrompts();
+    this.initPrompts()
   }
 
   private initPrompts = () => {
-    this.prompts = this.constructPrompts(getPrompts());
-  };
+    this.prompts = this.constructPrompts(getPrompts())
+  }
 
   private constructPrompts = (prompts, prefix: string = '') => {
     return prompts.map((p) => {
@@ -231,57 +231,57 @@ export class PromptCenter {
           prompt: defaultPrompt({
             task: p.label,
           }),
-        };
+        }
       }
 
       return {
         ...p,
         children: this.constructPrompts(p.children, prefix + ' ' + p.label),
-      };
-    });
-  };
+      }
+    })
+  }
 
   public useDropDownItems = (keyword = '') => {
-    const result = [];
+    const result = []
     const match = (str: string) => {
-      return str.toLowerCase().includes(keyword.toLowerCase());
-    };
+      return str.toLowerCase().includes(keyword.toLowerCase())
+    }
 
     this.prompts.forEach((category) => {
       if (match(category.category)) {
-        result.push(category);
+        result.push(category)
       } else {
-        const matchedMenus = [];
+        const matchedMenus = []
 
         category.menus.forEach((menu) => {
           if (match(menu.label) || match(menu.instruction || '')) {
-            matchedMenus.push(menu);
+            matchedMenus.push(menu)
           } else {
-            const matchedSubMenus = [];
+            const matchedSubMenus = []
 
             if (menu.children) {
               menu.children.forEach((c) => {
                 if (match(c.label) || match(c.instruction || '')) {
-                  matchedSubMenus.push(c);
+                  matchedSubMenus.push(c)
                 }
-              });
+              })
             }
 
             if (matchedSubMenus.length) {
-              matchedMenus.push(matchedSubMenus);
+              matchedMenus.push(matchedSubMenus)
             }
           }
-        });
+        })
 
         if (matchedMenus.length) {
           result.push({
             ...category,
             menus: matchedMenus,
-          });
+          })
         }
       }
-    });
+    })
 
-    return result;
-  };
+    return result
+  }
 }
