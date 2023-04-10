@@ -1,18 +1,18 @@
-import { IconBtn } from '@/components/icon-btn';
-import { IcBaselineDeleteOutline } from '@/components/icon/delete';
-import { IcOutlineCheck } from '@/components/icon/update';
-import { Input } from 'antd';
-import { useControllableValue } from 'ahooks';
-import { useState } from 'react';
+import { IconBtn } from '@/components/icon-btn'
+import { IcBaselineDeleteOutline } from '@/components/icon/delete'
+import { IcOutlineCheck } from '@/components/icon/update'
+import { Input } from 'antd'
+import { useControllableValue } from 'ahooks'
+import { useState } from 'react'
 
 export const CustomList: React.FC<{
-  value?: string[];
-  onChange?: (value: string[]) => void;
+  value?: string[]
+  onChange?: (value: string[]) => void
 }> = (props) => {
   const [value, setValue] = useControllableValue<string[]>(props, {
     defaultValue: [],
-  });
-  const [inputValue, setInputValue] = useState('');
+  })
+  const [inputValue, setInputValue] = useState('')
 
   return (
     <div>
@@ -23,8 +23,8 @@ export const CustomList: React.FC<{
           onChange={(e) => setInputValue(e.target.value)}
           onPressEnter={() => {
             if (inputValue.trim()) {
-              setValue([inputValue.trim(), ...(value || [])]);
-              setInputValue('');
+              setValue([inputValue.trim(), ...(value || [])])
+              setInputValue('')
             }
           }}
         />
@@ -33,8 +33,8 @@ export const CustomList: React.FC<{
           disabled={!inputValue.trim()}
           onClick={() => {
             if (inputValue.trim()) {
-              setValue([inputValue.trim(), ...(value || [])]);
-              setInputValue('');
+              setValue([inputValue.trim(), ...(value || [])])
+              setInputValue('')
             }
           }}
         >
@@ -53,9 +53,9 @@ export const CustomList: React.FC<{
                 <IcBaselineDeleteOutline />
               </IconBtn>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
-};
+  )
+}

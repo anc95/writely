@@ -14,6 +14,7 @@ import {
 import { useCallback, useState } from 'react'
 import { useModels, useOpenAIEditPrompt } from '../../common/api/openai'
 import cx from 'classnames'
+import i18next from 'i18next'
 
 export const OPENAISettings: React.FC = () => {
   const models = useModels()
@@ -23,7 +24,7 @@ export const OPENAISettings: React.FC = () => {
       <Form.Item
         className="col-span-5"
         name="apiKey"
-        label="OpenAI API Key"
+        label={i18next.t('OpenAI API Key')}
         required
         tooltip={
           <div>
@@ -43,7 +44,7 @@ export const OPENAISettings: React.FC = () => {
       <Form.Item
         className="col-span-5"
         name="model"
-        label="Model"
+        label={i18next.t('Model')}
         required
         requiredMark
         tooltip={
@@ -51,7 +52,7 @@ export const OPENAISettings: React.FC = () => {
             className="text-blue-300"
             href="https://platform.openai.com/docs/models/overview"
           >
-            Models Introduction
+            {i18next.t('Models Introduction')}
           </a>
         }
       >
@@ -73,7 +74,7 @@ export const OPENAISettings: React.FC = () => {
       <Form.Item
         className="col-span-5"
         name="temperature"
-        label="Temperature"
+        label={i18next.t('Temperature')}
         required
         requiredMark
         tooltip={
@@ -81,24 +82,24 @@ export const OPENAISettings: React.FC = () => {
             className="text-blue-300"
             href="https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature"
           >
-            Temperature Introduction
+            {i18next.t('Temperature Introduction')}
           </a>
         }
       >
         <Radio.Group defaultValue="1">
           <Tooltip title="0">
-            <Radio.Button value="0">accurate</Radio.Button>
+            <Radio.Button value="0">{i18next.t('accurate')}</Radio.Button>
           </Tooltip>
           <Tooltip title="0.7">
-            <Radio.Button value="0.7">balance</Radio.Button>
+            <Radio.Button value="0.7">{i18next.t('balance')}</Radio.Button>
           </Tooltip>
           <Tooltip title="1">
-            <Radio.Button value="1">creative</Radio.Button>
+            <Radio.Button value="1">{i18next.t('creative')}</Radio.Button>
           </Tooltip>
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="URL" name="url" required>
-        <Input />
+      <Form.Item label={i18next.t('URL')} name="url" required>
+        <Input placeholder="https://api.openai.com/v1" />
       </Form.Item>
       <ConnectionTest />
     </Card>
@@ -135,13 +136,14 @@ const ConnectionTest: React.FC = () => {
   return (
     <div>
       <Button onClick={() => setModalVisible(true)} type="primary">
-        Test
+        {i18next.t('Test')}
       </Button>
       <Modal
         open={modalVisible}
-        okText="Send message"
+        okText={i18next.t('Send message')}
+        cancelText={i18next.t('Cancel')}
         onCancel={() => setModalVisible(false)}
-        title="Test connection"
+        title={i18next.t('Test connection')}
         onOk={handleOk}
         okButtonProps={{ loading }}
       >

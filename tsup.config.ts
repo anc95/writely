@@ -11,6 +11,7 @@ export default defineConfig({
     './src/popup/index.tsx',
     './src/background/index.ts',
   ],
+  target: 'chrome112',
   format: 'esm',
   splitting: false,
   sourcemap: false,

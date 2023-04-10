@@ -1,23 +1,31 @@
-import { Card, Form, Radio, Switch } from 'antd';
-import { langs } from '../../common/langs';
-import { CustomList } from './custom-list';
+import { Card, Form, Radio, Switch } from 'antd'
+import i18next from 'i18next'
+import { langs } from '../../common/langs'
+import { Instructions } from './instructions'
 
 export const SystemSetting: React.FC = () => {
   return (
-    <Card title="System" hoverable>
-      <Form.Item label="language" name="lang">
+    <Card title={i18next.t('System')} hoverable>
+      <Form.Item label={i18next.t('Language')} name="lang">
         <Radio.Group>
           {langs.map((lang) => (
             <Radio.Button value={lang.value}>{lang.label}</Radio.Button>
           ))}
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="debug" name="debug" valuePropName="checked">
+      <Form.Item
+        label={i18next.t('Debug')}
+        name="debug"
+        valuePropName="checked"
+      >
         <Switch />
       </Form.Item>
-      <Form.Item label="Custom instruction" name="customInstructions">
-        <CustomList />
+      <Form.Item
+        label={i18next.t('Custom instructions')}
+        name="customInstructions"
+      >
+        <Instructions />
       </Form.Item>
     </Card>
-  );
-};
+  )
+}
