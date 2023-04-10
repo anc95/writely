@@ -1,38 +1,49 @@
-import { Button, Form, Tooltip } from 'antd';
-import { useCallback, useEffect } from 'react';
-import { useSWRConfig } from 'swr';
-import { Settings } from '../types';
-import { useSettings } from '../../common/store/settings';
-import { OPENAISettings } from './open-api';
-import { SystemSetting } from './system';
-import { LogosGithubIcon } from '@/components/icon/github';
-import { CodiconFeedback } from '@/components/icon/feedback';
+import { Button, Form, Tooltip } from 'antd'
+import { useCallback, useEffect, useState } from 'react'
+import { useSWRConfig } from 'swr'
+import { Settings } from '../types'
+import { useSettings } from '../../common/store/settings'
+import { OPENAISettings } from './open-api'
+import { SystemSetting } from './system'
+import { LogosGithubIcon } from '@/components/icon/github'
+import { CodiconFeedback } from '@/components/icon/feedback'
+import { useForm } from 'antd/es/form/Form'
+import i18next from 'i18next'
 
 export const SettingsForm: React.FC = () => {
-  const { loading, settings, setSettings } = useSettings();
-  const { mutate } = useSWRConfig();
+  const { loading, settings, setSettings } = useSettings()
+  const { mutate } = useSWRConfig()
+  const [form] = useForm()
 
   const handleFormChange = useCallback(
     async (changedValue: Settings) => {
-      setSettings(changedValue);
+      await setSettings(changedValue)
+
+      if (changedValue.lang) {
+        location.reload()
+      }
     },
     [setSettings]
-  );
+  )
+
+  useEffect(() => {
+    form.setFieldsValue(settings)
+  }, [settings])
 
   useEffect(() => {
     if (!loading) {
-      mutate('models');
+      mutate('models')
     }
-  }, [loading]);
+  }, [loading])
 
   if (loading) {
-    return <div>loading...</div>;
+    return <div>loading...</div>
   }
 
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-between lg:w-5/6 border-b mb-4 pt-6 pb-1">
-        <div className="font-semibold text-3xl">Settings</div>
+        <div className="font-semibold text-3xl">{i18next.t('Settings')}</div>
         <div>
           <div className="flex items-baseline text-xl gap-4">
             <Tooltip title="Github">
@@ -56,6 +67,7 @@ export const SettingsForm: React.FC = () => {
         onValuesChange={handleFormChange}
         initialValues={settings}
         labelCol={{ span: 5 }}
+        form={form}
       >
         <div className="max-w-4xl w-[800px] flex flex-col gap-4">
           <OPENAISettings />
@@ -63,5 +75,5 @@ export const SettingsForm: React.FC = () => {
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}
