@@ -79,8 +79,8 @@ export const saveSetting = async (newSettings: Partial<Settings>) => {
 
 const patchCustomInstructions = (setting: Settings) => {
   if (setting.customInstructions) {
-    setting.customInstructions = setting.customInstructions.map(
-      (instruction) => {
+    setting.customInstructions =
+      setting.customInstructions?.map((instruction) => {
         if (typeof instruction === 'string') {
           return {
             id: uniqueId(),
@@ -91,7 +91,6 @@ const patchCustomInstructions = (setting: Settings) => {
         }
 
         return instruction
-      }
-    )
+      }) || []
   }
 }
