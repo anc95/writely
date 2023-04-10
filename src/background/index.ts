@@ -28,8 +28,8 @@ const createSubMenu = async () => {
 
   settings.customInstructions?.map((instruction) => {
     browser.contextMenus.create({
-      title: instruction,
-      id: instruction,
+      title: instruction.name,
+      id: instruction.id,
       contexts: ['selection'],
       parentId: 'writely-instructions',
     })
