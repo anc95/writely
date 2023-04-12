@@ -1,10 +1,18 @@
-import { remove } from '@/common/api/instructions'
+import { remove, setTopPinned } from '@/common/api/instructions'
 import { useSettings } from '@/common/store/settings'
 import { IconBtn } from '@/components/icon-btn'
 import { IcBaselineDeleteOutline } from '@/components/icon/delete'
 import { MaterialSymbolsEditOutline } from '@/components/icon/edit'
+import { MaterialSymbolsArrowUpward } from '@/components/icon/up'
 import { Instruction } from '@/options/types'
-import { Popconfirm, Table, TableProps, Tooltip, Typography } from 'antd'
+import {
+  Popconfirm,
+  Popover,
+  Table,
+  TableProps,
+  Tooltip,
+  Typography,
+} from 'antd'
 import i18next from 'i18next'
 import { useModalState } from './modal-state'
 
@@ -77,6 +85,16 @@ const useColumns = () => {
             >
               <MaterialSymbolsEditOutline />
             </IconBtn>
+            <Popover content={i18next.t('Top pinned')} trigger="hover">
+              <IconBtn
+                onClick={async () => {
+                  await setTopPinned(record.id)
+                  await refresh()
+                }}
+              >
+                <MaterialSymbolsArrowUpward />
+              </IconBtn>
+            </Popover>
           </div>
         )
       },
