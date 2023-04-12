@@ -58,3 +58,20 @@ export const setTopPinned = async (id: string) => {
     await saveSetting(settings)
   }
 }
+
+export const batchAdd = async (instructions: Instruction[]) => {
+  const settings = await getSetting()
+
+  settings.customInstructions.push(
+    ...instructions
+      .map((i) => ({
+        id: uniqueId(Date.now() + ''),
+        name: i.name,
+        instruction: i.instruction,
+        icon: i.icon,
+      }))
+      .filter((i) => i.name && i.instruction)
+  )
+
+  await saveSetting(settings)
+}
