@@ -22,6 +22,7 @@
     "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
+    "emoji-picker-react": "^4.4.8",
     "esbuild": "^0.17.5",
     "esbuild-plugin-copy": "^2.1.0",
     "esbuild-style-plugin": "^1.6.1",
@@ -47,8 +48,7 @@
     "typescript": "^4.9.5",
     "unstated-next": "^1.1.0",
     "uuid": "^9.0.0",
-    "webextension-polyfill": "^0.10.0",
-    "emoji-picker-react": "^4.4.8"
+    "webextension-polyfill": "^0.10.0"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 tsup --watch",

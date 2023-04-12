@@ -69,5 +69,7 @@
   "Import": "导入",
   "Export": "导出",
   "Export instructions as JSON": "导出指令为JSON文件",
-  "Import instructions": "导入指令"
+  "Import instructions": "导入指令",
+  "😄 Imported successfully": "😄 导入成功",
+  "😭 Error format": "😭 格式错误"
 }
