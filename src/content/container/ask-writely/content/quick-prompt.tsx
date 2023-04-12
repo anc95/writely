@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
-import { PromptCenter } from '../prompts';
-import { List, ListProps } from './list';
+import { useMemo } from 'react'
+import { PromptCenter } from '../prompts'
+import { List, ListProps } from './list'
 
 export const QuickPrompt: React.FC<{
-  filter: string;
-  onClick: (instruction: string) => void;
+  filter: string
+  onClick: (instruction: string) => void
 }> = ({ filter, onClick }) => {
-  const promptCenter = useMemo(() => new PromptCenter(), []);
-  const items = promptCenter.useDropDownItems(filter);
+  const promptCenter = useMemo(() => new PromptCenter(), [])
+  const items = promptCenter.useDropDownItems(filter)
 
   return (
     <div>
@@ -15,13 +15,13 @@ export const QuickPrompt: React.FC<{
         <Card {...item} key={index} onClick={onClick} />
       ))}
     </div>
-  );
-};
+  )
+}
 
 const Card: React.FC<{
-  category: string;
-  menus: ListProps['items'];
-  onClick: (instruction: string) => void;
+  category: string
+  menus: ListProps['items']
+  onClick: (instruction: string) => void
 }> = ({ category, menus, onClick }) => {
   return (
     <div
@@ -32,10 +32,10 @@ const Card: React.FC<{
         <div className="text-gray-600 text-xs mb-1">{category}</div>
         <List
           items={menus}
-          max={4}
+          max={6}
           onClick={(i) => onClick(i.instruction || (i.label as string))}
         />
       </div>
     </div>
-  );
-};
+  )
+}

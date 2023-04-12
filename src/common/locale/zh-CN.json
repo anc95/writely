@@ -8,7 +8,7 @@
   "Chinese": "中文",
   "Append": "添加",
   "Replace": "替换内容",
-  "Prompt template": "按照我说的做, 要求是 {{task}}, 内容为 '{{content}}'",
+  "Prompt template": "{{task}}:\n, {{content}}",
   "Senior Writer": "写作高手",
   "Send to writely": "发送给 Writely",
   "Change tone": "改变语调",
@@ -64,5 +64,10 @@
   "Test": "测试",
   "Test connection": "测试连接",
   "Send message": "发送消息",
-  "Settings": "设置"
+  "Settings": "设置",
+  "Add new instruction": "添加新指令",
+  "Import": "导入",
+  "Export": "导出",
+  "Export instructions as JSON": "导出指令为JSON文件",
+  "Import instructions": "导入指令"
 }
