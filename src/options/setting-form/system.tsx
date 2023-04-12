@@ -8,8 +8,10 @@ export const SystemSetting: React.FC = () => {
     <Card title={i18next.t('System')} hoverable>
       <Form.Item label={i18next.t('Language')} name="lang">
         <Radio.Group>
-          {langs.map((lang) => (
-            <Radio.Button value={lang.value}>{lang.label}</Radio.Button>
+          {langs.map((lang, index) => (
+            <Radio.Button key={index} value={lang.value}>
+              {lang.label}
+            </Radio.Button>
           ))}
         </Radio.Group>
       </Form.Item>

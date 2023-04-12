@@ -65,7 +65,7 @@ export const OPENAISettings: React.FC = () => {
         </Select> */}
         <Radio.Group className="flex flex-wrap gap-4">
           {models.map((m) => (
-            <Radio className="" value={m.id}>
+            <Radio key={m.id} className="" value={m.id}>
               <ModelCard {...m} />
             </Radio>
           ))}
@@ -118,17 +118,20 @@ const ConnectionTest: React.FC = () => {
     setResult('')
 
     try {
-      queryOpenAIEdit(message, 'test', (text, err) => {
+      await queryOpenAIEdit(message, 'test', (text, err, end) => {
         setResult(text)
-        setLoading(false)
 
         if (err) {
+          setLoading(false)
           setResult(err.message)
+        }
+
+        if (end) {
+          setLoading(false)
         }
       })
     } catch (e) {
       setResult(e.toString())
-    } finally {
       setLoading(false)
     }
   }, [queryOpenAIEdit])
