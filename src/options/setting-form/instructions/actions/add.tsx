@@ -6,7 +6,7 @@ export const Add: React.FC = () => {
   const { setIsOpen } = useModalState()
 
   return (
-    <Popover title="Add new instruction">
+    <Popover content={i18next.t('Add new instruction')}>
       <Button onClick={() => setIsOpen(true)}>{i18next.t('Add')}</Button>
     </Popover>
   )
