@@ -71,5 +71,6 @@
   "Export instructions as JSON": "导出指令为JSON文件",
   "Import instructions": "导入指令",
   "😄 Imported successfully": "😄 导入成功",
-  "😭 Error format": "😭 格式错误"
+  "😭 Error format": "😭 格式错误",
+  "Stop Generate": "停止生成"
 }

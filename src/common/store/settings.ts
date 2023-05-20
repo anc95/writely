@@ -7,6 +7,11 @@ import { uniqueId } from 'lodash-es'
 
 const key = 'writingly-settings'
 
+const defaultSetting: Settings = {
+  model: 'gpt-3.5-turbo',
+  url: 'https://api.openai.com/v1',
+}
+
 const _useSettings = () => {
   const [settings, _setSettings] = useState<Settings>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -57,10 +62,7 @@ export { useSettings, SettingsProvider }
 export const getSetting = async () => {
   const res = (await browser.storage.sync.get(key))?.[key] || {}
 
-  if (!res.url) {
-    res.url = 'https://api.openai.com/v1'
-  }
-
+  patchDefaultSetting(res)
   patchCustomInstructions(res)
 
   return res as Settings
@@ -91,4 +93,12 @@ const patchCustomInstructions = (setting: Settings) => {
 
       return instruction
     }) || []
+}
+
+const patchDefaultSetting = (setting: Settings) => {
+  Object.keys(defaultSetting).forEach((s) => {
+    if (!setting[s]) {
+      setting[s] = defaultSetting[s]
+    }
+  })
 }

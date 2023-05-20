@@ -31,8 +31,6 @@ export const Import: React.FC = () => {
     []
   )
 
-  console.log(loading)
-
   return (
     <Popover content={i18next.t('Import instructions')}>
       <Upload

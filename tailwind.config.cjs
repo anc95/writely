@@ -74,18 +74,28 @@ module.exports = {
               'translateX(20px); color: pink; filter: hue-rotate(360deg);',
           },
         },
+        'breathe-heavy': {
+          '0%, 100%': {
+            opacity: '1',
+          },
+          '50%': {
+            opacity: '0.6',
+            transform: "scale(0.9)"
+          },
+        },
         breathe: {
           '0%, 100%': {
             opacity: '1',
           },
           '50%': {
-            opacity: '0.9',
+            opacity: '0.8',
           },
         },
       },
       animation: {
         swaying: 'swaying 3s ease-in-out infinite',
         breathe: 'breathe 3s ease-in-out infinite',
+        'breathe-heavy': 'breathe-heavy 3s ease-in-out infinite'
       },
     },
   },

@@ -1,30 +1,27 @@
-import { SystemUiconsWrite } from '@/components/icon';
-import {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import mdit from 'markdown-it';
-import hljsPlugin from 'markdown-it-highlightjs';
-import { Actions } from './actions';
-import { Copy } from './actions/copy';
-import { Replay } from './actions/replay';
-import cx from 'classnames';
-import { useSelectionManager } from '../../store/selection';
-import { message } from 'antd';
-import { useOpenAIEditPrompt } from '@/common/api/openai';
-import { useResultPanel } from '../../store/result-panel';
-import { Insert } from './actions/update';
-import { Replace } from './actions/replace';
+import { IcOutlineModeEdit } from '@/components/icon'
+import { MutableRefObject, useCallback, useEffect, useRef } from 'react'
+import mdit from 'markdown-it'
+import hljsPlugin from 'markdown-it-highlightjs'
+import { Actions } from './actions'
+import { Copy } from './actions/copy'
+import { Replay } from './actions/replay'
+import cx from 'classnames'
+import { useSelectionManager } from '../../store/selection'
+import { Tooltip, message } from 'antd'
+import { useOpenAIEditPrompt } from '@/common/api/openai'
+import { useResultPanel } from '../../store/result-panel'
+import { Insert } from './actions/update'
+import { Replace } from './actions/replace'
+import { IconBtn } from '@/components/icon-btn'
+import { MaterialSymbolsStopCircleOutline } from '@/components/icon/stop'
+import i18next from 'i18next'
 
-const md = mdit().use(hljsPlugin);
+const md = mdit().use(hljsPlugin)
 
 export const Content: React.FC<{ text: string }> = ({ text: task }) => {
-  const mdContainerRef = useRef<HTMLDivElement>();
-  const selectionManager = useSelectionManager();
-  const queryOpenAIPrompt = useOpenAIEditPrompt();
+  const mdContainerRef = useRef<HTMLDivElement>()
+  const selectionManager = useSelectionManager()
+  const queryOpenAIPrompt = useOpenAIEditPrompt()
   const {
     result,
     setResult,
@@ -32,77 +29,84 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
     setLoading,
     setText,
     text: resultText,
-  } = useResultPanel();
-  const sequenceRef = useRef<number>(0);
-  const { isOriginText } = useResultPanel();
+  } = useResultPanel()
+  const sequenceRef = useRef<number>(0)
+  const { isOriginText } = useResultPanel()
+  const abortRef = useRef<() => void>(null)
 
   const handleQuery = useCallback(async () => {
     if (!selectionManager.text) {
-      return message.warning('No selection');
+      return message.warning('No selection')
     }
 
-    sequenceRef.current += 1;
-    const currentSequence = sequenceRef.current;
+    sequenceRef.current += 1
+    const currentSequence = sequenceRef.current
 
     const handler = (text: string, err: Error, end: boolean) => {
       if (currentSequence != sequenceRef.current) {
-        return;
+        return
       }
 
       if (end) {
-        setText(text);
-        setLoading(false);
-        return;
+        setText(text)
+        setLoading(false)
+        return
       }
 
       if (err) {
-        setText(err.message);
-        setLoading(false);
+        setText(err.message)
+        setLoading(false)
       } else {
-        setText(text);
+        setText(text)
       }
-    };
+    }
 
     try {
-      queryOpenAIPrompt(selectionManager.text, task, handler);
+      abortRef.current = queryOpenAIPrompt(selectionManager.text, task, handler)
       // queryOpenAIEdit(selectionManager.text, text, handler);
     } catch (e) {
-      setResult(e.toString());
-      setLoading(false);
+      setResult(e.toString())
+      setLoading(false)
     }
-  }, [queryOpenAIPrompt]);
+  }, [queryOpenAIPrompt])
 
   useEffect(() => {
     if (loading) {
-      setResult('');
-      setText('');
-      handleQuery();
+      setResult('')
+      setText('')
+      handleQuery()
     }
-  }, [loading]);
+  }, [loading])
 
   useEffect(() => {
     if (!isOriginText) {
-      setResult(md.render(resultText));
+      setResult(md.render(resultText))
     } else {
-      setResult(resultText);
+      setResult(resultText)
     }
-  }, [isOriginText, resultText]);
+  }, [isOriginText, resultText])
 
-  useEffect(() => setLoading(true), []);
+  useEffect(() => setLoading(true), [])
 
   return (
     <div className="shadow-xl bg-zinc-100">
       <div className="p-4 max-h-[50vh] overflow-auto transition-all duration-700">
+        {loading ? (
+          <div className="flex justify-center text-xl">
+            <StopGenerate
+              onClick={() => {
+                abortRef?.current?.()
+                setLoading(false)
+              }}
+            />
+          </div>
+        ) : null}
         <div
           ref={mdContainerRef}
           className="transition-all duration-500"
           dangerouslySetInnerHTML={{ __html: result }}
         ></div>
-        {loading ? (
-          <div className="flex justify-center text-4xl text-[#925761]">
-            <WritingAnimation />
-          </div>
-        ) : null}
+        {loading ? <AutoScroll /> : null}
       </div>
       <div
         className={cx(
@@ -120,35 +124,51 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-const WritingAnimation: React.FC = () => {
-  const divRef = useRef<HTMLDivElement>();
-
-  useWritingAnimationEffect(divRef);
-
+const StopGenerate: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
-    <div className="animate-swaying inline-block" ref={divRef}>
-      <SystemUiconsWrite />
+    <div className="w-fit">
+      <Tooltip title={i18next.t('##Stop Generate')} trigger="hover">
+        <IconBtn
+          color="red"
+          className="animate-breathe-heavy"
+          onClick={onClick}
+        >
+          <MaterialSymbolsStopCircleOutline className="text-2xl" />
+        </IconBtn>
+      </Tooltip>
     </div>
-  );
-};
+  )
+}
 
-const useWritingAnimationEffect = (ref: MutableRefObject<HTMLDivElement>) => {
+const AutoScroll: React.FC = () => {
+  const divRef = useRef<HTMLDivElement>()
+
+  useVisibleEffect(divRef)
+
+  return <div className="w-1 h-1" ref={divRef}></div>
+}
+
+const useVisibleEffect = (ref: MutableRefObject<HTMLDivElement>) => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.intersectionRatio !== 1) {
           ref.current.scrollIntoView({
             behavior: 'smooth',
-          });
+          })
         }
-      });
-    });
+      })
+    })
 
-    observer.observe(ref.current);
+    if (!ref.current) {
+      return
+    }
 
-    return () => observer.disconnect();
-  }, []);
-};
+    observer.observe(ref.current)
+
+    return () => observer.disconnect()
+  }, [])
+}

@@ -36,6 +36,8 @@ const axiosOptionForOpenAI = (
         .split('\n')
         .filter((line) => line.trim() !== '')
 
+      logger.debug(e.currentTarget.response)
+
       let result = ''
 
       logger.debug('[EventSource]', e.currentTarget.response)
@@ -88,7 +90,7 @@ export const useQueryOpenAIPrompt = () => {
   const openAI = useOpenAPI()
   const { settings } = useSettings()
 
-  return async (
+  return (
     prompt: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
@@ -102,13 +104,18 @@ export const useQueryOpenAIPrompt = () => {
       temperature: parseFloat(settings.temperature),
     }
 
+    const abortController = new AbortController()
+
     if (isChat) {
       openAI?.current?.createChatCompletion(
         {
           ...commonOption,
           messages: [{ role: 'user', content: prompt }],
         },
-        axiosOptionForOpenAI(onData) as any
+        {
+          ...(axiosOptionForOpenAI(onData) as any),
+          signal: abortController.signal,
+        }
       )
     } else {
       openAI?.current?.createCompletion(
@@ -116,8 +123,15 @@ export const useQueryOpenAIPrompt = () => {
           ...commonOption,
           prompt: prompt,
         },
-        axiosOptionForOpenAI(onData) as any
+        {
+          ...(axiosOptionForOpenAI(onData) as any),
+          signal: abortController.signal,
+        }
       )
+    }
+
+    return () => {
+      abortController.abort()
     }
   }
 }
@@ -127,7 +141,7 @@ export const useOpenAIEditPrompt = () => {
   const { settings } = useSettings()
   const queryPrompt = useQueryOpenAIPrompt()
 
-  return async (
+  return (
     input: string,
     instruction: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
@@ -137,15 +151,15 @@ export const useOpenAIEditPrompt = () => {
       settings.model !== 'text-davinci-edit-001' &&
       settings.model !== 'code-davinci-edit-001'
     ) {
-      queryPrompt(
+      return queryPrompt(
         !instruction
           ? input
           : i18next.t('Prompt template', { content: input, task: instruction }),
         onData
       )
-
-      return
     }
+
+    const abortController = new AbortController()
 
     openAI.current.createEdit(
       {
@@ -155,8 +169,15 @@ export const useOpenAIEditPrompt = () => {
         // stream: true,
         model: settings.model,
       },
-      axiosOptionForOpenAI(onData) as any
+      {
+        ...(axiosOptionForOpenAI(onData) as any),
+        signal: abortController.signal,
+      }
     )
+
+    return () => {
+      abortController.abort()
+    }
   }
 }
 
