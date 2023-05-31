@@ -13,6 +13,8 @@
 
 [中文文档](README-CN.md)
 
+<a href="https://discord.com/invite/9e6HQ7wx">Join US On Discord</a>
+
 ## Features
 
 1.🔥 Based on Open AI GPT model, brings a new intelligent writing experience.
