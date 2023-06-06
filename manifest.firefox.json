@@ -40,7 +40,8 @@
   "permissions": [
     "storage",
     "clipboardRead",
-    "contextMenus"
+    "contextMenus",
+    "cookies"
   ],
   "browser_specific_settings": {
     "gecko": {

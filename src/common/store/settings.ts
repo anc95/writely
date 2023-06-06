@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createContainer } from 'unstated-next'
 import browser from 'webextension-polyfill'
-import { v4 as uuidv4 } from 'uuid'
-import { Instruction, Settings } from '../../options/types'
 import { uniqueId } from 'lodash-es'
 
 const key = 'writingly-settings'
