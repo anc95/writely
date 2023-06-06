@@ -1,21 +1,37 @@
 import i18next from 'i18next'
 import { Configuration, OpenAIApi } from 'openai'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import axios from 'axios'
 import { logger } from '../debug'
 import { useSettings } from '../store/settings'
+import { ServiceProvider } from '@/options/types'
+import browser from 'webextension-polyfill'
+import { MessagePayload } from '../types'
+import { EventName } from '../event-name'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
   const openAIRef = useRef<OpenAIApi>()
 
   useEffect(() => {
+    const isWritelyProvider =
+      settings.serviceProvider === ServiceProvider.Writely
+
     const config = new Configuration({
-      apiKey: settings?.apiKey,
-      basePath: settings.url,
+      apiKey: isWritelyProvider ? writely_token : settings?.apiKey,
+      basePath: isWritelyProvider
+        ? 'https://writely-proxy.rocketx.workers.dev/v1'
+        : settings.url,
     })
 
-    openAIRef.current = new OpenAIApi(config)
-  }, [settings?.apiKey, settings.url])
+    openAIRef.current = new OpenAIApi(
+      config,
+      undefined,
+      isWritelyProvider
+        ? axios.create({ headers: { apikey: writely_token } })
+        : null
+    )
+  }, [settings?.apiKey, settings.url, settings.serviceProvider, writely_token])
 
   return openAIRef
 }
@@ -220,3 +236,13 @@ export const useModels = () => {
     ]
   }, [])
 }
+
+let writely_token = ''
+
+browser.runtime.onMessage.addListener(
+  (msg: MessagePayload<EventName.token>) => {
+    if (msg.type === EventName.token) {
+      writely_token = msg.data
+    }
+  }
+)

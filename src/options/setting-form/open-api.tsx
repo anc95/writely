@@ -3,10 +3,8 @@ import {
   Card,
   Form,
   Input,
-  message,
   Modal,
   Radio,
-  Select,
   Tag,
   Tooltip,
   Typography,
@@ -15,9 +13,15 @@ import { useCallback, useState } from 'react'
 import { useModels, useOpenAIEditPrompt } from '../../common/api/openai'
 import cx from 'classnames'
 import i18next from 'i18next'
+import { ServiceProvider } from '../types'
 
 export const OPENAISettings: React.FC = () => {
   const models = useModels()
+  const value = Form.useWatch('serviceProvider')
+
+  if (value === ServiceProvider.Writely) {
+    return null
+  }
 
   return (
     <Card title="Open AI" hoverable>
@@ -56,13 +60,6 @@ export const OPENAISettings: React.FC = () => {
           </a>
         }
       >
-        {/* <Select>
-          {models.map((model) => (
-            <Select.Option key={model.id} value={model.id}>
-              {model.id} {model.price}
-            </Select.Option>
-          ))}
-        </Select> */}
         <Radio.Group className="flex flex-wrap gap-4">
           {models.map((m) => (
             <Radio key={m.id} className="" value={m.id}>

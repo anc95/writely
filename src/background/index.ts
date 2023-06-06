@@ -11,6 +11,19 @@ browser.runtime.onMessage.addListener(
   }
 )
 
+browser.runtime.onMessage.addListener(
+  async (message: MessagePayload<EventName.getToken>, sender) => {
+    if (message.type === EventName.getToken) {
+      browser.tabs.sendMessage(sender.tab.id, {
+        type: EventName.token,
+        data: {
+          token: await getToken(),
+        },
+      })
+    }
+  }
+)
+
 browser.contextMenus.create({
   title: 'Launch writely',
   id: 'writely',
@@ -54,3 +67,14 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
     })
   }
 })
+
+const getToken = async () => {
+  return (
+    (
+      await browser.cookies.get({
+        name: 'supabase-auth-token',
+        url: 'https://writely.miao-ya.com',
+      })
+    )?.value || ''
+  )
+}
