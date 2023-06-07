@@ -19,9 +19,7 @@ const useOpenAPI = () => {
 
     const config = new Configuration({
       apiKey: isWritelyProvider ? writely_token : settings?.apiKey,
-      basePath: isWritelyProvider
-        ? 'https://writely-proxy.rocketx.workers.dev/v1'
-        : settings.url,
+      basePath: isWritelyProvider ? 'http://0.0.0.0:8787/v1' : settings.url,
     })
 
     openAIRef.current = new OpenAIApi(
@@ -97,7 +95,8 @@ const axiosOptionForOpenAI = (
       }
     } catch (e) {
       // expose current response for error display
-      onData?.('', e.currentTarget.response)
+      console.log(e)
+      onData?.('', e.currentTarget)
     }
   },
 })
@@ -238,11 +237,15 @@ export const useModels = () => {
 }
 
 let writely_token = ''
-
-browser.runtime.onMessage.addListener(
-  (msg: MessagePayload<EventName.token>) => {
-    if (msg.type === EventName.token) {
-      writely_token = msg.data
-    }
+;(async function getToken() {
+  const setToken = async () => {
+    const result = await browser.runtime.sendMessage({
+      type: EventName.getToken,
+    })
+    writely_token = decodeURI(result)
   }
-)
+
+  setToken()
+
+  setInterval(setToken, 5000)
+})()
