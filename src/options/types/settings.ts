@@ -5,6 +5,11 @@ export type Instruction = {
   icon: string
 }
 
+export enum ServiceProvider {
+  Writely = 'writely',
+  OpenAI = 'openai',
+}
+
 export type Settings = {
   apiKey?: string
   model?: string
@@ -13,4 +18,5 @@ export type Settings = {
   url?: string
   customInstructions?: Instruction[]
   debug?: boolean
+  serviceProvider?: ServiceProvider
 }

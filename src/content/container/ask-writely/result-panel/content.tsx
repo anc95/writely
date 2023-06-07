@@ -7,7 +7,7 @@ import { Copy } from './actions/copy'
 import { Replay } from './actions/replay'
 import cx from 'classnames'
 import { useSelectionManager } from '../../store/selection'
-import { Tooltip, message } from 'antd'
+import { Alert, Tooltip, message } from 'antd'
 import { useOpenAIEditPrompt } from '@/common/api/openai'
 import { useResultPanel } from '../../store/result-panel'
 import { Insert } from './actions/update'
@@ -15,6 +15,10 @@ import { Replace } from './actions/replace'
 import { IconBtn } from '@/components/icon-btn'
 import { MaterialSymbolsStopCircleOutline } from '@/components/icon/stop'
 import i18next from 'i18next'
+import { getToken } from '@/common/api/writely'
+import { LoginInstruction } from './login-instruction'
+import { useSettings } from '@/common/store/settings'
+import { ServiceProvider } from '@/options/types'
 
 const md = mdit().use(hljsPlugin)
 
@@ -29,7 +33,10 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
     setLoading,
     setText,
     text: resultText,
+    setIsError,
+    isError,
   } = useResultPanel()
+  const { settings } = useSettings()
   const sequenceRef = useRef<number>(0)
   const { isOriginText } = useResultPanel()
   const abortRef = useRef<() => void>(null)
@@ -56,8 +63,10 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
       if (err) {
         setText(err.message)
         setLoading(false)
+        setIsError(true)
       } else {
         setText(text)
+        setIsError(false)
       }
     }
 
@@ -88,6 +97,18 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
 
   useEffect(() => setLoading(true), [])
 
+  const content = (
+    <div
+      ref={mdContainerRef}
+      className="transition-all duration-500"
+      dangerouslySetInnerHTML={{ __html: result }}
+    ></div>
+  )
+
+  if (!getToken() && settings.serviceProvider === ServiceProvider.Writely) {
+    return <LoginInstruction />
+  }
+
   return (
     <div className="shadow-xl bg-zinc-100">
       <div className="p-4 max-h-[50vh] overflow-auto transition-all duration-700">
@@ -101,11 +122,7 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
             />
           </div>
         ) : null}
-        <div
-          ref={mdContainerRef}
-          className="transition-all duration-500"
-          dangerouslySetInnerHTML={{ __html: result }}
-        ></div>
+        {isError ? <Alert description={content} type="error" /> : content}
         {loading ? <AutoScroll /> : null}
       </div>
       <div

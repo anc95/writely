@@ -9,6 +9,7 @@ import { LogosGithubIcon } from '@/components/icon/github'
 import { CodiconFeedback } from '@/components/icon/feedback'
 import { useForm } from 'antd/es/form/Form'
 import i18next from 'i18next'
+import { ProviderSetting } from './provider'
 
 export const SettingsForm: React.FC = () => {
   const { loading, settings, setSettings } = useSettings()
@@ -70,6 +71,7 @@ export const SettingsForm: React.FC = () => {
         form={form}
       >
         <div className="max-w-4xl w-[800px] flex flex-col gap-4">
+          <ProviderSetting />
           <OPENAISettings />
           <SystemSetting />
         </div>

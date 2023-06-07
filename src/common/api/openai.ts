@@ -1,21 +1,30 @@
 import i18next from 'i18next'
 import { Configuration, OpenAIApi } from 'openai'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { logger } from '../debug'
-import { useSettings } from '../store/settings'
+import { defaultSetting, useSettings } from '../store/settings'
+import { ServiceProvider } from '@/options/types'
+import browser from 'webextension-polyfill'
+import { EventName } from '../event-name'
+import { getToken } from './writely'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
   const openAIRef = useRef<OpenAIApi>()
 
   useEffect(() => {
+    const isWritelyProvider =
+      settings.serviceProvider === ServiceProvider.Writely
+
     const config = new Configuration({
-      apiKey: settings?.apiKey,
-      basePath: settings.url,
+      apiKey: isWritelyProvider ? getToken() : settings?.apiKey,
+      basePath: isWritelyProvider
+        ? 'https://writely-proxy.miao-ya.com/v1'
+        : settings.url,
     })
 
     openAIRef.current = new OpenAIApi(config)
-  }, [settings?.apiKey, settings.url])
+  }, [settings?.apiKey, settings.url, settings.serviceProvider, getToken()])
 
   return openAIRef
 }
@@ -53,24 +62,28 @@ const axiosOptionForOpenAI = (
           break
         }
 
-        const parsed = JSON.parse(message)
+        try {
+          const parsed = JSON.parse(message)
 
-        const text =
-          parsed.choices[0].text ||
-          parsed.choices[0]?.delta?.content ||
-          parsed.choices[0]?.message?.content ||
-          ''
+          const text =
+            parsed.choices[0].text ||
+            parsed.choices[0]?.delta?.content ||
+            parsed.choices[0]?.message?.content ||
+            ''
 
-        if (!text && !result) {
+          if (!text && !result) {
+            continue
+          }
+
+          result += text
+
+          // edits don't support stream
+          if (parsed.object === 'edit') {
+            ended = true
+            break
+          }
+        } catch {
           continue
-        }
-
-        result += text
-
-        // edits don't support stream
-        if (parsed.object === 'edit') {
-          ended = true
-          break
         }
       }
 
@@ -81,7 +94,8 @@ const axiosOptionForOpenAI = (
       }
     } catch (e) {
       // expose current response for error display
-      onData?.('', e.currentTarget.response)
+      console.log(e)
+      onData?.('', e.currentTarget)
     }
   },
 })
@@ -94,13 +108,17 @@ export const useQueryOpenAIPrompt = () => {
     prompt: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
+    const isWritelyService =
+      settings.serviceProvider === ServiceProvider.Writely
     const isChat =
-      settings.model.includes('turbo') || settings.model === 'gpt-4'
+      isWritelyService ||
+      settings.model.includes('turbo') ||
+      settings.model === 'gpt-4'
 
     const commonOption = {
       max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
-      model: settings.model,
+      model: isWritelyService ? defaultSetting.model : settings.model,
       temperature: parseFloat(settings.temperature),
     }
 
@@ -148,8 +166,9 @@ export const useOpenAIEditPrompt = () => {
   ) => {
     // https://platform.openai.com/docs/api-reference/edits
     if (
-      settings.model !== 'text-davinci-edit-001' &&
-      settings.model !== 'code-davinci-edit-001'
+      (settings.model !== 'text-davinci-edit-001' &&
+        settings.model !== 'code-davinci-edit-001') ||
+      settings.serviceProvider === ServiceProvider.Writely
     ) {
       return queryPrompt(
         !instruction
