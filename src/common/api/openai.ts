@@ -1,13 +1,12 @@
 import i18next from 'i18next'
 import { Configuration, OpenAIApi } from 'openai'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import axios from 'axios'
 import { logger } from '../debug'
-import { useSettings } from '../store/settings'
+import { defaultSetting, useSettings } from '../store/settings'
 import { ServiceProvider } from '@/options/types'
 import browser from 'webextension-polyfill'
-import { MessagePayload } from '../types'
 import { EventName } from '../event-name'
+import { getToken } from './writely'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
@@ -18,18 +17,14 @@ const useOpenAPI = () => {
       settings.serviceProvider === ServiceProvider.Writely
 
     const config = new Configuration({
-      apiKey: isWritelyProvider ? writely_token : settings?.apiKey,
-      basePath: isWritelyProvider ? 'http://0.0.0.0:8787/v1' : settings.url,
+      apiKey: isWritelyProvider ? getToken() : settings?.apiKey,
+      basePath: isWritelyProvider
+        ? 'https://writely-proxy.miao-ya.com/v1'
+        : settings.url,
     })
 
-    openAIRef.current = new OpenAIApi(
-      config,
-      undefined,
-      isWritelyProvider
-        ? axios.create({ headers: { apikey: writely_token } })
-        : null
-    )
-  }, [settings?.apiKey, settings.url, settings.serviceProvider, writely_token])
+    openAIRef.current = new OpenAIApi(config)
+  }, [settings?.apiKey, settings.url, settings.serviceProvider, getToken()])
 
   return openAIRef
 }
@@ -67,24 +62,28 @@ const axiosOptionForOpenAI = (
           break
         }
 
-        const parsed = JSON.parse(message)
+        try {
+          const parsed = JSON.parse(message)
 
-        const text =
-          parsed.choices[0].text ||
-          parsed.choices[0]?.delta?.content ||
-          parsed.choices[0]?.message?.content ||
-          ''
+          const text =
+            parsed.choices[0].text ||
+            parsed.choices[0]?.delta?.content ||
+            parsed.choices[0]?.message?.content ||
+            ''
 
-        if (!text && !result) {
+          if (!text && !result) {
+            continue
+          }
+
+          result += text
+
+          // edits don't support stream
+          if (parsed.object === 'edit') {
+            ended = true
+            break
+          }
+        } catch {
           continue
-        }
-
-        result += text
-
-        // edits don't support stream
-        if (parsed.object === 'edit') {
-          ended = true
-          break
         }
       }
 
@@ -109,13 +108,17 @@ export const useQueryOpenAIPrompt = () => {
     prompt: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
+    const isWritelyService =
+      settings.serviceProvider === ServiceProvider.Writely
     const isChat =
-      settings.model.includes('turbo') || settings.model === 'gpt-4'
+      isWritelyService ||
+      settings.model.includes('turbo') ||
+      settings.model === 'gpt-4'
 
     const commonOption = {
       max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
-      model: settings.model,
+      model: isWritelyService ? defaultSetting.model : settings.model,
       temperature: parseFloat(settings.temperature),
     }
 
@@ -163,8 +166,9 @@ export const useOpenAIEditPrompt = () => {
   ) => {
     // https://platform.openai.com/docs/api-reference/edits
     if (
-      settings.model !== 'text-davinci-edit-001' &&
-      settings.model !== 'code-davinci-edit-001'
+      (settings.model !== 'text-davinci-edit-001' &&
+        settings.model !== 'code-davinci-edit-001') ||
+      settings.serviceProvider === ServiceProvider.Writely
     ) {
       return queryPrompt(
         !instruction
@@ -235,17 +239,3 @@ export const useModels = () => {
     ]
   }, [])
 }
-
-let writely_token = ''
-;(async function getToken() {
-  const setToken = async () => {
-    const result = await browser.runtime.sendMessage({
-      type: EventName.getToken,
-    })
-    writely_token = decodeURI(result)
-  }
-
-  setToken()
-
-  setInterval(setToken, 5000)
-})()

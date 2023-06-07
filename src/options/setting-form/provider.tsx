@@ -25,7 +25,11 @@ export const ProviderSetting: React.FC = () => {
             onChange={(e) => console.log(e.target.value)}
           >
             <Radio value={ServiceProvider.Writely}>
-              <Tooltip title="使用 Writely 提供的服务，每天有 10 次的免费次数">
+              <Tooltip
+                title={i18next.t(
+                  'Using the services provided by Writely, there are 10 free times per day'
+                )}
+              >
                 <div
                   style={{
                     boxShadow: isCheckedWritely
@@ -43,7 +47,11 @@ export const ProviderSetting: React.FC = () => {
               </Tooltip>
             </Radio>
             <Radio value={ServiceProvider.OpenAI}>
-              <Tooltip title="使用 OpenAI API Key 提供的服务，您可以永久免费使用 Writely 软件">
+              <Tooltip
+                title={i18next.t(
+                  'By using the services provided by OpenAI API Key, you can permanently use Writely software for free'
+                )}
+              >
                 <div
                   style={{
                     boxShadow: isCheckedOpenAI ? '0px 3px rgb(252,211,77)' : '',
@@ -89,9 +97,13 @@ const LinkToWritelySite: React.FC = () => {
       ) : (
         <>
           <span>{i18next.t('Connect your writely account')}</span>
-          <span className="text-blue-500 text-3xl">
+          <a
+            target="_blank"
+            href="https://writely.miao-ya.com"
+            className="text-blue-500 text-3xl"
+          >
             <MaterialSymbolsAddLink />
-          </span>
+          </a>
         </>
       )}
     </div>
