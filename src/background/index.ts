@@ -12,14 +12,10 @@ browser.runtime.onMessage.addListener(
 )
 
 browser.runtime.onMessage.addListener(
-  async (message: MessagePayload<EventName.getToken>, sender) => {
+  (message: MessagePayload<EventName.getToken>, sender, sendResponse) => {
     if (message.type === EventName.getToken) {
-      browser.tabs.sendMessage(sender.tab.id, {
-        type: EventName.token,
-        data: {
-          token: await getToken(),
-        },
-      })
+      getToken().then((v) => (sendResponse as any)(v))
+      return true
     }
   }
 )
@@ -69,12 +65,18 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 })
 
 const getToken = async () => {
-  return (
-    (
-      await browser.cookies.get({
-        name: 'supabase-auth-token',
-        url: 'https://writely.miao-ya.com',
-      })
-    )?.value || ''
-  )
+  try {
+    return JSON.parse(
+      decodeURIComponent(
+        (
+          await browser.cookies.get({
+            name: 'supabase-auth-token',
+            url: 'https://writely.miao-ya.com',
+          })
+        ).value || ''
+      )
+    )[0]
+  } catch {
+    return ''
+  }
 }
