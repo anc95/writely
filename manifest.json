@@ -36,9 +36,13 @@
   "background": {
     "service_worker": "dist/background/index.js"
   },
+  "host_permissions": [
+    "https://*.miao-ya.com/"
+  ],
   "permissions": [
     "storage",
     "clipboardRead",
-    "contextMenus"
+    "contextMenus",
+    "cookies"
   ]
 }

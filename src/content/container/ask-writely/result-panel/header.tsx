@@ -54,9 +54,7 @@ export const Header: React.FC = () => {
         />
         <Operation
           onClick={() => {
-            browser.runtime.sendMessage<
-              MessagePayload<EventName.openOptionsPage>
-            >({
+            browser.runtime.sendMessage({
               type: EventName.openOptionsPage,
             })
           }}
