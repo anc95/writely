@@ -72,5 +72,13 @@
   "Import instructions": "导入指令",
   "😄 Imported successfully": "😄 导入成功",
   "😭 Error format": "😭 格式错误",
-  "Stop Generate": "停止生成"
+  "Stop Generate": "停止生成",
+  "Service Provider": "服务提供方",
+  "Connect your writely account": "关联你的 Writely 账号",
+  "No Writely account detected": "未检测到 Writely 账号",
+  "please Go to": "请前往",
+  "Extension Settings": "插件设置",
+  "to connect": "关联",
+  "Using the services provided by Writely, there are 10 free times per day": "使用 Writely 提供的服务，每天有 10 次的免费次数",
+  "By using the services provided by OpenAI API Key, you can permanently use Writely software for free": "使用 OpenAI API Key 提供的服务，您可以永久免费使用 Writely 软件"
 }

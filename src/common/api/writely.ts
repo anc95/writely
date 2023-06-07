@@ -1,4 +1,6 @@
 import useSWR from 'swr'
+import browser from 'webextension-polyfill'
+import { EventName } from '../event-name'
 
 export const useUser = () => {
   return useSWR(['user'], async () => {
@@ -14,3 +16,20 @@ export const useUser = () => {
     return value
   })
 }
+
+let writely_token = ''
+;(async function _getToken() {
+  const setToken = async () => {
+    const result = await browser.runtime.sendMessage({
+      type: EventName.getToken,
+    })
+    writely_token = decodeURI(result)
+    console.log(writely_token)
+  }
+
+  setToken()
+
+  setInterval(setToken, 5000)
+})()
+
+export const getToken = () => writely_token

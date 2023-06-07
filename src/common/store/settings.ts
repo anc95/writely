@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { createContainer } from 'unstated-next'
 import browser from 'webextension-polyfill'
 import { uniqueId } from 'lodash-es'
+import { ServiceProvider, Settings } from '../../options/types'
 
 const key = 'writingly-settings'
 
-const defaultSetting: Settings = {
+export const defaultSetting: Settings = {
   model: 'gpt-3.5-turbo',
   url: 'https://api.openai.com/v1',
 }
@@ -62,6 +63,10 @@ export const getSetting = async () => {
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
+
+  if (!res.serviceProvider) {
+    res.serviceProvider = ServiceProvider.Writely
+  }
 
   return res as Settings
 }

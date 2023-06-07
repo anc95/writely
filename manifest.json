@@ -37,7 +37,7 @@
     "service_worker": "dist/background/index.js"
   },
   "host_permissions": [
-    "https://writely.miao-ya.com/"
+    "https://*.miao-ya.com/"
   ],
   "permissions": [
     "storage",
