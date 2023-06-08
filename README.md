@@ -13,7 +13,7 @@
 
 [中文文档](README-CN.md)
 
-<a href="https://discord.com/invite/9e6HQ7wx">Join US On Discord</a>
+<a href="https://discord.gg/P9G4eQ5KRT">Join US On Discord</a>
 
 ## Features
 
