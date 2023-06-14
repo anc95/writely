@@ -116,9 +116,11 @@ export const useQueryOpenAIPrompt = () => {
       settings.model === 'gpt-4'
 
     const commonOption = {
-      max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
+      // max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
-      model: isWritelyService ? defaultSetting.model : settings.model,
+      model: ensureUsing0613Model(
+        isWritelyService ? defaultSetting.model : settings.model
+      ),
       temperature: parseFloat(settings.temperature),
     }
 
@@ -244,4 +246,13 @@ export const useModels = () => {
       },
     ]
   }, [])
+}
+
+// TODO: remove later
+const ensureUsing0613Model = (model: string) => {
+  if (model.startsWith('gpt-3.5')) {
+    return model + '-0613'
+  }
+
+  return model
 }
