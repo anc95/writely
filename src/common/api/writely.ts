@@ -24,7 +24,6 @@ let writely_token = ''
       type: EventName.getToken,
     })
     writely_token = decodeURI(result)
-    console.log(writely_token)
   }
 
   setToken()
