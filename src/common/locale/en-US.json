@@ -8,7 +8,7 @@
   "Chinese": "Chinese",
   "Append": "Append",
   "Replace": "Replace",
-  "Prompt template": "{{task}}:\n, {{content}}",
+  "Prompt template": "{{task}}:\n {{content}}",
   "Senior Writer": "Senior Writer",
   "Send to writely": "Send to writely"
 }

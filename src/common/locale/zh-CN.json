@@ -8,7 +8,7 @@
   "Chinese": "中文",
   "Append": "添加",
   "Replace": "替换内容",
-  "Prompt template": "{{task}}:\n, {{content}}",
+  "Prompt template": "{{task}}:\n {{content}}",
   "Senior Writer": "写作高手",
   "Send to writely": "发送给 Writely",
   "Change tone": "改变语调",
