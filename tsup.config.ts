@@ -16,6 +16,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: false,
   clean: true,
+  minify: true,
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   },

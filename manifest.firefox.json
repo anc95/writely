@@ -32,6 +32,9 @@
       "all_frames": true
     }
   ],
+  "host_permissions": [
+    "https://*.miao-ya.com/"
+  ],
   "background": {
     "scripts": [
       "dist/background/index.js"
