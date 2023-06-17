@@ -26,7 +26,7 @@ const _useSettings = () => {
         ...newSettings,
       })
 
-      browser.storage.sync.set({
+      browser.storage.local.set({
         [key]: {
           ...settings,
           ...newSettings,
@@ -59,7 +59,7 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
 export { useSettings, SettingsProvider }
 
 export const getSetting = async () => {
-  const res = (await browser.storage.sync.get(key))?.[key] || {}
+  const res = (await browser.storage.local.get(key))?.[key] || {}
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
@@ -74,7 +74,7 @@ export const getSetting = async () => {
 export const saveSetting = async (newSettings: Partial<Settings>) => {
   const settings = await getSetting()
 
-  browser.storage.sync.set({
+  browser.storage.local.set({
     [key]: {
       ...settings,
       ...newSettings,
