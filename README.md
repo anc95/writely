@@ -9,6 +9,7 @@
 <img src="https://img.shields.io/chrome-web-store/v/eocenplmfgoaibmmohkhhocnlkpaecgn" />
 </a>
 <a href="https://addons.mozilla.org/en-US/firefox/addon/writely/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/v/writely"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/writely/kbdaacbaddmbnkopjmepjnefmdaeoiih"><img alt="Edge Add-on" src="https://img.shields.io/amo/v/writely?label=Edge Add-on"></a>
 </p>
 
 [中文文档](README-CN.md)
@@ -40,6 +41,8 @@ Chrome Web Store: <a href="https://chrome.google.com/webstore/detail/writely/eoc
 </a>
 
 Firefox Add-on: <a href="https://addons.mozilla.org/en-US/firefox/addon/writely/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/v/writely"></a>
+
+Edge Add-on: <a href="https://microsoftedge.microsoft.com/addons/detail/writely/kbdaacbaddmbnkopjmepjnefmdaeoiih"><img alt="Edge Add-on" src="https://img.shields.io/amo/v/writely?label=Edge Add-on"></a>
 
 ### Configuration
 
