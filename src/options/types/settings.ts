@@ -8,6 +8,7 @@ export type Instruction = {
 export enum ServiceProvider {
   Writely = 'writely',
   OpenAI = 'openai',
+  ChatGPT = 'chatgpt',
 }
 
 export type Settings = {

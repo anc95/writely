@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { logger } from '../debug'
 import { defaultSetting, useSettings } from '../store/settings'
 import { ServiceProvider } from '@/options/types'
-import browser from 'webextension-polyfill'
-import { EventName } from '../event-name'
 import { getToken } from './writely'
+import { EventName } from '../event-name'
+import browser from 'webextension-polyfill'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
@@ -126,7 +126,9 @@ export const useQueryOpenAIPrompt = () => {
 
     const abortController = new AbortController()
 
-    if (isChat) {
+    if (settings.serviceProvider === ServiceProvider.ChatGPT) {
+      sendToChatGPTWeb(prompt)
+    } else if (isChat) {
       openAI?.current?.createChatCompletion(
         {
           ...commonOption,
@@ -255,4 +257,13 @@ const ensureUsing0613Model = (model: string) => {
   }
 
   return model
+}
+
+const sendToChatGPTWeb = async (prompt: string) => {
+  console.log(
+    'hi',
+    await browser.runtime.sendMessage({
+      type: EventName.chat,
+    })
+  )
 }
