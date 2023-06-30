@@ -84,11 +84,11 @@ export const saveSetting = async (newSettings: Partial<Settings>) => {
   const remoteSettings = omit(settings, 'customInstructions')
 
   browser.storage.sync.set({
-    [key]: localNewSettings,
+    [key]: remoteSettings,
   })
 
   if (localNewSettings) {
-    browser.storage.local.set({ [key]: remoteSettings })
+    browser.storage.local.set({ [key]: localNewSettings })
   }
 }
 
