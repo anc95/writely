@@ -6,4 +6,5 @@ export enum EventName {
   openOptionsPage = 'open-options-page',
   getToken = 'get-token',
   token = 'token',
+  chat = 'chat',
 }

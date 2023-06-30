@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createContainer } from 'unstated-next'
 import browser from 'webextension-polyfill'
-import { uniqueId } from 'lodash-es'
+import { omit, uniqueId } from 'lodash-es'
 import { ServiceProvider, Settings } from '../../options/types'
 
 const key = 'writingly-settings'
@@ -26,12 +26,7 @@ const _useSettings = () => {
         ...newSettings,
       })
 
-      browser.storage.local.set({
-        [key]: {
-          ...settings,
-          ...newSettings,
-        },
-      })
+      saveSetting(newSettings)
     },
     [settings]
   )
@@ -59,7 +54,10 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
 export { useSettings, SettingsProvider }
 
 export const getSetting = async () => {
-  const res = (await browser.storage.local.get(key))?.[key] || {}
+  const res = {
+    ...((await browser.storage.local.get(key))?.[key] || {}),
+    ...((await browser.storage.sync.get(key))?.[key] || {}),
+  }
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
@@ -72,14 +70,26 @@ export const getSetting = async () => {
 }
 
 export const saveSetting = async (newSettings: Partial<Settings>) => {
-  const settings = await getSetting()
+  const settings = {
+    ...(await getSetting()),
+    ...newSettings,
+  }
 
-  browser.storage.local.set({
-    [key]: {
-      ...settings,
-      ...newSettings,
-    },
+  // 只有 customInstruction 存在本地
+  const localNewSettings = settings.customInstructions
+    ? {
+        customInstructions: settings.customInstructions,
+      }
+    : null
+  const remoteSettings = omit(settings, 'customInstructions')
+
+  browser.storage.sync.set({
+    [key]: localNewSettings,
   })
+
+  if (localNewSettings) {
+    browser.storage.local.set({ [key]: remoteSettings })
+  }
 }
 
 const patchCustomInstructions = (setting: Settings) => {

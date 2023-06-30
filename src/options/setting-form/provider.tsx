@@ -8,6 +8,7 @@ import { MaterialSymbolsAddLink } from '@/components/icon/link'
 import { useUser } from '@/common/api/writely'
 import Link from 'antd/es/typography/Link'
 import { MaterialSymbolsCheckCircleRounded } from '@/components/icon/checked'
+import { ChatGPTIcon } from '@/components/icon/chatgpt'
 
 export const ProviderSetting: React.FC = () => {
   const value = Form.useWatch('serviceProvider')
@@ -15,6 +16,7 @@ export const ProviderSetting: React.FC = () => {
 
   const isCheckedWritely = value === ServiceProvider.Writely
   const isCheckedOpenAI = value === ServiceProvider.OpenAI
+  const isCheckedChatGPT = value === ServiceProvider.ChatGPT
 
   return (
     <Card title={i18next.t('Service Provider')} hoverable>
@@ -65,6 +67,26 @@ export const ProviderSetting: React.FC = () => {
                 </div>
               </Tooltip>
             </Radio>
+            {/* <Radio value={ServiceProvider.ChatGPT}>
+              <Tooltip
+                title={i18next.t(
+                  'By using the services provided by ChatGPT, you can permanently use Writely software for free'
+                )}
+              >
+                <div
+                  style={{
+                    boxShadow: isCheckedChatGPT ? '0px 3px rgb(252,211,77)' : '',
+                  }}
+                  className={classNames(
+                    'items-center py-3 px-5 rounded-full flex gap-2',
+                    isCheckedChatGPT ? activeClassNames : ''
+                  )}
+                >
+                  <ChatGPTIcon className="h-11 w-auto" />
+                  <span className="font-semibold text-3xl">ChatGPT</span>
+                </div>
+              </Tooltip>
+            </Radio> */}
           </Radio.Group>
         </div>
       </Form.Item>
