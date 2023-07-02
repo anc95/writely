@@ -7,6 +7,8 @@ import { ServiceProvider } from '@/options/types'
 import { getToken } from './writely'
 import { EventName } from '../event-name'
 import browser from 'webextension-polyfill'
+import { parseStream } from '../parse-stream'
+import { chatgptWeb } from './chatgpt-web'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
@@ -40,57 +42,12 @@ const axiosOptionForOpenAI = (
     }
 
     try {
-      const lines = e.currentTarget.response
-        .toString()
-        .split('\n')
-        .filter((line) => line.trim() !== '')
-
-      logger.debug(e.currentTarget.response)
-
-      let result = ''
-
-      logger.debug('[EventSource]', e.currentTarget.response)
-
-      let ended = false
-
-      for (const line of lines) {
-        const message = line.replace(/^data: /, '')
-
-        if (message === '[DONE]') {
-          // stream finished
-          ended = true
-          break
-        }
-
-        try {
-          const parsed = JSON.parse(message)
-
-          const text =
-            parsed.choices[0].text ||
-            parsed.choices[0]?.delta?.content ||
-            parsed.choices[0]?.message?.content ||
-            ''
-
-          if (!text && !result) {
-            continue
-          }
-
-          result += text
-
-          // edits don't support stream
-          if (parsed.object === 'edit') {
-            ended = true
-            break
-          }
-        } catch {
-          continue
-        }
-      }
+      const { data, ended } = parseStream(e.currentTarget.response)
 
       if (ended) {
-        onData(result, '', true)
+        onData(data, '', true)
       } else {
-        onData?.(result)
+        onData?.(data)
       }
     } catch (e) {
       // expose current response for error display
@@ -127,7 +84,7 @@ export const useQueryOpenAIPrompt = () => {
     const abortController = new AbortController()
 
     if (settings.serviceProvider === ServiceProvider.ChatGPT) {
-      sendToChatGPTWeb(prompt)
+      chatgptWeb.sendMsg(prompt, onData)
     } else if (isChat) {
       openAI?.current?.createChatCompletion(
         {
@@ -257,13 +214,4 @@ const ensureUsing0613Model = (model: string) => {
   }
 
   return model
-}
-
-const sendToChatGPTWeb = async (prompt: string) => {
-  console.log(
-    'hi',
-    await browser.runtime.sendMessage({
-      type: EventName.chat,
-    })
-  )
 }
