@@ -38,7 +38,7 @@ const createWindow = (): void => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  const ret = registerShortcut('F6', printSelectedText)
+  const ret = registerShortcut('Alt+w', printSelectedText)
 
   if (!ret) {
     console.warn('registration failed')
