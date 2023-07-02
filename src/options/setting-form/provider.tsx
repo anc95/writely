@@ -67,7 +67,7 @@ export const ProviderSetting: React.FC = () => {
                 </div>
               </Tooltip>
             </Radio>
-            {/* <Radio value={ServiceProvider.ChatGPT}>
+            <Radio value={ServiceProvider.ChatGPT}>
               <Tooltip
                 title={i18next.t(
                   'By using the services provided by ChatGPT, you can permanently use Writely software for free'
@@ -75,7 +75,9 @@ export const ProviderSetting: React.FC = () => {
               >
                 <div
                   style={{
-                    boxShadow: isCheckedChatGPT ? '0px 3px rgb(252,211,77)' : '',
+                    boxShadow: isCheckedChatGPT
+                      ? '0px 3px rgb(252,211,77)'
+                      : '',
                   }}
                   className={classNames(
                     'items-center py-3 px-5 rounded-full flex gap-2',
@@ -86,7 +88,7 @@ export const ProviderSetting: React.FC = () => {
                   <span className="font-semibold text-3xl">ChatGPT</span>
                 </div>
               </Tooltip>
-            </Radio> */}
+            </Radio>
           </Radio.Group>
         </div>
       </Form.Item>

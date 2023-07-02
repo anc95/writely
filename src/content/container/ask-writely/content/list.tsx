@@ -1,47 +1,47 @@
-import { MaterialSymbolsMoreHoriz } from '@/components/icon/more';
-import { Popover } from 'antd';
-import i18next from 'i18next';
-import React, { useCallback, useRef } from 'react';
-import { RightArrowIcon } from '../../../../components/icon';
+import { MaterialSymbolsMoreHoriz } from '@/components/icon/more'
+import { Popover } from 'antd'
+import i18next from 'i18next'
+import React, { useCallback, useRef } from 'react'
+import { RightArrowIcon } from '../../../../components/icon'
 
 export type ListProps = {
   items: {
-    label: React.ReactNode;
-    children: ListProps['items'];
-    icon: React.ReactNode;
-    instruction: string;
-  }[];
-  onClick?: (item: ListProps['items'][number]) => void;
-  max?: number;
-};
+    label: React.ReactNode
+    children: ListProps['items']
+    icon: React.ReactNode
+    instruction: string
+  }[]
+  onClick?: (item: ListProps['items'][number]) => void
+  max?: number
+}
 
 export const List: React.FC<ListProps> = ({ items, onClick, max }) => {
   const handleClick = useCallback(
     (item) => {
       if (item.children) {
-        return;
+        return
       }
 
-      onClick?.(item);
+      onClick?.(item)
     },
     [onClick]
-  );
+  )
 
-  const maxShownItem = typeof max === 'number' ? max : Infinity;
+  const maxShownItem = typeof max === 'number' ? max : Infinity
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
-  const shouldShowMore = items.length > maxShownItem;
+  const shouldShowMore = items.length > maxShownItem
 
   return (
     <div className="flex flex-col">
       {items.slice(0, maxShownItem).map((item, index) => {
-        const itemEle = <Item item={item} onClick={handleClick} />;
+        const itemEle = <Item item={item} onClick={handleClick} key={index} />
 
         if (!item.children?.length) {
-          return itemEle;
+          return itemEle
         }
 
         return (
@@ -53,7 +53,7 @@ export const List: React.FC<ListProps> = ({ items, onClick, max }) => {
           >
             <div>{itemEle}</div>
           </Popover>
-        );
+        )
       })}
       {shouldShowMore ? (
         <Popover
@@ -74,14 +74,14 @@ export const List: React.FC<ListProps> = ({ items, onClick, max }) => {
         </Popover>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
 const Item: React.FC<{ item: any; onClick?: (item: any) => void }> = ({
   item,
   onClick,
 }) => {
-  const hasChildren = !!item.children?.length;
+  const hasChildren = !!item.children?.length
 
   return (
     <div
@@ -98,5 +98,5 @@ const Item: React.FC<{ item: any; onClick?: (item: any) => void }> = ({
         </div>
       ) : null}
     </div>
-  );
-};
+  )
+}
