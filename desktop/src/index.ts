@@ -51,16 +51,29 @@ app.on('ready', () => {
 
   // note: your contextMenu, Tooltip and Title code will go here!
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Settings', type: 'radio' },
-    { label: 'Help', type: 'radio' },
-    { label: 'Launch at login', type: 'radio', checked: true },
-    { label: 'Quit', type: 'radio' },
+    {
+      label: 'Settings',
+      type: 'normal',
+      click: () => {
+        createWindow()
+      },
+    },
+    {
+      label: 'Help',
+      type: 'normal',
+      click: () => {
+        let win = new BrowserWindow({ width: 800, height: 600 })
+        win.loadURL('https://github.com/anc95/writely')
+      },
+    },
+    // https://www.electronjs.org/docs/latest/api/app#appsetloginitemsettingssettings-macos-windows
+    // { label: 'Launch at login', type: 'radio', checked: true },
+    { label: 'Quit', type: 'normal', click: () => app.quit() },
   ])
 
   tray.setContextMenu(contextMenu)
   tray.setToolTip('Writely')
   // tray.setTitle('Writely')
-  createWindow()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
