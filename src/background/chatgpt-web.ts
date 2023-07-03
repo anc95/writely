@@ -3,18 +3,14 @@ import browser from 'webextension-polyfill'
 import { v4 as uuidv4 } from '../../node_modules/uuid/dist/esm-browser/index'
 import { MessagePayload } from '@/common/types'
 
-let chatgptwebPort = null
-
 browser.runtime.onConnect.addListener((port) => {
   if (port.name !== PortName.chatgptWeb) {
     return
   }
 
-  chatgptwebPort = port
-
   port.onMessage.addListener((msg) => {
     if (msg.type === EventName.chat) {
-      sendMessageOnChatGPTWeb(msg.data)
+      sendMessageOnChatGPTWeb(msg.data, port)
     }
   })
 })
@@ -29,7 +25,7 @@ browser.runtime.onMessage.addListener(
   }
 )
 
-const sendMessageOnChatGPTWeb = async (prompt: string) => {
+const sendMessageOnChatGPTWeb = async (prompt: string, port) => {
   const token = await getAccessToken()
 
   const res = await fetch('https://chat.openai.com/backend-api/conversation', {
@@ -61,7 +57,7 @@ const sendMessageOnChatGPTWeb = async (prompt: string) => {
       function pump() {
         return reader.read().then(({ done, value }) => {
           console.log(new TextDecoder().decode(value))
-          chatgptwebPort?.postMessage({
+          port?.postMessage({
             type: EventName.chatgptResponse,
             data: new TextDecoder().decode(value),
           })
