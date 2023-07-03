@@ -19,6 +19,7 @@ import { getToken } from '@/common/api/writely'
 import { LoginInstruction } from './login-instruction'
 import { useSettings } from '@/common/store/settings'
 import { ServiceProvider } from '@/options/types'
+import { chatgptWeb } from '@/common/api/chatgpt-web'
 
 const md = mdit().use(hljsPlugin)
 
@@ -55,7 +56,7 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
       }
 
       if (end) {
-        setText(text)
+        text && setText(text)
         setLoading(false)
         return
       }
@@ -106,7 +107,14 @@ export const Content: React.FC<{ text: string }> = ({ text: task }) => {
   )
 
   if (!getToken() && settings.serviceProvider === ServiceProvider.Writely) {
-    return <LoginInstruction />
+    return <LoginInstruction accountType="Writely" />
+  }
+
+  if (
+    !chatgptWeb.accessToken &&
+    settings.serviceProvider === ServiceProvider.ChatGPT
+  ) {
+    return <LoginInstruction accountType="ChatGPT" />
   }
 
   return (

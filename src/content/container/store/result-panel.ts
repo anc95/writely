@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { createContainer } from 'unstated-next'
 
 const { useContainer: useResultPanel, Provider: ResultPanelProvider } =
@@ -17,7 +17,15 @@ const { useContainer: useResultPanel, Provider: ResultPanelProvider } =
       text,
       isOriginText,
       setIsOriginText,
-      setText,
+      setText: useCallback((newText: string) => {
+        setText((value) => {
+          if (newText.length > value.length) {
+            return newText
+          }
+
+          return value
+        })
+      }, []),
       isError,
       setIsError,
     }

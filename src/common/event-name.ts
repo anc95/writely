@@ -8,6 +8,7 @@ export enum EventName {
   token = 'token',
   chat = 'chat',
   chatgptResponse = 'chatgpt-response',
+  getChatGPTToken = 'get-chatgpt-token',
 }
 
 export enum PortName {

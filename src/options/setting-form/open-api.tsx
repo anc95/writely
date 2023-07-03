@@ -19,7 +19,7 @@ export const OPENAISettings: React.FC = () => {
   const models = useModels()
   const value = Form.useWatch('serviceProvider')
 
-  if (value === ServiceProvider.Writely) {
+  if (value !== ServiceProvider.OpenAI) {
     return null
   }
 

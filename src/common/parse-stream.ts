@@ -7,7 +7,6 @@ export const parseStream = (content: string) => {
     .filter((line) => line.trim() !== '')
 
   let result = ''
-  let prefixLength = 0
 
   logger.debug('[EventSource]', content)
 
@@ -38,8 +37,9 @@ export const parseStream = (content: string) => {
 
       // ChatGPT Web
       if (!!parsed?.message?.content?.parts) {
-        result = text.substring(prefixLength)
-        prefixLength = text.length
+        if (text.length > result.length) {
+          result = text
+        }
       } else {
         result += text
       }
