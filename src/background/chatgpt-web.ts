@@ -1,6 +1,7 @@
 import { EventName, PortName } from '@/common/event-name'
 import browser from 'webextension-polyfill'
 import { v4 as uuidv4 } from '../../node_modules/uuid/dist/esm-browser/index'
+import { MessagePayload } from '@/common/types'
 
 let chatgptwebPort = null
 
@@ -17,6 +18,16 @@ browser.runtime.onConnect.addListener((port) => {
     }
   })
 })
+
+browser.runtime.onMessage.addListener(
+  (message: MessagePayload<EventName.getChatGPTToken>, _, sendResponse) => {
+    if (message.type === EventName.getChatGPTToken) {
+      getAccessToken().then(sendResponse)
+
+      return true
+    }
+  }
+)
 
 const sendMessageOnChatGPTWeb = async (prompt: string) => {
   const token = await getAccessToken()
