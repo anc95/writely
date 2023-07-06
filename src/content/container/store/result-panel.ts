@@ -19,7 +19,8 @@ const { useContainer: useResultPanel, Provider: ResultPanelProvider } =
       setIsOriginText,
       setText: useCallback((newText: string) => {
         setText((value) => {
-          if (newText.length > value.length) {
+          // ChatGPT web last stream is empty
+          if (newText.trim()?.length) {
             return newText
           }
 

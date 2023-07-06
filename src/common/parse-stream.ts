@@ -40,6 +40,7 @@ export const parseStream = (content: string) => {
         if (text.length > result.length) {
           result = text
         }
+        console.log(text, '=======', result)
       } else {
         result += text
       }

@@ -30,6 +30,12 @@ class ChatGPTWeb {
     })
   }
 
+  public abort = () => {
+    this.port.postMessage({
+      type: EventName.stopChatGPTChat,
+    })
+  }
+
   private initToken = async () => {
     this.accessToken = await Browser.runtime.sendMessage({
       type: EventName.getChatGPTToken,
