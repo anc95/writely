@@ -71,7 +71,7 @@ export const ProviderSetting: React.FC = () => {
             <Radio value={ServiceProvider.ChatGPT}>
               <Tooltip
                 title={i18next.t(
-                  'By using the services provided by ChatGPT, you can permanently use Writely software for free'
+                  'Using the ChatGPT Web service is not recommended as it may carry the risk of being banned by OpenAI. Please consider this carefully. In case of account suspension, it is unrelated to Writely.'
                 )}
               >
                 <div

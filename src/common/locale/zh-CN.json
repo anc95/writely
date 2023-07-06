@@ -82,5 +82,5 @@
   "to connect": "关联",
   "Using the services provided by Writely, there are 10 free times per day": "使用 Writely 提供的服务，每天有 10 次的免费次数",
   "By using the services provided by OpenAI API Key, you can permanently use Writely software for free": "使用 OpenAI API Key 提供的服务，您可以永久免费使用 Writely 软件",
-  "By using the services provided by ChatGPT, you can permanently use Writely software for free": "使用 ChatGPT 提供的服务，您可以永久免费使用 Writely 软件"
+  "Using the ChatGPT Web service is not recommended as it may carry the risk of being banned by OpenAI. Please consider this carefully. In case of account suspension, it is unrelated to Writely.": "使用ChatGPT Web的服务并不推荐，因为这可能会导致OpenAI封禁您的账号。请您自行权衡利弊。如果出现账号被封的情况，与Writely无关。"
 }
