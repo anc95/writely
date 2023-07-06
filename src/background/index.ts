@@ -24,13 +24,13 @@ browser.runtime.onMessage.addListener(
 browser.contextMenus.create({
   title: 'Launch writely',
   id: 'writely',
-  contexts: ['selection'],
+  // contexts: ['selection'],
 })
 
 browser.contextMenus.create({
   title: 'Writely instructions',
   id: 'writely-instructions',
-  contexts: ['selection'],
+  // contexts: ['selection'],
 })
 
 const createSubMenu = async () => {
@@ -49,6 +49,7 @@ const createSubMenu = async () => {
 createSubMenu()
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
+  console.error('hi')
   if (info.menuItemId === 'writely' && tab.id) {
     browser.tabs.sendMessage(tab.id, {
       type: EventName.launchWritely,

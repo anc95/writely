@@ -85,6 +85,8 @@ export const useQueryOpenAIPrompt = () => {
 
     if (settings.serviceProvider === ServiceProvider.ChatGPT) {
       chatgptWeb.sendMsg(prompt, onData)
+
+      return chatgptWeb.abort
     } else if (isChat) {
       openAI?.current?.createChatCompletion(
         {
@@ -129,7 +131,7 @@ export const useOpenAIEditPrompt = () => {
     if (
       (settings.model !== 'text-davinci-edit-001' &&
         settings.model !== 'code-davinci-edit-001') ||
-      settings.serviceProvider === ServiceProvider.Writely
+      settings.serviceProvider !== ServiceProvider.OpenAI
     ) {
       return queryPrompt(
         !instruction

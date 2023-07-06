@@ -5,7 +5,7 @@ import {
   DashiconsAdminGeneric,
   RiHeartFill,
 } from '@/components/icon'
-import { ReactNode } from 'react'
+import { MutableRefObject, ReactNode } from 'react'
 import { useView } from '../../store/view'
 import i18next from 'i18next'
 import { useResultPanel } from '../../store/result-panel'
@@ -13,9 +13,16 @@ import type { MessagePayload } from '@/common/types'
 import { EventName } from '@/common/event-name'
 import browser from 'webextension-polyfill'
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{ abortRef: MutableRefObject<() => void> }> = ({
+  abortRef,
+}) => {
   const { hide, goToInputPage } = useView()
   const { isOriginText, setIsOriginText } = useResultPanel()
+
+  const back = () => {
+    goToInputPage()
+    abortRef.current?.()
+  }
 
   return (
     <div className="flex px-2 items-center bg-zinc-900 cursor-move handle justify-between">
@@ -23,7 +30,7 @@ export const Header: React.FC = () => {
         <Operation
           icon={<MaterialSymbolsKeyboardBackspace />}
           tooltip="Back"
-          onClick={goToInputPage}
+          onClick={back}
         />
         <Operation icon={<MdiClose />} tooltip="Close window" onClick={hide} />
       </div>

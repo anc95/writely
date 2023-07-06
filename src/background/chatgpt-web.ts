@@ -11,6 +11,8 @@ browser.runtime.onConnect.addListener((port) => {
   port.onMessage.addListener((msg) => {
     if (msg.type === EventName.chat) {
       sendMessageOnChatGPTWeb(msg.data, port)
+    } else if (msg.type === EventName.stopChatGPTChat) {
+      abortController.abort()
     }
   })
 })
@@ -25,8 +27,15 @@ browser.runtime.onMessage.addListener(
   }
 )
 
+let conversation_id = undefined
+let parent_message_id = uuidv4()
+let abortController = new AbortController()
+
 const sendMessageOnChatGPTWeb = async (prompt: string, port) => {
   const token = await getAccessToken()
+  const msgUUID = uuidv4()
+  abortController.abort()
+  abortController = new AbortController()
 
   const res = await fetch('https://chat.openai.com/backend-api/conversation', {
     method: 'POST',
@@ -34,21 +43,25 @@ const sendMessageOnChatGPTWeb = async (prompt: string, port) => {
       action: 'next',
       messages: [
         {
-          id: uuidv4(),
+          id: msgUUID,
           author: { role: 'user' },
           content: { content_type: 'text', parts: [prompt] },
           metadata: {},
         },
       ],
       model: 'text-davinci-002-render-sha',
-      parent_message_id: uuidv4(),
+      parent_message_id: parent_message_id,
+      conversation_id: conversation_id,
     }),
     headers: {
       Accept: 'text/event-stream',
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json',
     },
+    signal: abortController.signal,
   })
+
+  parent_message_id = msgUUID
 
   const reader = res.body.getReader()
   return new ReadableStream({
@@ -56,10 +69,18 @@ const sendMessageOnChatGPTWeb = async (prompt: string, port) => {
       return pump()
       function pump() {
         return reader.read().then(({ done, value }) => {
-          console.log(new TextDecoder().decode(value))
+          const strValue = new TextDecoder().decode(value)
+          const cId = /"conversation_id":\s+"([^"]+)+/.exec(strValue)?.[1]
+
+          if (cId) {
+            conversation_id = cId
+          }
+
+          console.log('发送消息', port)
+
           port?.postMessage({
             type: EventName.chatgptResponse,
-            data: new TextDecoder().decode(value),
+            data: strValue,
           })
 
           if (done) {
