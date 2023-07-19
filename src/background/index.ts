@@ -1,7 +1,7 @@
 import { EventName } from '@/common/event-name'
 import { getSetting } from '@/common/store/settings'
 import type { MessagePayload } from '@/common/types'
-import browser from 'webextension-polyfill'
+// import browser from 'webextension-polyfill'
 import { v4 as uuidv4 } from '../../node_modules/uuid/dist/esm-browser/index'
 
 browser.runtime.onMessage.addListener(

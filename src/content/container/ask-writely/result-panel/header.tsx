@@ -11,7 +11,7 @@ import i18next from 'i18next'
 import { useResultPanel } from '../../store/result-panel'
 import type { MessagePayload } from '@/common/types'
 import { EventName } from '@/common/event-name'
-import browser from 'webextension-polyfill'
+// import browser from 'webextension-polyfill'
 
 export const Header: React.FC = () => {
   const { hide, goToInputPage } = useView()

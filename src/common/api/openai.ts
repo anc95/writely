@@ -1,12 +1,12 @@
 import i18next from 'i18next'
 import { Configuration, OpenAIApi } from 'openai'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { logger } from '../debug'
 import { defaultSetting, useSettings } from '../store/settings'
 import { ServiceProvider } from '@/options/types'
 import { getToken } from './writely'
 import { EventName } from '../event-name'
-import browser from 'webextension-polyfill'
+// // import browser from 'webextension-polyfill'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()

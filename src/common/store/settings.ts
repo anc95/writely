@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createContainer } from 'unstated-next'
-import browser from 'webextension-polyfill'
+// // import browser from 'webextension-polyfill'
 import { omit, uniqueId } from 'lodash-es'
 import { ServiceProvider, Settings } from '../../options/types'
 
@@ -55,9 +55,9 @@ export { useSettings, SettingsProvider }
 
 export const getSetting = async () => {
   const res = {
-    ...((await browser.storage.local.get(key))?.[key] || {}),
-    ...((await browser.storage.sync.get(key))?.[key] || {}),
-  }
+    // ...((await browser?.storage?.local?.get(key))?.[key] || {}),
+    // ...((await browser?.storage?.sync?.get(key))?.[key] || {}),
+  } as Settings
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
