@@ -5,14 +5,7 @@ import { IcBaselineDeleteOutline } from '@/components/icon/delete'
 import { MaterialSymbolsEditOutline } from '@/components/icon/edit'
 import { MaterialSymbolsArrowUpward } from '@/components/icon/up'
 import { Instruction } from '@/options/types'
-import {
-  Popconfirm,
-  Popover,
-  Table,
-  TableProps,
-  Tooltip,
-  Typography,
-} from 'antd'
+import { Popconfirm, Popover, Table, TableProps, Typography } from 'antd'
 import i18next from 'i18next'
 import { useModalState } from './modal-state'
 

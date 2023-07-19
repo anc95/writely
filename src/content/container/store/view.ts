@@ -2,7 +2,7 @@ import { EventName } from '@/common/event-name'
 import { MessagePayload } from '@/common/types'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createContainer } from 'unstated-next'
-import browser from 'webextension-polyfill'
+// import browser from 'webextension-polyfill'
 import { useInstruction } from './instruction'
 import { useSelectionManager } from './selection'
 
