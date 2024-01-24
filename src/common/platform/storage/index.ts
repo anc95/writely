@@ -10,3 +10,5 @@ class Storage implements StorageInterface {
     return (await browser.storage.local.get(key))?.[key] as T
   }
 }
+
+export const storage = new Storage()

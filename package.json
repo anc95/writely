@@ -5,13 +5,13 @@
   "author": "chao.an",
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^6.2.1",
-    "@electron-forge/maker-deb": "^6.2.1",
-    "@electron-forge/maker-rpm": "^6.2.1",
-    "@electron-forge/maker-squirrel": "^6.2.1",
-    "@electron-forge/maker-zip": "^6.2.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
-    "@electron-forge/plugin-webpack": "^6.2.1",
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
+    "@electron-forge/plugin-webpack": "^7.2.0",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@types/chrome": "^0.0.212",
     "@types/lodash-es": "^4.17.6",
@@ -89,6 +89,7 @@
     "electron-selected-text": "^1.1.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
+    "react-router-dom": "^6.21.3",
     "robotjs": "^0.6.0"
   }
 }

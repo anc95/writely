@@ -43,7 +43,7 @@ export const SettingsForm: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between lg:w-5/6 border-b mb-4 pt-6 pb-1">
+      <div className="flex justify-between w-full lg:w-5/6 border-b mb-4 pt-6 pb-1 px-5">
         <div className="font-semibold text-3xl">{i18next.t('Settings')}</div>
         <div>
           <div className="flex items-baseline text-xl gap-4">

@@ -6,7 +6,7 @@ const {
   AutoUnpackNativesPlugin,
 } = require('@electron-forge/plugin-auto-unpack-natives')
 const { WebpackPlugin } = require('@electron-forge/plugin-webpack')
-console.log(require('./config/webpack.main.config'))
+
 const { mainConfig } = require('./config/webpack.main.config')
 const { rendererConfig } = require('./config/webpack.renderer.config')
 
@@ -30,7 +30,7 @@ module.exports = {
         entryPoints: [
           {
             html: './public/index.html',
-            js: './src/electron/renderer/index.ts',
+            js: './src/electron/renderer/index.tsx',
             name: 'main_window',
             // preload: {
             //   js: './src/preload.ts',

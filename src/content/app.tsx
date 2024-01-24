@@ -4,11 +4,14 @@ import { StyleProvider } from '@ant-design/cssinjs'
 import Cache from '@ant-design/cssinjs/es/Cache'
 import { conatinerId, tag } from './shadow-dom'
 import { SettingsProvider } from '../common/store/settings'
+import { isElectron } from '@/common/env'
 
 // second, create custom Cache entity
 class CustomCache extends Cache {
   override update(keys, valFn) {
-    const shadowRoot = document.getElementsByTagName(tag)[0].shadowRoot
+    const shadowRoot = isElectron
+      ? document
+      : document.getElementsByTagName(tag)[0].shadowRoot
     let path = keys.join('%')
     let prevValue = this.cache.get(path)!
     let nextValue = valFn(prevValue)
@@ -29,9 +32,7 @@ export const App: React.FC = () => {
     <StyleProvider
       cache={new CustomCache()}
       // https://github.com/ant-design/cssinjs/issues/28
-      container={document
-        .getElementsByTagName(tag)[0]
-        .shadowRoot.ownerDocument.getElementById(conatinerId)}
+      container={getRoot()}
     >
       <SettingsProvider>
         <div className="text-black">
@@ -40,4 +41,14 @@ export const App: React.FC = () => {
       </SettingsProvider>
     </StyleProvider>
   )
+}
+
+const getRoot = () => {
+  if (isElectron) {
+    return document.getElementById('app')
+  }
+
+  return document
+    .getElementsByTagName(tag)[0]
+    .shadowRoot.ownerDocument.getElementById(conatinerId)
 }

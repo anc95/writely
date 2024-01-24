@@ -3,6 +3,7 @@ const { plugins } = require('./webpack.plugins')
 const path = require('path')
 
 exports.rendererConfig = {
+  target: 'electron-renderer',
   module: {
     rules: [
       ...rules,
