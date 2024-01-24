@@ -1,6 +1,8 @@
-import path from 'path'
 import { app, BrowserWindow, nativeImage, Tray, Menu } from 'electron'
 import { getSelectedText, registerShortcut } from 'electron-selected-text'
+import Store from 'electron-store'
+
+Store.initRenderer()
 
 declare var MAIN_WINDOW_WEBPACK_ENTRY: string
 declare var MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -12,14 +14,11 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    // webPreferences: {
-    //   preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    //   contextIsolation: true,
-    //   nodeIntegration: false,
-    // },
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   })
-
-  console.log(MAIN_WINDOW_WEBPACK_ENTRY)
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
   mainWindow.webContents.openDevTools()

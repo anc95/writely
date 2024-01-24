@@ -7,6 +7,7 @@ exports.mainConfig = {
    * that runs in the main process.
    */
   entry: './src/electron/main/index.ts',
+  target: 'electron-main',
   // Put your normal webpack config below here
   module: {
     rules,
@@ -25,5 +26,6 @@ exports.mainConfig = {
     alias: {
       '@': path.join(__dirname, '../src/'),
     },
+    fallback: {},
   },
 }

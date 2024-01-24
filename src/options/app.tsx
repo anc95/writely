@@ -2,6 +2,9 @@ import { SettingsForm } from './setting-form'
 import { SettingsProvider } from '../common/store/settings'
 import { ConfigProvider } from 'antd'
 import { theme } from '../common/antd-theme'
+import 'antd/dist/reset.css'
+import './index.css'
+import '../common/i18n'
 
 export const App: React.FC = () => {
   return (

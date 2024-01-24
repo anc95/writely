@@ -55,7 +55,7 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
 export { useSettings, SettingsProvider }
 
 export const getSetting = async () => {
-  const res = (await storage.get(key)) as Settings
+  const res = ((await storage.get(key)) || {}) as Settings
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
@@ -73,9 +73,7 @@ export const saveSetting = async (newSettings: Partial<Settings>) => {
     ...newSettings,
   }
 
-  storage.set({
-    [key]: settings,
-  })
+  storage.set(key, settings)
 }
 
 const patchCustomInstructions = (setting: Settings) => {
