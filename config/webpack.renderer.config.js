@@ -18,7 +18,15 @@ exports.rendererConfig = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    extensions: [
+      '.electron.tsx',
+      '.electron.ts',
+      '.js',
+      '.ts',
+      '.jsx',
+      '.tsx',
+      '.css',
+    ],
     alias: {
       '@': path.join(__dirname, '../src/'),
     },

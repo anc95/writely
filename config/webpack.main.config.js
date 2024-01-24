@@ -12,7 +12,16 @@ exports.mainConfig = {
     rules,
   },
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    extensions: [
+      '.electron.tsx',
+      '.electron.ts',
+      '.js',
+      '.ts',
+      '.jsx',
+      '.tsx',
+      '.css',
+      '.json',
+    ],
     alias: {
       '@': path.join(__dirname, '../src/'),
     },

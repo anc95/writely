@@ -88,6 +88,7 @@
     "@types/uuid": "^9.0.2",
     "electron-selected-text": "^1.1.2",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0",
     "robotjs": "^0.6.0"
   }
 }

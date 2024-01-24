@@ -3,6 +3,7 @@ import { createContainer } from 'unstated-next'
 // // import browser from 'webextension-polyfill'
 import { omit, uniqueId } from 'lodash-es'
 import { ServiceProvider, Settings } from '../../options/types'
+import { storage } from '../platform/storage'
 
 const key = 'writingly-settings'
 
@@ -54,10 +55,7 @@ const { useContainer: useSettings, Provider: SettingsProvider } =
 export { useSettings, SettingsProvider }
 
 export const getSetting = async () => {
-  const res = {
-    // ...((await browser?.storage?.local?.get(key))?.[key] || {}),
-    // ...((await browser?.storage?.sync?.get(key))?.[key] || {}),
-  } as Settings
+  const res = (await storage.get(key)) as Settings
 
   patchDefaultSetting(res)
   patchCustomInstructions(res)
@@ -75,21 +73,9 @@ export const saveSetting = async (newSettings: Partial<Settings>) => {
     ...newSettings,
   }
 
-  // 只有 customInstruction 存在本地
-  const localNewSettings = settings.customInstructions
-    ? {
-        customInstructions: settings.customInstructions,
-      }
-    : null
-  const remoteSettings = omit(settings, 'customInstructions')
-
-  browser.storage.sync.set({
-    [key]: remoteSettings,
+  storage.set({
+    [key]: settings,
   })
-
-  if (localNewSettings) {
-    browser.storage.local.set({ [key]: localNewSettings })
-  }
 }
 
 const patchCustomInstructions = (setting: Settings) => {
