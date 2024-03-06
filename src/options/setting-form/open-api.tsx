@@ -16,7 +16,6 @@ import i18next from 'i18next'
 import { ServiceProvider } from '../types'
 
 export const OPENAISettings: React.FC = () => {
-  const models = useModels()
   const value = Form.useWatch('serviceProvider')
 
   if (value !== ServiceProvider.OpenAI) {
@@ -50,7 +49,6 @@ export const OPENAISettings: React.FC = () => {
         name="model"
         label={i18next.t('Model')}
         required
-        requiredMark
         tooltip={
           <a
             className="text-blue-300"
@@ -60,20 +58,13 @@ export const OPENAISettings: React.FC = () => {
           </a>
         }
       >
-        <Radio.Group className="flex flex-wrap gap-4">
-          {models.map((m) => (
-            <Radio key={m.id} className="" value={m.id}>
-              <ModelCard {...m} />
-            </Radio>
-          ))}
-        </Radio.Group>
+        <FormModelSelect />
       </Form.Item>
       <Form.Item
         className="col-span-5"
         name="temperature"
         label={i18next.t('Temperature')}
         required
-        requiredMark
         tooltip={
           <a
             className="text-blue-300"
@@ -157,26 +148,56 @@ const ConnectionTest: React.FC = () => {
   )
 }
 
-const ModelCard: React.FC<{
-  id: string
-  price: string
-  description: string
-}> = ({ id, price, description }) => {
-  const model = Form.useWatch('model')
+const ModelCard: React.FC<
+  React.PropsWithChildren<{ tooltip: string; model: string }>
+> = ({ model, tooltip, children }) => {
+  const m = Form.useWatch('model')
+  const content = (
+    <div
+      className={cx(
+        'border border-gray-100 hover:rounded-lg rounded-md hover:shadow-sm transition-all duration-300 p-3  bg-zinc-100 flex flex-col gap-2',
+        m === model ? '!border-black' : ''
+      )}
+    >
+      <div className="font-semibold text-sm">{children ? children : model}</div>
+    </div>
+  )
+
+  if (tooltip) {
+    return <Tooltip title={tooltip}>{content}</Tooltip>
+  }
+
+  return content
+}
+
+const FormModelSelect: React.FC<{
+  value?: string
+  onChange?: (v: string) => void
+}> = ({ value, onChange }) => {
+  const models = useModels()
 
   return (
-    <Tooltip title={description}>
-      <div
-        className={cx(
-          'border border-gray-100 hover:rounded-lg rounded-md hover:shadow-sm transition-all duration-300 p-3  bg-zinc-100 flex flex-col gap-2',
-          model === id ? '!border-black' : ''
-        )}
-      >
-        <div className="font-semibold text-sm">{id}</div>
-        <Tag className="!text-xs" color="gold-inverse">
-          {price}
-        </Tag>
+    <>
+      <Input
+        placeholder={i18next.t('Model')}
+        value={value}
+        onChange={(e) => {
+          onChange?.(e.target.value)
+        }}
+      />
+      <div className="flex items-center gap-2 py-2">
+        {models.map((m) => (
+          <div
+            className="px-1 bg-orange-300 hover:bg-orange-400 cursor-pointer text-white rounded-md text-xs"
+            onClick={() => {
+              onChange?.(m)
+            }}
+            key={m}
+          >
+            {m}
+          </div>
+        ))}
       </div>
-    </Tooltip>
+    </>
   )
 }
