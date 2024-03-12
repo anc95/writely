@@ -75,9 +75,7 @@ export const useQueryOpenAIPrompt = () => {
     const commonOption = {
       // max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
       stream: true,
-      model: ensureUsing0613Model(
-        isWritelyService ? defaultSetting.model : settings.model
-      ),
+      model: isWritelyService ? defaultSetting.model : settings.model,
       temperature: parseFloat(settings.temperature),
     }
 
