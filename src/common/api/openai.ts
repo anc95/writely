@@ -67,10 +67,6 @@ export const useQueryOpenAIPrompt = () => {
   ) => {
     const isWritelyService =
       settings.serviceProvider === ServiceProvider.Writely
-    const isChat =
-      isWritelyService ||
-      settings.model.includes('turbo') ||
-      settings.model === 'gpt-4'
 
     const commonOption = {
       // max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
@@ -85,22 +81,11 @@ export const useQueryOpenAIPrompt = () => {
       chatgptWeb.sendMsg(prompt, onData)
 
       return chatgptWeb.abort
-    } else if (isChat) {
+    } else {
       openAI?.current?.createChatCompletion(
         {
           ...commonOption,
           messages: [{ role: 'user', content: prompt }],
-        },
-        {
-          ...(axiosOptionForOpenAI(onData) as any),
-          signal: abortController.signal,
-        }
-      )
-    } else {
-      openAI?.current?.createCompletion(
-        {
-          ...commonOption,
-          prompt: prompt,
         },
         {
           ...(axiosOptionForOpenAI(onData) as any),
