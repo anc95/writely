@@ -153,7 +153,7 @@ export const useModels = () => {
   // });
 
   return useMemo(() => {
-    return ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k']
+    return ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4o-mini']
   }, [])
 }
 

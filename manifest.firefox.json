@@ -35,11 +35,10 @@
   "host_permissions": [
     "https://*.miao-ya.com/"
   ],
-  "background": {
-    "scripts": [
-      "dist/background/index.js"
-    ]
-  },
+"background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+},
   "permissions": [
     "storage",
     "clipboardRead",
