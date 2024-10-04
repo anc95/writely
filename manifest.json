@@ -6,8 +6,7 @@
   "author": "https://github.com/anc95",
   "action": {
     "default_title": "Writely",
-    "default_popup": "dist/popup/index.html",
-    "defult_icon": "dist/assets/icon.png"
+    "default_popup": "dist/popup/index.html"
   },
   "options_ui": {
     "page": "dist/options/index.html",
@@ -33,16 +32,22 @@
       "all_frames": true
     }
   ],
-  "background": {
-    "service_worker": "dist/background/index.js"
-  },
   "host_permissions": [
     "https://*.miao-ya.com/"
   ],
+"background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+},
   "permissions": [
     "storage",
     "clipboardRead",
     "contextMenus",
     "cookies"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "anchao951220@gmail.com"
+    }
+  }
 }

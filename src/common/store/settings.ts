@@ -7,7 +7,7 @@ import { ServiceProvider, Settings } from '../../options/types'
 const key = 'writingly-settings'
 
 export const defaultSetting: Settings = {
-  model: 'gpt-3.5-turbo',
+  model: 'gpt-4o-mini',
   url: 'https://api.openai.com/v1',
 }
 
