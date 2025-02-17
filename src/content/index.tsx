@@ -1,5 +1,6 @@
 import '@webcomponents/webcomponentsjs/webcomponents-bundle'
 import { createRoot } from 'react-dom/client'
+import { StyleProvider } from '@ant-design/cssinjs'
 import { App } from './app'
 import './index.css'
 import { tag, conatinerId } from './shadow-dom.js'
@@ -14,7 +15,9 @@ const render = async () => {
   await initI18n()
 
   createRoot(container.shadowRoot.querySelector(`#${conatinerId}`)).render(
-    <App />
+    <StyleProvider container={container.shadowRoot}>
+      <App />
+    </StyleProvider>
   )
 }
 

@@ -26,18 +26,10 @@ class CustomCache extends Cache {
 
 export const App: React.FC = () => {
   return (
-    <StyleProvider
-      cache={new CustomCache()}
-      // https://github.com/ant-design/cssinjs/issues/28
-      container={document
-        .getElementsByTagName(tag)[0]
-        .shadowRoot.ownerDocument.getElementById(conatinerId)}
-    >
-      <SettingsProvider>
-        <div className="text-black">
-          <Menu />
-        </div>
-      </SettingsProvider>
-    </StyleProvider>
+    <SettingsProvider>
+      <div className="text-black">
+        <Menu />
+      </div>
+    </SettingsProvider>
   )
 }

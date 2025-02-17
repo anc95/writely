@@ -6,7 +6,9 @@ export const App: React.FC = () => {
   return (
     <div className="rounded-lg overflow-hidden w-96 bg-white pb-4">
       <div className="text-2xl font-semibold from-neutral-900 flex items-baseline justify-between pt-4 border-gray-200 border-b px-3">
-        <div className="animate-bounce">Writely</div>
+        <div className="animate-bounce">
+          Writely <span className="text-xs">{process.env.version || 'a'}</span>
+        </div>
         <div
           className="text-xl cursor-pointer hover:bg-slate-300 p-1"
           onClick={() => {

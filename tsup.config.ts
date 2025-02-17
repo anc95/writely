@@ -1,6 +1,18 @@
 import { defineConfig } from 'tsup'
 import { copy } from 'esbuild-plugin-copy'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
+import { execSync } from 'child_process'
+
+let latestTag = ''
+
+try {
+  latestTag = execSync(
+    'git describe --tags `git rev-list --tags --max-count=1`',
+    { encoding: 'utf8' }
+  ).trim()
+} catch (error) {
+  console.error(`执行出错: ${error.message}`)
+}
 
 const tag = 'writely-container'
 
@@ -19,6 +31,7 @@ export default defineConfig({
   minify: true,
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    'process.env.version': JSON.stringify(latestTag),
   },
   injectStyle: (css) => {
     return `
