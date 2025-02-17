@@ -49,7 +49,6 @@ const createSubMenu = async () => {
 createSubMenu()
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
-  console.error('hi')
   if (info.menuItemId === 'writely' && tab.id) {
     browser.tabs.sendMessage(tab.id, {
       type: EventName.launchWritely,
