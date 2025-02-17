@@ -1,33 +1,33 @@
-import { Avatar, Button, Input, Tag, Tooltip } from 'antd';
+import { Avatar, Button, Input, Tag, Tooltip } from 'antd'
 import {
   forwardRef,
   PropsWithChildren,
   useCallback,
   useMemo,
   useState,
-} from 'react';
-import cx from 'classnames';
-import { ResultPanel } from '../result-panel';
-import { PromptCenter } from '../prompts';
-import { IcBaselineSend, Logo } from '@/components/icon';
-import i18next from 'i18next';
-import { IcOutlineKeyboardReturn } from '@/components/icon/return';
-import { useView } from '../../store/view';
-import { DashiconsMove } from '@/components/icon/drag';
-import { QuickPrompt } from './quick-prompt';
-import { useInstruction } from '../../store/instruction';
+} from 'react'
+import cx from 'classnames'
+import { ResultPanel } from '../result-panel'
+import { PromptCenter } from '../prompts'
+import { IcBaselineSend, Logo } from '@/components/icon'
+import i18next from 'i18next'
+import { IcOutlineKeyboardReturn } from '@/components/icon/return'
+import { useView } from '../../store/view'
+import { DashiconsMove } from '@/components/icon/drag'
+import { QuickPrompt } from './quick-prompt'
+import { useInstruction } from '../../store/instruction'
 
 export const Content: React.FC<PropsWithChildren> = () => {
-  return <CenterContent />;
-};
+  return <CenterContent />
+}
 
 const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
-  const { instruction, setInstruction } = useInstruction();
-  const { viewStatus, goToInputPage } = useView();
+  const { instruction, setInstruction } = useInstruction()
+  const { viewStatus, goToInputPage } = useView()
 
   const handleClickIcon = useCallback(() => {
-    goToInputPage();
-  }, [goToInputPage]);
+    goToInputPage()
+  }, [goToInputPage])
 
   if (viewStatus === 'icon') {
     return (
@@ -37,22 +37,22 @@ const CenterContent = forwardRef<HTMLDivElement>((_, ref) => {
           icon={<Logo />}
         />
       </div>
-    );
+    )
   }
 
   if (viewStatus === 'result') {
-    return <ResultPanel text={instruction} />;
+    return <ResultPanel text={instruction} />
   }
 
-  return <InputPanel keyword={instruction} onChange={setInstruction} />;
-});
+  return <InputPanel keyword={instruction} onChange={setInstruction} />
+})
 
 const InputPanel: React.FC<{
-  keyword: string;
-  onChange: (keyword: string, instruction?: string) => void;
+  keyword: string
+  onChange: (keyword: string, instruction?: string) => void
 }> = ({ onChange }) => {
-  const { goToResult } = useView();
-  const [value, setValue] = useState('');
+  const { goToResult } = useView()
+  const [value, setValue] = useState('')
 
   return (
     <>
@@ -64,8 +64,8 @@ const InputPanel: React.FC<{
         <Input.TextArea
           className="!pl-8 animate-breathe"
           onPressEnter={() => {
-            onChange(value);
-            goToResult();
+            onChange(value)
+            goToResult()
           }}
           autoFocus
           autoSize={{ minRows: 1, maxRows: 4 }}
@@ -78,8 +78,8 @@ const InputPanel: React.FC<{
             <div
               className="absolute right-2 bottom-[3px]"
               onClick={() => {
-                onChange(value);
-                goToResult();
+                onChange(value)
+                goToResult()
               }}
             >
               <IcBaselineSend
@@ -94,7 +94,7 @@ const InputPanel: React.FC<{
           </SendToWritelyTip>
         </div>
         <Button
-          type="ghost"
+          type="text"
           className="!absolute left-[3px] top-[3px] text-lg handle animate__animated animate__fadeInDown"
           icon={<DragTip />}
         ></Button>
@@ -108,15 +108,15 @@ const InputPanel: React.FC<{
           <QuickPrompt
             filter={value}
             onClick={(instruction: string) => {
-              goToResult();
-              onChange(instruction);
+              goToResult()
+              onChange(instruction)
             }}
           />
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 const SendToWritelyTip: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -129,8 +129,8 @@ const SendToWritelyTip: React.FC<PropsWithChildren> = ({ children }) => {
     >
       {children}
     </Tooltip>
-  );
-};
+  )
+}
 
 const DragTip: React.FC<PropsWithChildren> = () => {
   return (
@@ -139,5 +139,5 @@ const DragTip: React.FC<PropsWithChildren> = () => {
         <DashiconsMove />
       </div>
     </Tooltip>
-  );
-};
+  )
+}

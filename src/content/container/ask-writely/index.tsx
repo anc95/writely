@@ -18,13 +18,23 @@ export const AskWritely: React.FC = () => {
     return null
   }
 
+  const showIcon = viewStatus === 'icon'
+
   const content = (
     <div
       ref={_fixedRef}
       style={{
         position: 'fixed',
-        top: `${position.y}px`,
-        left: `${position.x}px`,
+        top: `${
+          showIcon
+            ? position.y
+            : position.y + 300 > window.innerHeight
+            ? position.y - 300
+            : position.y
+        }px`,
+        left: `${
+          showIcon ? position.x : Math.min(position.x, window.innerWidth - 320)
+        }px`,
         zIndex: 9999999999999,
       }}
     >
