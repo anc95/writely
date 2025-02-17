@@ -1,8 +1,8 @@
 diff --git a/node_modules/antd/es/tooltip/index.js b/node_modules/antd/es/tooltip/index.js
-index fa4ab64..f10f447 100644
+index 5a2ae24..ae79c99 100644
 --- a/node_modules/antd/es/tooltip/index.js
 +++ b/node_modules/antd/es/tooltip/index.js
-@@ -246,7 +246,7 @@ const Tooltip = /*#__PURE__*/React.forwardRef((props, ref) => {
+@@ -181,7 +181,7 @@ const InternalTooltip = /*#__PURE__*/React.forwardRef((props, ref) => {
      }),
      motion: {
        motionName: getTransitionName(rootPrefixCls, 'zoom-big-fast', props.transitionName),
