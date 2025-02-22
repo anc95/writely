@@ -3,6 +3,7 @@ import { getSetting } from '@/common/store/settings'
 import type { MessagePayload } from '@/common/types'
 import browser from 'webextension-polyfill'
 import './chatgpt-web'
+import './openai-request'
 
 browser.runtime.onMessage.addListener(
   (message: MessagePayload<EventName.openOptionsPage>) => {

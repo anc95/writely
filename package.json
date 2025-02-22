@@ -34,7 +34,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-highlightjs": "^4.0.1",
     "nodemon": "^2.0.20",
-    "openai": "^3.2.1",
+    "openai": "^4.2.1",
     "patch-package": "^6.5.1",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
@@ -61,5 +61,8 @@
   },
   "dependencies": {
     "@types/uuid": "^9.0.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
