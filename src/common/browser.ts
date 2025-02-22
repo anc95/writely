@@ -7,3 +7,9 @@ export const openOptionPage = () => {
     type: EventName.openOptionsPage,
   })
 }
+
+export const stopOpenAICHat = () => {
+  browser.runtime.sendMessage({
+    type: EventName.stopOpenAIChat,
+  })
+}

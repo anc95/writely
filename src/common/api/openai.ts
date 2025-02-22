@@ -1,34 +1,48 @@
 import i18next from 'i18next'
-import { Configuration, OpenAIApi } from 'openai'
+import OpenAI from 'openai'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { logger } from '../debug'
 import { defaultSetting, useSettings } from '../store/settings'
 import { ServiceProvider } from '@/options/types'
 import { getToken } from './writely'
-import { EventName } from '../event-name'
-import browser from 'webextension-polyfill'
 import { parseStream } from '../parse-stream'
 import { chatgptWeb } from './chatgpt-web'
+import { OpenAIRequest } from './openai-request'
+import { stopOpenAICHat } from '../browser'
 
 const useOpenAPI = () => {
   const { settings } = useSettings()
-  const openAIRef = useRef<OpenAIApi>()
+  const openAIRef = useRef<OpenAI>()
 
   useEffect(() => {
     const isWritelyProvider =
       settings.serviceProvider === ServiceProvider.Writely
 
-    const config = new Configuration({
+    openAIRef.current = new OpenAI({
       apiKey: isWritelyProvider ? getToken() : settings?.apiKey,
-      basePath: isWritelyProvider
+      baseURL: isWritelyProvider
         ? 'https://writely-proxy.miao-ya.com/v1'
         : settings.url,
     })
-
-    openAIRef.current = new OpenAIApi(config)
   }, [settings?.apiKey, settings.url, settings.serviceProvider, getToken()])
 
   return openAIRef
+}
+
+const useOpenAIRequest = () => {
+  const { settings } = useSettings()
+
+  return useMemo(() => {
+    const isWritelyProvider =
+      settings.serviceProvider === ServiceProvider.Writely
+
+    const client = new OpenAIRequest(
+      isWritelyProvider ? 'https://writely-proxy.miao-ya.com/v1' : settings.url,
+      isWritelyProvider ? getToken() : settings?.apiKey
+    )
+
+    return client
+  }, [settings.apiKey, settings.url])
 }
 
 const axiosOptionForOpenAI = (
@@ -58,7 +72,7 @@ const axiosOptionForOpenAI = (
 })
 
 export const useQueryOpenAIPrompt = () => {
-  const openAI = useOpenAPI()
+  const openAI = useOpenAIRequest()
   const { settings } = useSettings()
 
   return (
@@ -82,27 +96,22 @@ export const useQueryOpenAIPrompt = () => {
 
       return chatgptWeb.abort
     } else {
-      openAI?.current?.createChatCompletion(
+      openAI.sendMsg(
         {
           ...commonOption,
           messages: [{ role: 'user', content: prompt }],
         },
-        {
-          ...(axiosOptionForOpenAI(onData) as any),
-          signal: abortController.signal,
-        }
+        onData
       )
-    }
 
-    return () => {
-      abortController.abort()
+      return () => {
+        stopOpenAICHat()
+      }
     }
   }
 }
 
 export const useOpenAIEditPrompt = () => {
-  const openAI = useOpenAPI()
-  const { settings } = useSettings()
   const queryPrompt = useQueryOpenAIPrompt()
 
   return (
@@ -110,39 +119,12 @@ export const useOpenAIEditPrompt = () => {
     instruction: string,
     onData?: (text: string, error?: Error, end?: boolean) => void
   ) => {
-    // https://platform.openai.com/docs/api-reference/edits
-    if (
-      (settings.model !== 'text-davinci-edit-001' &&
-        settings.model !== 'code-davinci-edit-001') ||
-      settings.serviceProvider !== ServiceProvider.OpenAI
-    ) {
-      return queryPrompt(
-        !instruction
-          ? input
-          : i18next.t('Prompt template', { content: input, task: instruction }),
-        onData
-      )
-    }
-
-    const abortController = new AbortController()
-
-    openAI.current.createEdit(
-      {
-        input,
-        instruction,
-        // max_tokens: 4000 - prompt.replace(/[\u4e00-\u9fa5]/g, 'aa').length,
-        // stream: true,
-        model: settings.model,
-      },
-      {
-        ...(axiosOptionForOpenAI(onData) as any),
-        signal: abortController.signal,
-      }
+    return queryPrompt(
+      !instruction
+        ? input
+        : i18next.t('Prompt template', { content: input, task: instruction }),
+      onData
     )
-
-    return () => {
-      abortController.abort()
-    }
   }
 }
 
@@ -155,13 +137,4 @@ export const useModels = () => {
   return useMemo(() => {
     return ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k']
   }, [])
-}
-
-// TODO: remove later
-const ensureUsing0613Model = (model: string) => {
-  if (model.startsWith('gpt-3.5')) {
-    return model + '-0613'
-  }
-
-  return model
 }
