@@ -1,0 +1,41 @@
+diff --git a/node_modules/openai/package.json b/node_modules/openai/package.json
+index 0d5c3f7..6010965 100644
+--- a/node_modules/openai/package.json
++++ b/node_modules/openai/package.json
+@@ -44,36 +44,11 @@
+   },
+   "exports": {
+     "./_shims/auto/*": {
+-      "deno": {
+-        "types": "./_shims/auto/*.d.ts",
+-        "require": "./_shims/auto/*.js",
+-        "default": "./_shims/auto/*.mjs"
+-      },
+-      "bun": {
+-        "types": "./_shims/auto/*.d.ts",
+-        "require": "./_shims/auto/*-bun.js",
+-        "default": "./_shims/auto/*-bun.mjs"
+-      },
+       "browser": {
+         "types": "./_shims/auto/*.d.ts",
+         "require": "./_shims/auto/*.js",
+         "default": "./_shims/auto/*.mjs"
+       },
+-      "worker": {
+-        "types": "./_shims/auto/*.d.ts",
+-        "require": "./_shims/auto/*.js",
+-        "default": "./_shims/auto/*.mjs"
+-      },
+-      "workerd": {
+-        "types": "./_shims/auto/*.d.ts",
+-        "require": "./_shims/auto/*.js",
+-        "default": "./_shims/auto/*.mjs"
+-      },
+-      "node": {
+-        "types": "./_shims/auto/*-node.d.ts",
+-        "require": "./_shims/auto/*-node.js",
+-        "default": "./_shims/auto/*-node.mjs"
+-      },
+       "types": "./_shims/auto/*.d.ts",
+       "require": "./_shims/auto/*.js",
+       "default": "./_shims/auto/*.mjs"
