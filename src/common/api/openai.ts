@@ -89,8 +89,6 @@ export const useQueryOpenAIPrompt = () => {
       temperature: parseFloat(settings.temperature),
     }
 
-    const abortController = new AbortController()
-
     if (settings.serviceProvider === ServiceProvider.ChatGPT) {
       chatgptWeb.sendMsg(prompt, onData)
 
