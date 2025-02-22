@@ -18,6 +18,8 @@ export class OpenAIRequest {
           this.dataCallback(message.data, undefined, false)
         } else if (message.type === EventName.openAIResponseEnd) {
           this.dataCallback(message.data, undefined, true)
+        } else if (message.type === EventName.openAIResponseError) {
+          this.dataCallback(undefined, new Error(message.data), true)
         }
       }
     )

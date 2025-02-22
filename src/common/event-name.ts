@@ -14,6 +14,7 @@ export enum EventName {
   openAIChat = 'openai-chat',
   openAIResponse = 'openai-response',
   openAIResponseEnd = 'openai-end',
+  openAIResponseError = 'openai-error',
   stopOpenAIChat = 'stop-openai-chat',
 }
 

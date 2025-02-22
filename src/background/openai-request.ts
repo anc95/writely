@@ -1,6 +1,6 @@
 import { EventName } from '@/common/event-name'
 import { MessagePayload } from '@/common/types'
-import OpenAI from 'openai'
+import OpenAI, { OpenAIError } from 'openai'
 import { ChatCompletionChunk } from 'openai/resources'
 import { Stream } from 'openai/streaming'
 import Browser from 'webextension-polyfill'
@@ -16,25 +16,32 @@ Browser.runtime.onMessage.addListener(
       stream = null
 
       const doRequest = async () => {
-        stream = (await openai.chat.completions.create({
-          ...(message.data as any),
-          stream: true,
-        })) as any
-        let text = ''
-        for await (const chunk of stream) {
-          if (chunk.choices[0]?.delta?.content) {
-            text += chunk.choices[0]?.delta?.content
-            Browser.tabs.sendMessage(sender.tab.id, {
-              type: EventName.openAIResponse,
-              data: text,
-            } satisfies MessagePayload<EventName.openAIResponse>)
+        try {
+          stream = (await openai.chat.completions.create({
+            ...(message.data as any),
+            stream: true,
+          })) as any
+          let text = ''
+          for await (const chunk of stream) {
+            if (chunk.choices[0]?.delta?.content) {
+              text += chunk.choices[0]?.delta?.content
+              Browser.tabs.sendMessage(sender.tab.id, {
+                type: EventName.openAIResponse,
+                data: text,
+              } satisfies MessagePayload<EventName.openAIResponse>)
+            }
           }
-        }
 
-        Browser.tabs.sendMessage(sender.tab.id, {
-          type: EventName.openAIResponseEnd,
-          data: text,
-        })
+          Browser.tabs.sendMessage(sender.tab.id, {
+            type: EventName.openAIResponseEnd,
+            data: text,
+          })
+        } catch (e) {
+          Browser.tabs.sendMessage(sender.tab.id, {
+            type: EventName.openAIResponseError,
+            data: e?.error?.message || 'failed',
+          })
+        }
       }
 
       doRequest()
