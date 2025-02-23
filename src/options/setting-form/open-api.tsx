@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useModels, useOpenAIEditPrompt } from '../../common/api/openai'
 import cx from 'classnames'
 import i18next from 'i18next'
@@ -87,7 +87,7 @@ export const OPENAISettings: React.FC = () => {
         </Radio.Group>
       </Form.Item>
       <Form.Item label={i18next.t('URL')} name="url" required>
-        <Input placeholder="https://api.openai.com/v1" />
+        <FormUrlInput />
       </Form.Item>
       <ConnectionTest />
     </Card>
@@ -187,6 +187,34 @@ const FormModelSelect: React.FC<{
       />
       <div className="flex items-center gap-2 py-2">
         {models.map((m) => (
+          <div
+            className="px-1 bg-orange-300 hover:bg-orange-400 cursor-pointer text-white rounded-md text-xs"
+            onClick={() => {
+              onChange?.(m)
+            }}
+            key={m}
+          >
+            {m}
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
+const FormUrlInput: React.FC<{
+  value?: string
+  onChange?: (v: string) => void
+}> = ({ value, onChange }) => {
+  return (
+    <>
+      <Input placeholder="https://api.openai.com/v1" value={value} />
+      <div className="flex items-center gap-2 py-2">
+        {[
+          'https://api.openai.com/v1',
+          'https://api.deepseek.com',
+          'https://api.groq.com/openai/v1',
+        ].map((m) => (
           <div
             className="px-1 bg-orange-300 hover:bg-orange-400 cursor-pointer text-white rounded-md text-xs"
             onClick={() => {

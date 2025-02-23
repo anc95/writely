@@ -60,6 +60,12 @@ export const Content: React.FC<{
       if (end) {
         text && setText(text)
         setLoading(false)
+
+        if (err) {
+          setText(err.message)
+          setIsError(true)
+        }
+
         return
       }
 
