@@ -208,7 +208,11 @@ const FormUrlInput: React.FC<{
 }> = ({ value, onChange }) => {
   return (
     <>
-      <Input placeholder="https://api.openai.com/v1" value={value} />
+      <Input
+        placeholder="https://api.openai.com/v1"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+      />
       <div className="flex items-center gap-2 py-2">
         {[
           'https://api.openai.com/v1',
