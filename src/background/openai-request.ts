@@ -1,5 +1,6 @@
 import { EventName } from '@/common/event-name'
 import { MessagePayload } from '@/common/types'
+import { omit } from 'lodash-es'
 import OpenAI, { OpenAIError } from 'openai'
 import { ChatCompletionChunk } from 'openai/resources'
 import { Stream } from 'openai/streaming'
@@ -18,7 +19,7 @@ Browser.runtime.onMessage.addListener(
       const doRequest = async () => {
         try {
           stream = (await openai.chat.completions.create({
-            ...(message.data as any),
+            ...(omit(message.data, ['apiKey', 'baseURL']) as any),
             stream: true,
           })) as any
           let text = ''
